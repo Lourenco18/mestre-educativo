@@ -1,0 +1,1 @@
+    <?php echo'  <span class="menu-header-text  g-4 mb-2 ps-lg-4 pe-lg-3 " style="font-size: 25px;">'.ucfirst($display).' </span>';
