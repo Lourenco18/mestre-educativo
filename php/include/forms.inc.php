@@ -35,8 +35,12 @@
       //echo $query;
       $arrResultados = my_query($consulta);
     } else {
-      $foto= '';
-      include $arrConfig['dir_admin'] . '/fotos.inc.php';
+      if(isset($arrResultados[$k]['foto_' . $tabela])){
+        $foto= '';
+     
+        include $arrConfig['dir_admin'] . '/fotos.inc.php';
+      }
+   
     }
     
     if ($especificacao == "editar") {
@@ -71,7 +75,7 @@
           <div class="row">
             <div class="col-md-12 " >
               <div class="card mb-3 px-md-4 ps-0" style="background-color: white">';
-              if(isset($foto)){
+              if(isset($arrResultados['foto_' . $tabela])){
                 echo gerar_upload($src, $buttonMsg, 'image');
               }
                 

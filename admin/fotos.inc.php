@@ -1,6 +1,6 @@
 <?php
 
-if ($foto != '') {
+if ($foto != ''  ) {
       
     if ($tipo == 'operacao') {
         $src=  $arrConfig['url_icons'] . '/' . $foto . '" alt="' .$tabela. ': ' . $v[$tabela] . '"';
@@ -12,10 +12,10 @@ if ($foto != '') {
     
   } else{
     
-   
+
     $arricons = my_query('SELECT operacao, foto_operacao FROM operacao WHERE ativo = 1 AND foto_operacao = "icon-'.$tabela.'.svg"');
-    
-    $icon = $arricons[0]['foto_operacao'];
    
-    $src=  $arrConfig['url_icons'] . '/' . $foto . '"  "';
+    $icon = $arricons[0]['foto_operacao'];
+ 
+    $src=  $arrConfig['url_icons'] . '/' . $icon . ' "';
   }
