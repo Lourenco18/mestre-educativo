@@ -16,9 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
     $pdf = $_FILES['pdf'] ?? '';
     //carcateristicas da imagem
-       
-    $extensao = pathinfo($image['name'], PATHINFO_EXTENSION);
-    if($image['name'] != ''){
+     if ($image != ''){
+        $extensao = pathinfo($image['name'], PATHINFO_EXTENSION);
+     }
+    
+    if($image != ''){
     $nome_arquivo = uniqid();
     $pasta =$arrConfig['dir_fotos_upload'].'/'.$tabela.'/';
 
@@ -40,29 +42,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $columnName = $campo['name'];
 
                 // Verificar se o tipo é igual a 'combobox'
-                if ($campo['type'] === 'combobox') {
+                if ($campo['type'] === 'combobox' || $campo['defenido']==='1') {
                     // Adicionar 'id_' ao nome da variável
                     $columnName = 'id_' . $campo['name'];
-                }
+                } 
                 // Adicionar o nome da coluna ao array $columns
                 $columns[] = $columnName;
             }
         }
     }
+   
+
 
     foreach ($columns as $column) {
         $columnName = str_replace('id_', '', $column);
 
         // Verificar se o campo existe no POST antes de atribuir seu valor
         if (isset($_POST[$columnName])) {
+          
             // Verificar se o campo é uma foto
-            if($image['name'] != ''){
+            if($image != ''){
                 if(strpos($columnName , 'foto') !== false) {
                     $dados[$column] =  $nome_arquivo.'.'.$extensao;
                 }
             }else{
                
                     $dados[$column] = $_POST[$columnName];
+                    
                 
             }
 
@@ -112,10 +118,18 @@ if ($acao == 'adicionar') {
     $sql_form = "DELETE FROM $tabela WHERE id_$tabela = $id";
 
 }elseif($acao == 'desativar'){
-    $sql_form = "UPDATE $tabela SET ativo = 0 WHERE id_$tabela = $id";
+   
+        $sql_form = "UPDATE $tabela SET ativo = 0 WHERE id_$tabela = $id";
+    
+    
 }elseif($acao == 'ativar'){
-    $sql_form = "UPDATE $tabela SET ativo = 1 WHERE id_$tabela = $id";
-}
+    if ($tabela == 'nota') {
+        $sql_form = "UPDATE $tabela SET id_status = 1 WHERE id_nota = $id";
+    } else{
+        $sql_form = "UPDATE $tabela SET ativo = 1 WHERE id_$tabela = $id";
+    }
+    }
+   
 ;
 
 

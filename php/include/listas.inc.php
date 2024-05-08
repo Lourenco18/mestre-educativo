@@ -172,7 +172,7 @@ echo '<th>Ações</th>
 
 
 foreach ($arrResultados as $k => $v) {
-
+$id = $v['id_' . $tabela];
   echo ' <tr>
     <td>';
       // Exibir a foto, se existir

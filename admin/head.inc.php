@@ -109,5 +109,7 @@ include "/Applications/XAMPP/xamppfiles/htdocs/mestre-educativo/php/include/conf
 <!-- JQUERY -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  
+<?php
+include $arrConfig['dir_admin'].'/modal.inc.php';
+?>
 </head>

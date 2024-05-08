@@ -30,7 +30,7 @@ include $arrConfig['dir_admin'].'/head.inc.php';
    
 <?php
 include $arrConfig['dir_admin'].'/sweetalert.inc.php';
-include $arrConfig['dir_admin'].'/modal.inc.php';
+
 ?>calender/testes.php
 </div>
 

@@ -45,8 +45,25 @@
           
         </li>
         <!--/ User -->
-      </ul>
+      </ul> 
   
     </div>
   
   </nav>
+
+
+  <script>
+    $(document).ready(function() {
+
+      $("#modalnotes").on("hidden.bs.modal", function () {
+        var listView = document.getElementById('listView');
+    var formView = document.getElementById('formView');
+
+    
+
+      listView.style.display = 'block';
+      formView.style.display = 'none';
+    
+      });
+    });
+  </script>

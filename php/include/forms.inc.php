@@ -34,10 +34,10 @@
       $consulta = $consultasForms[$tipo];
       //echo $query;
       $arrResultados = my_query($consulta);
+    
     } else {
       if(isset($arrResultados[$k]['foto_' . $tabela])){
         $foto= '';
-     
         include $arrConfig['dir_admin'] . '/fotos.inc.php';
       }
    
@@ -46,11 +46,8 @@
     if ($especificacao == "editar") {
      
       foreach ($arrResultados as $k => $v) {
-        if(isset($arrResultados[$k]['foto_' . $tabela])){
           $foto = $arrResultados[$k]['foto_' . $tabela];
-        }else{
-          $foto = '';
-        }
+
       }
       include $arrConfig['dir_admin'] . '/fotos.inc.php';
      
@@ -60,6 +57,8 @@
         $buttonMsg = "Alterar foto - $tabela";
       }
     } else {
+      $foto = '';
+     
       $buttonMsg = "Inserir foto - $tabela";
     
     }
@@ -75,9 +74,9 @@
           <div class="row">
             <div class="col-md-12 " >
               <div class="card mb-3 px-md-4 ps-0" style="background-color: white">';
-              if(isset($arrResultados['foto_' . $tabela])){
+             
                 echo gerar_upload($src, $buttonMsg, 'image');
-              }
+              
                 
 
 
@@ -118,9 +117,11 @@
               $divisao1 = $divisao;
             }
             ;
-
-            echo '<div class="' . $size . '">
-                    <label for="' . $id_campo . '" class="form-label">' . $label . '</label>';
+          
+            
+              echo '<div class="' . $size . '">
+              <label for="' . $id_campo . '" class="form-label">' . $label . '</label>';
+                       
 
             if ($type == "combobox") {
               $table = ucfirst($id_campo); // nome da tabela das combobox
@@ -179,7 +180,7 @@
               }
 
             } else {
-              echo '<input placeholder = "' . $placeholder . '" ' . $config . 'required type="' . $type . '" ';
+              echo '<input placeholder = "' . $placeholder . '" ' . $config . ' "required type="' . $type . '" ';
               if ($max != '' || $min != '') {
                 echo "max='" . $max;
                 echo "' min='$min'";
