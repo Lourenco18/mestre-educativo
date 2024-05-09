@@ -36,18 +36,19 @@
 
 
 
-    $arrparticoes = my_query('SELECT * FROM operacao WHERE ativo = 1 and  pai = 1 and visivel = 1 and nivel <>' . $nivel . ' ORDER BY ordem ASC');
+    $arrparticoes = my_query('SELECT * FROM operacao WHERE ativo = 1 AND pai = 1 AND visivel = 1 AND nivel <> ' . $nivel . ' AND id_operacao IN (' . $_SESSION['permissoes'] . ') ORDER BY ordem ASC');
 
     foreach ($arrparticoes as $k => $v) {
 
       echo '<li class="menu-header small text-uppercase" >
-    <a href="' . $arrConfig['url_site'] . '/' . $v['link'] . '?pagina=' . $v['operacao'] . '&display=' . $v['display'] . '" >' . $v['display'] . '</a>
+    <a href="' . $arrConfig['url_site'] . '/' . $v['link'] . '?pagina=' . $v['operacao'] . '&id='.$v['id_operacao'].'&display=' . $v['display'] . '" >' . $v['display'] . '</a>
   </li>';
+  //
       $arroperacoes = my_query('SELECT * FROM operacao WHERE ativo = 1 AND particao = "' . $v['operacao'] . '"');
       foreach ($arroperacoes as $s => $w) {
         echo '<li class="menu-item ' . ($pagina == $w['operacao'] ? 'active' : '') . '">
 
-    <a href="' . $arrConfig['url_site'] . '/' . $w['link'] . '?display=' . $w['display'] . '&pagina=' . $w['operacao'] . '&especificacao=' . $w['tipo_form'] . '&tipo=' . $w['particao'] . '" class="menu-link">
+    <a href="' . $arrConfig['url_site'] . '/' . $w['link'] . '?display=' . $w['display'] . '&pagina=' . $w['operacao'] . '&id='.$w['id_operacao'].'&especificacao=' . $w['tipo_form'] . '&tipo=' . $w['particao'] . '" class="menu-link">
           <img class="menu-icon" src="' . $arrConfig['url_icons'] . '/' . $w['foto_operacao'] . '" >
         <div>' . $w['display'] . '</div>
     </a>

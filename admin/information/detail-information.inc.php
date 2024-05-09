@@ -52,5 +52,11 @@ $information = array(
     "Ordem" => "ordem",
     
   ),
+  "permissao" => array(
+    "Cargo" => "cargo",
+    "Operaçao" => "operacao",
+   
+    
+  ),
 );
 

@@ -22,7 +22,14 @@ if(count($arrResultados) > 0) {
         $_SESSION['userID'] = $arrResultados[0]['id_colaborador'];
         $_SESSION['userNome'] = $arrResultados[0]['nome'];
         $_SESSION['userCargo'] = $arrResultados[0]['cargo'];
+        $_SESSION['userCargoID'] = $arrResultados[0]['id_cargo'];
         $_SESSION['userfoto'] = $arrResultados[0]['foto'];
+        $arrPermissoes = my_query('SELECT * FROM permissao WHERE id_cargo = '.$_SESSION['userCargoID']);
+        foreach($arrPermissoes as $k => $v) {
+          
+            $_SESSION['permissoes'] = implode(',', array_column($arrPermissoes, 'id_operacao'));
+        }
+     
         header('Location: '.$arrConfig['url_site'].'/index.php');
         logs();
   

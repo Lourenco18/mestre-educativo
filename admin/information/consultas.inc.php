@@ -15,6 +15,7 @@ $consultas = [
     'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.ativo = 1',
     'operacao'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 1 Order by ordem ASC',
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 1 ',
+    'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo',
 
   ];
 $consultasForms = [
@@ -42,6 +43,6 @@ $consultasForms = [
     'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.ativo = 1',
     'operacao'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 1 Order by ordem ASC',
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = '.$id.' ',
-
+    'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.id_cargo = '.$id.' ',
   ];
  

@@ -34,23 +34,23 @@
       $consulta = $consultasForms[$tipo];
       //echo $query;
       $arrResultados = my_query($consulta);
-    
+
     } else {
-      if(isset($arrResultados[$k]['foto_' . $tabela])){
-        $foto= '';
+      if (isset($arrResultados[$k]['foto_' . $tabela])) {
+        $foto = '';
         include $arrConfig['dir_admin'] . '/fotos.inc.php';
       }
-   
+
     }
-    
+
     if ($especificacao == "editar") {
-     
+
       foreach ($arrResultados as $k => $v) {
-          $foto = $arrResultados[$k]['foto_' . $tabela];
+        $foto = $arrResultados[$k]['foto_' . $tabela];
 
       }
       include $arrConfig['dir_admin'] . '/fotos.inc.php';
-     
+
       if ($foto == '') {
         $buttonMsg = "Adicionar uma foto - $tabela";
       } else {
@@ -58,26 +58,26 @@
       }
     } else {
       $foto = '';
-     
-      $buttonMsg = "Inserir foto - $tabela";
-    
-    }
-    
-        
-     
-      
 
-  
+      $buttonMsg = "Inserir foto - $tabela";
+
+    }
+
+
+
+
+
+
     //imagem de cada pessoa
     
     echo '
           <div class="row">
             <div class="col-md-12 " >
               <div class="card mb-3 px-md-4 ps-0" style="background-color: white">';
-             
-                echo gerar_upload($src, $buttonMsg, 'image');
-              
-                
+
+    echo gerar_upload($src, $buttonMsg, 'image');
+
+
 
 
 
@@ -117,11 +117,11 @@
               $divisao1 = $divisao;
             }
             ;
-          
-            
-              echo '<div class="' . $size . '">
+
+
+            echo '<div class="' . $size . '">
               <label for="' . $id_campo . '" class="form-label">' . $label . '</label>';
-                       
+
 
             if ($type == "combobox") {
               $table = ucfirst($id_campo); // nome da tabela das combobox

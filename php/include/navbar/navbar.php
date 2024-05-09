@@ -1,4 +1,4 @@
-<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalnotes"><i class="bx bx-block"></i> Deixar nota</button>
+
 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
   
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">

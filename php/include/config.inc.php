@@ -13,6 +13,8 @@ if(isset($_GET['msg'])) {
     
 }
 
+
+
 $arrConfig['servername'] = 'localhost';
 $arrConfig['username'] = 'root';
 $arrConfig['password'] = '';
