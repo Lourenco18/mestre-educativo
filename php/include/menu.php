@@ -44,7 +44,7 @@
     <a href="' . $arrConfig['url_site'] . '/' . $v['link'] . '?pagina=' . $v['operacao'] . '&id='.$v['id_operacao'].'&display=' . $v['display'] . '" >' . $v['display'] . '</a>
   </li>';
   //
-      $arroperacoes = my_query('SELECT * FROM operacao WHERE ativo = 1 AND particao = "' . $v['operacao'] . '"');
+      $arroperacoes = my_query('SELECT * FROM operacao WHERE ativo = 1  AND id_operacao IN (' . $_SESSION['permissoes'] . ') AND particao = "' . $v['operacao'] . '"');
       foreach ($arroperacoes as $s => $w) {
         echo '<li class="menu-item ' . ($pagina == $w['operacao'] ? 'active' : '') . '">
 

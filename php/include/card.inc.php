@@ -14,7 +14,9 @@ if($page_name == 'index.php') {
     $cards = "and particao = '$pagina'";
 
 };
-    $arrResultados = my_query('SELECT * FROM operacao WHERE ativo = 1 '. $cards.' ' );
+
+    $arrResultados = my_query('SELECT * FROM operacao WHERE ativo = 1 '. $cards.'  AND id_operacao IN (' . $_SESSION['permissoes'] . ') ' );
+
 
     foreach($arrResultados as $k => $v) {
 
