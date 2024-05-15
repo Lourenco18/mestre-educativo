@@ -23,6 +23,8 @@
 <script src="<?php echo $arrConfig['url_js'] ?>/functions.js"></script>
 <script src="<?php echo $arrConfig['url_calender'] ?>/script-calender.js"></script>
   <script src="<?php echo $arrConfig['url_calender'] ?>/index.global.min.js"></script>
-
+  <?php
+include $arrConfig['dir_admin'].'/modal.inc.php';
+?>
 </html>
 

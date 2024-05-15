@@ -58,5 +58,11 @@ $information = array(
    
     
   ),
+  "pessoa" => array(
+    "Nome" => "nome",
+    "Contacto" => "telefone_pessoa",
+    "Relação" => "relacao",
+  
+  ),
 );
 
