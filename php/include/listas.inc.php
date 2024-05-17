@@ -89,10 +89,14 @@ if (array_key_exists($pagina, $consultas)) {
             echo '</h6>';
         }
     }
-    
+    // se tem foto ou não 
+    $verf_foto = false;
+    if(isset($arrResultados[$k]['foto_' . $tabela])){
+      $verf_foto = true;
+    }
           // Exibir a foto, se existir
      
-      if(isset($arrResultados[$k]['foto_' . $tabela])){
+      if($verf_foto){
         $foto = $arrResultados[$k]['foto_' . $tabela];
         include $arrConfig['dir_admin'] . '/fotos.inc.php';
         echo '<img class="icons"  src="'.$src.' height="100" width="100">';
@@ -155,8 +159,11 @@ echo '
 <div id="tableView" style="display: none; text-align: center; padding-left: 262px;">
 <table id="table"  class="table table-striped " style="  width: 100%; table-layout: fixed; ">
 <thead>
-  <tr>
-    <th>Foto</th>';
+  <tr>';
+  if($verf_foto){
+    echo '<th>Foto</th>';
+  }
+  
 // Verificações específicas para cada categoria
 if (isset($information[$pagina])) {
   $info = $information[$pagina];
@@ -174,19 +181,16 @@ echo '<th>Ações</th>
 foreach ($arrResultados as $k => $v) {
 $id = $v['id_' . $tabela];
   echo ' <tr>
-    <td>';
+   ';
       // Exibir a foto, se existir
      
-      if(isset($arrResultados[$k]['foto_' . $tabela])){
-        
+      if($verf_foto){
         $foto = $arrResultados[$k]['foto_' . $tabela];
         include $arrConfig['dir_admin'] . '/fotos.inc.php';
-        echo '<img class="icons"  src="'.$src.' height="100" width="100">';
-      }else{
-        $foto = '';  
-      } 
+        echo ' <td><img class="icons"  src="'.$src.' height="100" width="100"></td>';
+      };
   
-  echo '</td>';
+
   if (isset($information[$pagina])) {
     $info = $information[$pagina];
     $count = 0;

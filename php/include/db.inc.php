@@ -59,5 +59,24 @@ function my_query($sql, $debug=0) {
 	} 
 	return 0;
 }
+function check_for_foto($table_name) {
+    global $arrConfig;
+    $sql = "SHOW COLUMNS FROM $table_name";
+    $columns = my_query($sql);
+
+    if(empty($columns)) {
+        return false; 
+    }
+
+
+    foreach($columns as $column) {
+        if (stripos($column['Field'], 'foto') !== false) {
+            return false;
+
+        }
+    }
+
+   
+}
 
 
