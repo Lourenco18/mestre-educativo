@@ -297,7 +297,7 @@ if(count($arrRelacao) == 0){
            accountUserImage.src = resetImage;
          };
        }
-     })();
+     });
    });
    // Função para exibir uma mensagem com o nome do botão
    function exibirView(nomeBotao) {
