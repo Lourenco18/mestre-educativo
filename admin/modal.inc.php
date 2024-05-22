@@ -89,6 +89,148 @@ echo '?</h5>
 
 
 
+
+
+echo '
+  <div class="modal modal-mid fade" id="modalForm" tabindex="-1">
+  <div class="modal-dialog">';?>
+  <form class="modal-content" action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo $pagename;
+   echo "&id=$id_modal&tabela=$tabela_modal&acao=editar" ?>" method="POST" enctype="multipart/form-data">
+<?php 
+      echo '<div class="modal-header">
+  <h5 class="modal-title" id="modalTopTitle">Editar ' . $tabela_modal . '</h5>';
+
+echo '
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="modal"
+    aria-label="Close"
+  ></button>
+</div>';
+echo '
+<div class="modal-body" style="max-height: 800px; overflow-y: auto;">';
+ 
+  $tipo = $tabela_modal;
+  $divisao1 = "";
+  echo $id_modal;
+  if ($especificacao == "editar") {
+    
+    $consulta = $consultasForms[$tipo];
+ echo $consulta;
+    $arrResultados = my_query($consulta);
+  }
+
+
+  foreach ($campos as $campos) {
+    $label = $campos['label'] ?? null;
+    $id_campo = $campos['id'] ?? null;
+    $name = $campos['name'] ?? null;
+    $type = $campos['type'] ?? null;
+    $size = $campos['size'] ?? null;
+    $divisao = $campos['divisao'] ?? null;
+    $object = $campos['object'] ?? null;
+    $max = $campos['max'] ?? null;
+    $min = $campos['min'] ?? null;
+    $config = $campos['config'] ?? null;
+    $placeholder = $campos['placeholder'] ?? null;
+    $ajax = $campos['ajax'] ?? null;
+
+
+
+    if ($object == $tipo) {
+
+
+      echo '<div class="' . $size . '">
+                <label for="' . $id_campo . '" class="form-label">' . $label . '</label>';
+
+      if ($type == "combobox") {
+        $table = ucfirst($id_campo); // nome da tabela das combobox
+        if (isset($id_received)) {
+          $sql_combobox = "SELECT * FROM $table WHERE ativo = 1 ";
+        } else {
+          $sql_combobox = "SELECT * FROM $table WHERE ativo = 1";
+        }
+
+        $arrtable = my_query($sql_combobox);
+
+        $onChange = '';
+        if ($ajax != null) {
+          $divName = $ajax['div'];
+          $fileName = $ajax['file'];
+
+          $onChange = 'onchange="ajax(this.value)"';
+        }
+
+        echo '<select ' . $onChange . ' required name="' . $name . '" id="' . $id_campo . '" class="select2 form-select">';
+
+
+        if ($especificacao == 'editar') {
+         
+          $id_Selected = $arrResultados[0]['id_' . $id_campo];
+      
+        } else {
+          $id_Selected = '';
+          echo '<option value="">Selecione uma opção</option>';
+        }
+        
+        foreach ($arrtable as $k => $v) {
+          
+          $selected = "";
+          if ($id_Selected == $v['id_' . $id_campo]) {
+            $selected = 'selected="selected" ';
+          }
+          echo '<option ' . $selected . ' value="' . $v['id_' . $id_campo] . '">' . $v[$id_campo] . '</option>';
+        }
+        echo '</select>';
+
+
+      } else {
+        echo '<input placeholder = "' . $placeholder . '" ' . $config . 'required type="' . $type . '" ';
+        if ($max != '' || $min != '') {
+          echo "max='" . $max;
+          echo "' min='$min'";
+        }
+        ;
+        echo 'class="form-control" id="' . $id_campo . '" name="' . $name . '"';
+        if ($especificacao == 'editar') {
+         
+          foreach ($arrResultados as $t => $k) {
+            echo 'value="' . $k[$name] . '"';
+          }
+        }
+        ;
+        echo '/>';
+      }
+      echo '</div>';
+    }
+  }
+  ;
+  echo'
+  <div class="modal-footer">
+
+
+
+  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+ 
+
+  <button type="submit" class="btn btn-primary me-2">Guardar Alterações</button>
+</div>
+</div>
+
+
+</form>
+</div>
+</div>
+</div>  ';
+
+
+
+
+
+
+
+
 echo '
 <div class="modal modal-mid fade" id="modalTopDesative" tabindex="-1">
 <div class="modal-dialog">
@@ -314,7 +456,12 @@ echo '
       echo '</div>';
     }
   }
-  ; ?>
+  ;
+
+
+
+  ?>
+
   </div>
   <div class="modal-footer">
 

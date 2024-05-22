@@ -1,5 +1,7 @@
 <?php
  $id = isset($_GET['id']) ? $_GET['id'] : '';
+
+ $id_modal = isset($_GET['id_modal']) ? $_GET['id_modal'] : '';
 //  consultas SQL para cada categoria
 global $consultas;
 $consultas = [
@@ -41,6 +43,6 @@ $consultasForms = [
     'operacao'=> 'SELECT * FROM operacao  WHERE operacao.id_operacao = ' . $id . ' ',
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = '.$id.' ',
     'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.id_cargo = '.$id.' ',
-    'pessoa'=> 'SELECT * FROM pessoa  and id_pessoa = '.$id.' ',  
+    'pessoa'=> 'SELECT * FROM pessoa  WHERE id_pessoa = '.$id_modal.' ',  
   ];
  

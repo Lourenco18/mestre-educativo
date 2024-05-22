@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $columnName = $campo['name'];
 
                 // Verificar se o tipo é igual a 'combobox'
-                if ($campo['type'] === 'combobox' || $campo['defenido']==='1') {
+                if ($campo['type'] === 'combobox' || isset($campo['defenido'])) {
                     // Adicionar 'id_' ao nome da variável
                     $columnName = 'id_' . $campo['name'];
                 } 
@@ -132,7 +132,8 @@ if ($acao == 'adicionar') {
     }
    
 ;
-
+echo $sql_form;
+die();
 my_query($sql_form);
 header("Location: ../../index.php");
 
