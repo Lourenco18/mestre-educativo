@@ -1,5 +1,5 @@
 <?php
-include '../../php/include/config.inc.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 include '../forms_campos.php';
 foreach ($campos as $campo) {
     $id_campo = $campo['id'];

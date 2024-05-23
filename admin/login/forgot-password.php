@@ -1,6 +1,6 @@
 <?php
 
-include '../../php/include/config.inc.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 $message_error_email = $_GET['message_error_email'] ?? '';
 $message_error_pass = $_GET['message_error_pass'] ?? '';
 $email = $_GET['email'] ?? '';

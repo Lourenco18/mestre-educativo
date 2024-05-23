@@ -1,9 +1,12 @@
+<?php
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
+?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
 
   <div class="app-brand demo">
     <a href="index.php" class="app-brand-link">
       <span class="app-brand-logo demo">
-        <img src="imjs/logos/logo.png" style="height: 50px;" alt="">
+        <img src="<?php $arrConfig['foto_empresa']?>" style="height: 50px;" alt="">
 
       </span>
       <span class="app-brand-text demo menu-text fw-bolder ms-2">Mestre <br>Educative </span>
@@ -49,7 +52,7 @@
         echo '<li class="menu-item ' . ($pagina == $w['operacao'] ? 'active' : '') . '">
 
     <a href="' . $arrConfig['url_site'] . '/' . $w['link'] . '?display=' . $w['display'] . '&pagina=' . $w['operacao'] . '&id='.$w['id_operacao'].'&especificacao=' . $w['tipo_form'] . '&tipo=' . $w['particao'] . '" class="menu-link">
-          <img class="menu-icon" src="' . $arrConfig['url_icons'] . '/' . $w['foto_operacao'] . '" >
+          <img class="menu-icon" src="' . $arrConfig['url_imjs_upload'] . '/icons/' . $w['foto_operacao'] . '" >
         <div>' . $w['display'] . '</div>
     </a>
  </li> ';

@@ -1,5 +1,5 @@
 <?php
-include 'php/include/config.inc.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 include $arrConfig['dir_include'] . '/auth.inc.php';
 
 include $arrConfig['dir_admin'] . '/head.inc.php';
@@ -8,7 +8,7 @@ if (isset($_GET['display'])) {
 } else {
   $pagina = "";
 }
-;
+
 ?>
 <style>
   #content-wrapper,
@@ -25,7 +25,6 @@ if (isset($_GET['display'])) {
     justify-content: center;
     align-items: center;
     position: absolute;
-
     right: 20px;
   }
 </style>

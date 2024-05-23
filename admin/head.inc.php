@@ -1,6 +1,6 @@
 
 <?php
-include "/Applications/XAMPP/xamppfiles/htdocs/mestre-educativo/php/include/config.inc.php";
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 ?>
 <!DOCTYPE html>
 

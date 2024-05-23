@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
 
 
 function sendMail($username, $email, $id){
-    include '../php/include/config.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
     
         $mail = new PHPMailer(true);
         

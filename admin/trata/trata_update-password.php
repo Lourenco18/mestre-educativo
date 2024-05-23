@@ -1,5 +1,5 @@
 <?php 
-include '../../php/include/config.inc.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 $pass = $_GET['pass'];
 $pass_confirmation = $_GET['pass_confirmation'] ?? '';
 $id_colaborador= $_GET['id_colaborador'] ?? '';

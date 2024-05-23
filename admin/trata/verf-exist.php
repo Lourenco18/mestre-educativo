@@ -1,5 +1,5 @@
 <?php
-include '../../php/include/config.inc.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $tabela = isset($_GET['tabela']) ? $_GET['tabela'] : '';
 $acao = isset($_GET['acao']) ? $_GET['acao'] : '';

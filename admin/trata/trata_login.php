@@ -1,6 +1,6 @@
 <?php
 
-include '../../php/include/config.inc.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 $minCaracteres = 6;
 $maxCaracteres = 16;
 $email =$_GET['email'];

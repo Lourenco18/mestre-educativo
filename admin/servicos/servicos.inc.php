@@ -1,5 +1,5 @@
 <?php
-include '../../php/include/config.inc.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 include $arrConfig['dir_admin'].'/ajax/recive-ajax.php';
 
 include $arrConfig['dir_admin'].'/head.inc.php';

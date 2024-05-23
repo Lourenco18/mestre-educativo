@@ -13,7 +13,7 @@ if (array_key_exists($pagina, $consultas)) {
   // Definir a consulta SQL
   $consulta = $consultas[$pagina];
   $tipo = $pagina;
-  
+
   // Definir a categoria removendo o último "s" da palavra
   $tabela = rtrim($pagina, "s");
 
@@ -27,17 +27,16 @@ if (array_key_exists($pagina, $consultas)) {
     $tabela = 'colaborador';
   }
   // Mostrar os resultados
+
   foreach ($arrResultados as $k => $v) {
-   
-     
- 
+
     if (count($arrResultados) == 0) {
       echo 'Não existem registos';
 
 
     } else {
-      
-      
+
+
       // Se a página for "Encarregados de Educação"
       if ($pagina == "encarregadoeducacao") {
         // Obter os educandos deste encarregado
@@ -55,11 +54,13 @@ if (array_key_exists($pagina, $consultas)) {
           }
         }
       }
-
+    
       // Exibir os resultados
       echo '
       <div class="col">';
-
+    
+        $id = $v['id_' . $tabela];  
+       
       echo '<a href="vis_' . str_replace("s", '', $pagina) . '.php?id=' . $v['id_' . $tabela] . '" class="card-link">';
       echo '<div class="card h-70 ps-0 py-xl-3" style=" background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">';
       echo '<div class="card-body" style="text-align: center; margin-left: 0px">';
@@ -70,43 +71,43 @@ if (array_key_exists($pagina, $consultas)) {
       if (isset($information[$pagina])) {
         $info = $information[$pagina];
         foreach ($info as $titulo => $valor) {
-            echo '<h6 class="card-title">' . $titulo . ': ';
-            if ($valor == 'aluno') {
-                $totalAlunos = count($arrEducandos);
-                $count = 0;
-                foreach ($arrEducandos as $s => $t) {
-                    $count++;
-                    echo $t[$valor];
-                    if ($count == $totalAlunos - 1) {
-                        echo ' e ';
-                    } elseif ($count < $totalAlunos) {
-                        echo ', ';
-                    }
-                }
-            } else {
-                echo $v[$valor];
+          echo '<h6 class="card-title">' . $titulo . ': ';
+          if ($valor == 'aluno') {
+            $totalAlunos = count($arrEducandos);
+            $count = 0;
+            foreach ($arrEducandos as $s => $t) {
+              $count++;
+              echo $t[$valor];
+              if ($count == $totalAlunos - 1) {
+                echo ' e ';
+              } elseif ($count < $totalAlunos) {
+                echo ', ';
+              }
             }
-            echo '</h6>';
+          } else {
+            echo $v[$valor];
+          }
+          echo '</h6>';
         }
-    }
-    // se tem foto ou não 
-    $verf_foto = false;
-    if(isset($arrResultados[$k]['foto_' . $tabela])){
-      $verf_foto = true;
-    }
-          // Exibir a foto, se existir
-     
-      if($verf_foto){
+      }
+      // se tem foto ou não 
+      $verf_foto = false;
+      if (isset($arrResultados[$k]['foto_' . $tabela])) {
+        $verf_foto = true;
+      }
+      // Exibir a foto, se existir
+
+      if ($verf_foto) {
         $foto = $arrResultados[$k]['foto_' . $tabela];
         include $arrConfig['dir_admin'] . '/fotos.inc.php';
-        echo '<img class="icons"  src="'.$src.' height="100" width="100">';
-      }else{
-        $foto = '';  
+        echo '<img class="icons"  src="' . $src . ' height="100" width="100">';
+      } else {
+        $foto = '';
       }
-     
-      
-      
-  
+
+
+
+
 
       // Botões de ação
       echo '<div class="d-grid gap-1 mt-3">';
@@ -115,9 +116,9 @@ if (array_key_exists($pagina, $consultas)) {
         if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
           // Nada aqui, pois supra_admin não pode ser removido
         } else {
-          echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove"><i class="bx bx-trash"></i> Remover</button>';
+          echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove'.$v['id_'.$tabela].'"><i class="bx bx-trash"></i> Remover</button>';
         }
-        $id = $v['id_' . $tabela];
+     
         if ($display == 'Alunos Inativos') {
           echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopAtive"><i class="bx bx-block"></i> Ativar</button>';
         } else {
@@ -138,15 +139,17 @@ if (array_key_exists($pagina, $consultas)) {
       echo '</div>';
       echo '</div>';
       echo '</div>';
-      echo '</div>';
+  
+
       echo '</a>';
 
     }
+   include $arrConfig['dir_admin'] . '/modal/modal-remove.php';
 
   }
 
 
-  include $arrConfig['dir_admin'] . '/modal.inc.php';
+
 } else {
   // Se a página não for encontrada no array de consultas
   echo "Página não encontrada!";
@@ -160,10 +163,10 @@ echo '
 <table id="table"  class="table table-striped " style="  width: 100%; table-layout: fixed; ">
 <thead>
   <tr>';
-  if($verf_foto){
-    echo '<th>Foto</th>';
-  }
-  
+if ($verf_foto) {
+  echo '<th>Foto</th>';
+}
+
 // Verificações específicas para cada categoria
 if (isset($information[$pagina])) {
   $info = $information[$pagina];
@@ -179,42 +182,43 @@ echo '<th>Ações</th>
 
 
 foreach ($arrResultados as $k => $v) {
-$id = $v['id_' . $tabela];
+  $id = $v['id_' . $tabela];
   echo ' <tr>
    ';
-      // Exibir a foto, se existir
-     
-      if($verf_foto){
-        $foto = $arrResultados[$k]['foto_' . $tabela];
-        include $arrConfig['dir_admin'] . '/fotos.inc.php';
-        echo ' <td><img class="icons"  src="'.$src.' height="100" width="100"></td>';
-      };
-  
+  // Exibir a foto, se existir
+
+  if ($verf_foto) {
+    $foto = $arrResultados[$k]['foto_' . $tabela];
+    include $arrConfig['dir_admin'] . '/fotos.inc.php';
+    echo ' <td><img class="icons"  src="' . $src . ' height="100" width="100"></td>';
+  }
+  ;
+
 
   if (isset($information[$pagina])) {
     $info = $information[$pagina];
     $count = 0;
     foreach ($info as $titulo => $valor) {
-     
-        if ($valor == 'aluno') {
-            echo '<td>';
-            $totalAlunos = count($arrEducandos);
-            foreach ($arrEducandos as $s => $t) {
-                $count++;
-                
-                echo $t[$valor];
-                if ($count == $totalAlunos - 1) {
-                    echo ' e ';
-                } elseif ($count < $totalAlunos) {
-                    echo ', ';
-                }
-            }
-            echo '</td>';
-        } else {
-            echo '<td>' . $v[$valor] . '</td>';
+
+      if ($valor == 'aluno') {
+        echo '<td>';
+        $totalAlunos = count($arrEducandos);
+        foreach ($arrEducandos as $s => $t) {
+          $count++;
+
+          echo $t[$valor];
+          if ($count == $totalAlunos - 1) {
+            echo ' e ';
+          } elseif ($count < $totalAlunos) {
+            echo ', ';
+          }
         }
+        echo '</td>';
+      } else {
+        echo '<td>' . $v[$valor] . '</td>';
+      }
     }
-}
+  }
 
 
   echo '
@@ -226,7 +230,7 @@ $id = $v['id_' . $tabela];
     echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary" title="Editar"><i class="bx bx-pencil"></i></a>';
     if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
     } else {
-      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove" title="Remover"><i class="bx bx-trash"></i></button>';
+      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove'.$v['id_'.$tabela].'" title="Remover"><i class="bx bx-trash"></i></button>';
     }
 
     if ($display == 'Alunos Inativos') {
@@ -247,6 +251,7 @@ $id = $v['id_' . $tabela];
 
   echo '</td>
   </tr>';
+  include $arrConfig['dir_admin'] . '/modal/modal-remove.php';
 }
 
 

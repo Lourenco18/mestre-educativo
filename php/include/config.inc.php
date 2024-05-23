@@ -103,11 +103,7 @@ include_once 'functions.inc.php';
 include_once 'db.inc.php'; 
 include_once $arrConfig['dir_admin'].'/permissoes/config_permition.php'; 
 
-//sweet alert
-include $arrConfig['dir_admin'].'/sweetalert.inc.php';
-echo '<script>';
-echo 'SwalSuccess("' . $msg . '");'; // Chamando a função SwalSuccess com a mensagem $msg
-echo '</script>';
-echo ' <a type="button"  onclick="SwalSuccess()"></a>';
+
+
 
 
