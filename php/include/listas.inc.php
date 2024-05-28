@@ -20,9 +20,9 @@ if (array_key_exists($pagina, $consultas)) {
   // Executar a consulta SQL
   $arrResultados = my_query($consulta);
 
-  if ($tabela == 'alunoinative' || $tabela == 'myaluno') {
+  if ($tabela == 'alunoinative' || $tabela == 'myaluno' || $tabela == 'alunoremoved') {
     $tabela = 'aluno';
-    $pagina = 'aluno';
+ 
   } elseif ($tabela == 'professor' || $tabela == 'admin' || $tabela == 'supra_admin') {
     $tabela = 'colaborador';
   }
@@ -61,15 +61,15 @@ if (array_key_exists($pagina, $consultas)) {
     
         $id = $v['id_' . $tabela];  
        
-      echo '<a href="vis_' . str_replace("s", '', $pagina) . '.php?id=' . $v['id_' . $tabela] . '" class="card-link">';
+      echo '<a href="" class="card-link">';
       echo '<div class="card h-70 ps-0 py-xl-3" style=" background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">';
       echo '<div class="card-body" style="text-align: center; margin-left: 0px">';
       echo '<h5 class="card-title">' . $v[$tabela] . '</h5><br>';
 
 
       // Verificações específicas para cada categoria
-      if (isset($information[$pagina])) {
-        $info = $information[$pagina];
+      if (isset($information[$tabela])) {
+        $info = $information[$tabela];
         foreach ($info as $titulo => $valor) {
           echo '<h6 class="card-title">' . $titulo . ': ';
           if ($valor == 'aluno') {
@@ -111,18 +111,24 @@ if (array_key_exists($pagina, $consultas)) {
 
       // Botões de ação
       echo '<div class="d-grid gap-1 mt-3">';
-      if ($_SESSION['userCargo'] == 'admin' || $_SESSION['userCargo'] == 'supra_admin') {
-        echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary">  <i class="bx bx-pencil"></i> Editar</a>';
-        if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
-          // Nada aqui, pois supra_admin não pode ser removido
-        } else {
-          echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove'.$v['id_'.$tabela].'"><i class="bx bx-trash"></i> Remover</button>';
+      if ( $_SESSION['userCargo'] == 'admin' || $_SESSION['userCargo'] == 'supra_admin') {
+       
+        if($pagina !== 'alunoremoved' && $pagina !== 'alunoinative' ){
+          echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary"><i class="bx bx-pencil"></i> Editar</a>';
+        }else{
+        
         }
-     
-        if ($display == 'Alunos Inativos') {
-          echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopAtive"><i class="bx bx-block"></i> Ativar</button>';
+        if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin' ) {
+         
         } else {
-          echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopDesative"><i class="bx bx-block"></i> Desativar</button>';
+          echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove'.$v['id_'.$tabela].'"><i class="bx bx-trash"></i> Remover</button>';
+        }
+       
+     
+        if ($pagina == 'alunoinative') {
+          echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopAtive'.$v['id_'.$tabela].'"><i class="bx bx-block"></i> Ativar</button>';
+        } elseif($pagina == 'aluno') {
+          echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopDesative'.$v['id_'.$tabela].'"><i class="bx bx-block"></i> Desativar</button>';
           if ($pagina == 'operacao' || $tabela == 'turma') {
 
           } else {
@@ -132,11 +138,12 @@ if (array_key_exists($pagina, $consultas)) {
             echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn " style="background-color: #3D8F42; border-color: #3D8F42;">  <i class="bx bx-envelope"></i> Envair E-mail</a>';
           }
         }
+     
       }
-
-
-
       echo '</div>';
+
+
+  
       echo '</div>';
       echo '</div>';
   
@@ -144,7 +151,8 @@ if (array_key_exists($pagina, $consultas)) {
       echo '</a>';
 
     }
-   include $arrConfig['dir_admin'] . '/modal/modal-remove.php';
+   include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
+   include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
 
   }
 
@@ -168,8 +176,8 @@ if ($verf_foto) {
 }
 
 // Verificações específicas para cada categoria
-if (isset($information[$pagina])) {
-  $info = $information[$pagina];
+if (isset($information[$tabela])) {
+  $info = $information[$tabela];
   foreach ($info as $titulo => $valor) {
     echo '<th>' . $titulo . '</th>';
   }
@@ -195,8 +203,8 @@ foreach ($arrResultados as $k => $v) {
   ;
 
 
-  if (isset($information[$pagina])) {
-    $info = $information[$pagina];
+  if (isset($information[$tabela])) {
+    $info = $information[$tabela];
     $count = 0;
     foreach ($info as $titulo => $valor) {
 
@@ -234,9 +242,9 @@ foreach ($arrResultados as $k => $v) {
     }
 
     if ($display == 'Alunos Inativos') {
-      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive" title="Ativar"><i class="bx bx-block"></i></button>';
+      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive'.$v['id_'.$tabela].'" title="Ativar"><i class="bx bx-block"></i></button>';
     } else {
-      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopDesative" title="Desativar"><i class="bx bx-block"></i></button>';
+      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopDesative'.$v['id_'.$tabela].'" title="Desativar"><i class="bx bx-block"></i></button>';
 
       if ($pagina != 'operacao' && $tabela != 'turma') {
         echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF" title="Adicionar Serviço"><i class="bx bx-file-blank"></i></button>';
@@ -252,6 +260,7 @@ foreach ($arrResultados as $k => $v) {
   echo '</td>
   </tr>';
   include $arrConfig['dir_admin'] . '/modal/modal-remove.php';
+  include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
 }
 
 

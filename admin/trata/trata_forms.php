@@ -116,7 +116,7 @@ if ($acao == 'adicionar') {
     $sql_form = rtrim($sql_form, ", ") . " WHERE id_$tabela = $id";
 
 } elseif ($acao == 'apagar') {
-    $sql_form = "DELETE FROM $tabela WHERE id_$tabela = $id";
+    $sql_form = "UPDATE $tabela SET removed = 1 WHERE id_$tabela = $id";
 
 }elseif($acao == 'desativar'){
    

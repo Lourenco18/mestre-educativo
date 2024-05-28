@@ -64,5 +64,12 @@ $information = array(
     "Relação" => "relacao",
   
   ),
+
+  "transporte" => array(
+  
+    "Preço" => "preco",
+   
+  
+  ),
 );
 

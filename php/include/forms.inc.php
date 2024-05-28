@@ -22,32 +22,35 @@
       }
       $tabela = rtrim($tipo, "s");
       include $arrConfig['dir_include'] . '/caminho.inc.php';// caminho de cada página
-      echo '
-      <ul class="nav nav-pills flex-column flex-md-row mb-3">
-      <li class="nav-item">
-        <a class="nav-link active" href="#personView"
-          ><i class="bx bx-user me-1"></i> Aluno</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#relacaoView"
-          ><i class="bx bx-bell me-1"></i> Relações</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#avaliacoesView"
-          ><i class="bx bx-link-alt me-1"></i> Avaliações</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#horarioView"
-          ><i class="bx bx-link-alt me-1"></i> Horário</a
-        >
-      </li>
-      </ul>
-      
-        ';
-      
+      if($tabela == 'aluno' && $especificacao == 'editar'){
+        echo '
+        <ul class="nav nav-pills flex-column flex-md-row mb-3">
+        <li class="nav-item">
+          <a class="nav-link active" href="#personView"
+            ><i class="bx bx-user me-1"></i> Aluno</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#relacaoView"
+            ><i class="bx bx-bell me-1"></i> Relações</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#avaliacoesView"
+            ><i class="bx bx-link-alt me-1"></i> Avaliações</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#horarioView"
+            ><i class="bx bx-link-alt me-1"></i> Horário</a
+          >
+        </li>
+        </ul>
+        
+          ';
+        
+      }
+    
       if ($especificacao != 'editar') {
         $query = "SELECT * from $tabela where id_$tabela = $id";
       }
@@ -62,10 +65,10 @@
         $arrResultados = my_query($consulta);
       
       } else {
-        if (count($arrResultados[$k]['foto_' . $tabela])== 0) {
+       
           $foto = '';
           include $arrConfig['dir_admin'] . '/fotos.inc.php';
-        }
+        
       
       }
       
