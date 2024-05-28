@@ -1,7 +1,7 @@
 <?php
 
 echo '
-<div class="modal modal-mid fade" id="modalTopDesative'.$v['id_'.$tabela].'" tabindex="-1">
+<div class="modal modal-mid fade" id="modalTopDesative' . $v['id_' . $tabela] . '" tabindex="-1">
 <div class="modal-dialog">
   <form class="modal-content">
     <div class="modal-header">
@@ -27,7 +27,7 @@ echo '?</h5>
 </div>
 ';
 echo '
-<div class="modal modal-mid fade" id="modalTopAtive'.$v['id_'.$tabela].'" tabindex="-1">
+<div class="modal modal-mid fade" id="modalTopAtive' . $v['id_' . $tabela] . '" tabindex="-1">
 <div class="modal-dialog">
   <form class="modal-content">
     <div class="modal-header">

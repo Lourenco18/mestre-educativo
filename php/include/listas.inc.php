@@ -63,7 +63,7 @@ if (array_key_exists($pagina, $consultas)) {
        
       echo '<a href="" class="card-link">';
       echo '<div class="card h-70 ps-0 py-xl-3" style=" background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">';
-      echo '<div class="card-body" style="text-align: center; margin-left: 0px">';
+      echo '<div class="card-body" style="text-align: left; margin-left: 0px">';
       echo '<h5 class="card-title">' . $v[$tabela] . '</h5><br>';
 
 
@@ -100,7 +100,7 @@ if (array_key_exists($pagina, $consultas)) {
       if ($verf_foto) {
         $foto = $arrResultados[$k]['foto_' . $tabela];
         include $arrConfig['dir_admin'] . '/fotos.inc.php';
-        echo '<img class="icons"  src="' . $src . ' height="100" width="100">';
+        echo '<img style = "display: center;" class="icons"  src="' . $src . ' height="100" width="100">';
       } else {
         $foto = '';
       }
