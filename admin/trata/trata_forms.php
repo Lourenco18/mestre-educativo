@@ -132,8 +132,7 @@ if ($acao == 'adicionar') {
     }
    
 ;
-echo $sql_form;
-die();
+
 my_query($sql_form);
 header("Location: ../../index.php");
 

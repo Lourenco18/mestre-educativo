@@ -552,7 +552,7 @@ if (array_key_exists($pagina, $consultas)) {
        
       echo '<a href="" class="card-link">';
       echo '<div class="card h-70 ps-0 py-xl-3" style=" background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">';
-      echo '<div class="card-body" style="text-align: left; margin-left: 0px">';
+      echo '<div class="card-body" style="text-align: center; margin-left: 0px">';
       echo '<h5 class="card-title">' . $v[$tabela] . '</h5><br>';
 
 
@@ -624,7 +624,7 @@ if (array_key_exists($pagina, $consultas)) {
             echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF"><i class="bx bx-file-blank"></i> Adicionar Serviço</button>';
           }
           if ($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'encarregadoeducacao' || $tabela == 'escola') {
-            echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn " style="background-color: #3D8F42; border-color: #3D8F42;">  <i class="bx bx-envelope"></i> Envair E-mail</a>';
+            echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn " style="color: #ffff;background-color: #3D8F42; border-color: #3D8F42;">  <i class="bx bx-envelope"></i> Envair E-mail</a>';
           }
         }
      
