@@ -73,7 +73,7 @@ if (isset($_GET['display'])) {
           ?>
 
           <button id="toggleViewBtn"><i class='bx bx-menu'></i></button>
-          <div id="cardView">
+       
 
             <div class="row row-cols-sm-2 row-cols-2 row-cols-xl-6 row-cols-lg-5 row-cols-md-4 g-4 mb-2 ps-lg-4 pe-lg-3 ">
               <?php
@@ -82,7 +82,7 @@ if (isset($_GET['display'])) {
 
               <div class="content-backdrop fade"></div>
             </div>
-          </div>
+          
 
 
           <div class="layout-overlay layout-menu-toggle"></div>

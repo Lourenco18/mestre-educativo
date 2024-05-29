@@ -2,12 +2,11 @@
 $information = array(
   "aluno" => array(
     "Encarregado de Educação" => "encarregadoeducacao",
-    "Relação" => "relacao",
-
+   
     "Contacto EE" => "telefone_encarregadoeducacao",
     "Orientador(a)" => "colaborador",
     "Escola" => "escola",
-    "Turma" => "turma",
+
   ),
   "encarregadoeducacao" => array(
     "Relação" => "relacao",

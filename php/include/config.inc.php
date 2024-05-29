@@ -94,7 +94,7 @@ $arrConfig['dir_icons']=$arrConfig['dir_imjs'].'/'. $folderIcon;
 $arrConfig['fotos_auth'] = array ('image/jpeg', 'image/jpg', 'image/png', 'image/gif');
 $arrConfig['fotos_maxUpload'] = 3000000;
 
-
+$arrConfig['foto_empresa']='admin/upload/imjs/logos/logo.png';
    
 
 

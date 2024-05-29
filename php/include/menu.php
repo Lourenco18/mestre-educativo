@@ -1,12 +1,13 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
+
 ?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
 
   <div class="app-brand demo">
     <a href="index.php" class="app-brand-link">
       <span class="app-brand-logo demo">
-        <img src="<?php $arrConfig['foto_empresa']?>" style="height: 50px;" alt="">
+        <img src="<?php echo $arrConfig['foto_empresa']; ?>" style="height: 50px;" alt="">
 
       </span>
       <span class="app-brand-text demo menu-text fw-bolder ms-2">Mestre <br>Educative </span>
