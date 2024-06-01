@@ -416,9 +416,26 @@ $GLOBALS['campos'] = array(
         'divisao' => '',
         'object'=> 'pessoa',
         'min'=> '',
-'maxlength'=>'',
+        'maxlength'=>'',
         'max'=> '',
         'config' => '',
+        'placeholder'=>"",
+    ),
+    array(
+        'label' => '',
+        'id' => 'aluno',
+        'name' => 'aluno',
+        'type' => 'hidden',
+        'size' =>'',
+        'divisao' => '',
+        'object'=> 'pessoa',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+       
+        'config' => ' value = "'.$id_aluno.'"',
+
+        'defenido'=>1,
         'placeholder'=>"",
     ),
 

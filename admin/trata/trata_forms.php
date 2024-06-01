@@ -116,7 +116,7 @@ if ($acao == 'adicionar') {
     $sql_form = rtrim($sql_form, ", ") . " WHERE id_$tabela = $id";
 
 } elseif ($acao == 'apagar') {
-    $sql_form = "UPDATE $tabela SET removed = 1 and ativo = 0 WHERE id_$tabela = $id";
+    $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE id_$tabela = $id";
 
 }elseif($acao == 'desativar'){
    
@@ -132,8 +132,9 @@ if ($acao == 'adicionar') {
     }
    
 ;
-echo $sql_form;
-die();
+
+
+
 my_query($sql_form);
 header("Location: ../../index.php");
 

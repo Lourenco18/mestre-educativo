@@ -2,6 +2,7 @@
  $id = isset($_GET['id']) ? $_GET['id'] : '';
 
  $id_modal = isset($_GET['id_modal']) ? $_GET['id_modal'] : '';
+
 //  consultas SQL para cada categoria
 global $consultas;
 $consultas = [
