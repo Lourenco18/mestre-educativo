@@ -9,7 +9,7 @@ $pass = $_GET['pass'] ?? '';
 
 ?>
 <?php
-include 'head.inc.php';
+include '../head.inc.php';
 ?>
   <body>
 

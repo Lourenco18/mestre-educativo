@@ -233,10 +233,13 @@
       <?php
          if ($especificacao == 'editar') {
            echo '<button type="submit" class="btn btn-primary me-2">Guardar Alterações</button></form>
-         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove"><i class="bx bx-trash"></i> Remover</button>';
+         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove'.$id.'"><i class="bx bx-trash"></i> Remover</button>';
          } else {
            echo '<button type="submit" class="btn btn-primary me-2">Criar</button></form>';
          }
+   
+         include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
+         include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
          
          
          
@@ -245,16 +248,79 @@
 </div>
 
 
+<div id="relacaoView" class="divisao" style="display: none;">
+  <?php
+  $arrRelacao = my_query('SELECT * FROM pessoa inner join relacao on relacao.id_relacao = pessoa.id_relacao Where pessoa.ativo = 1 and pessoa.removed = 0  and id_aluno = ' . $id . '');
+  if (count($arrRelacao) == 0) {
+    echo 'Não existem relações';
+  } else {
+  ?>
+    <div class="row row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 g-4 mb-2 ps-lg-4 pe-lg-3" style="padding: 20px;">
+      <div class="col">
+        <?php foreach ($arrRelacao as $v) {
+   
+          $tabela_modal = 'pessoa';
+         
+          $id_modal = $v['id_pessoa'];
+        ?>
+          <div class="card h-70 ps-0 py-xl-3" style="background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff'; this.style.zIndex='1';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+            <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px">
+              <h5 class="card-title"><?php echo $v['pessoa']; ?></h5>
+              <h7 class="card-title">Telefone: <?php echo $v['telefone_pessoa']; ?></h7><br>
+              <h7 class="card-title">Relação: <?php echo $v['relacao']; ?></h7>
+            </div>
+            <?php if ($_SESSION['userCargo'] == 'admin' || $_SESSION['userCargo'] == 'supra_admin') { ?>
+              <button style="margin: 3px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalForm"><i class="bx bx-pencil"></i> Editar</button>
+              <?php if ($tabela != 'colaborador' || $v['cargo'] != 'supra_admin') { ?>
+                <button style="margin: 3px;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove<?php echo $id_modal; ?>"><i class="bx bx-trash"></i> Remover</button>
+              <?php } ?>
+            <?php } ?>
+          </div>
+          <!-- Modal for removal -->
+         <?php
+         echo '
+         <div class="modal modal-mid fade" id="modalTopRemove'.$id_modal.'" tabindex="-1">
+         <div class="modal-dialog">
+           <form class="modal-content">
+             <div class="modal-header">
+         <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer apagar este ';
+         echo $tabela_modal;
+      echo $id_modal;
+         echo '?</h5>
+         <button
+           type="button"
+           class="btn-close"
+           data-bs-dismiss="modal"
+           aria-label="Close"
+         ></button>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+           Cancelar
+         </button>
+         <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_modal . '&tabela=' . $tabela_modal . '&acao=apagar&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()">Sim, quero remover</a>
+       
+         </div>
+         </form>
+       </div>
+       </div>
+       </div>  ';
+         ?>
+        <?php } ?>
+      </div>
+    </div>
+  <?php
+  }
+  ?>
+</div>
+
 <?php
 include 'separador/avaliacoesView.php'
 ?>
 <?php
 include 'separador/horarioView.php'
 ?>
-<?php
-include 'separador/relacaoView.php';
 
-?>
 
 </div>
 
