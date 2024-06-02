@@ -638,6 +638,7 @@ $id= $v['id_'.$tabela];
 
       echo '</a>';
       echo '</div>';
+      echo '</div>';
 
     }
    include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
