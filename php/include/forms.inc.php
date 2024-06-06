@@ -1,18 +1,22 @@
 <div class="container-xxl ">
    <?php
+     $pagename = $_SERVER['PHP_SELF'];
+    
+     $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : '';
+     $especificacao = isset($_GET['especificacao']) ? $_GET['especificacao'] : '';
+     $message_error = isset($_GET['message_error']) ? $_GET['message_error'] : '';
      $id = isset($_GET['id']) ? $_GET['id'] : '';
+     $tabela = rtrim($tipo, "s");
      $id_aluno = $id;
-    include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
+     $id_unico =my_query('SELECT unico, id_'.$tabela.' FROM '.$tabela.' WHERE id_'.$tabela.' = '.$id.'');
+    $id_unico = $id_unico[0]['unico'];
+      include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
       include $arrConfig['dir_admin'] . '/ajax/recive-ajax.php';
       include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
       include $arrConfig['dir_admin'] . '/forms_campos.php'; 
       
       
-      $pagename = $_SERVER['PHP_SELF'];
-    
-      $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : '';
-      $especificacao = isset($_GET['especificacao']) ? $_GET['especificacao'] : '';
-      $message_error = isset($_GET['message_error']) ? $_GET['message_error'] : '';
+
       
       
       if ($tipo == 'colaborador' || $tipo == 'professores') {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
@@ -233,6 +237,7 @@
             ?>
       </div>
       <?php
+   
          if ($especificacao == 'editar') {
            echo '<button type="submit" class="btn btn-primary me-2">Guardar Alterações</button></form>
          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove'.$id.'"><i class="bx bx-trash"></i> Remover</button>';
@@ -240,12 +245,64 @@
            echo '<button type="submit" class="btn btn-primary me-2">Criar</button></form>';
          }
    
-         include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
-         include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
+         echo '
+         <div class="modal modal-mid fade" id="modalTopDesative' . $id. '" tabindex="-1">
+         <div class="modal-dialog">
+           <form class="modal-content">
+             <div class="modal-header">
+         <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer desativar este ';
+         echo $tabela;
+         echo '?</h5>
+         <button
+           type="button"
+           class="btn-close"
+           data-bs-dismiss="modal"
+           aria-label="Close"
+         ></button>
+         </div>
+         <div class="modal-footer">
+         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+           Cancelar
+         </button>
+         <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id . '&tabela=' . $tabela . '&acao=desativar&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()">Sim, quero desativar</a>
+        
+         </div>
+         </form>
+         </div>
+         </div>
+         ';
+         echo '
+    <div class="modal modal-mid fade" id="modalTopremove'.$id.'" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content">
+        <div class="modal-header">
+    <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer apagar este ';
+    echo $tabela;
+  
+    echo '?</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+      Cancelar
+    </button>
+    <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=apagar&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()">Sim, quero remover</a>
+  
+    </div>
+    </form>
+  </div>
+  </div>
+ ';
          
          
          
-         ?>
+         
+          ?>
    </div>
 </div>
 
@@ -473,7 +530,88 @@
 </div>
 
 <?php
-include 'separador/avaliacoesView.php'
+
+include $_SERVER['DOCUMENT_ROOT'] . '/mestre-educativo/php/include/config.inc.php';
+include $arrConfig['dir_admin'].'/head.inc.php';
+$id_ciclo = 1;
+$arrDisciplinas = my_query("SELECT * from disciplina INNER JOIN ciclo on ciclo.id_ciclo = disciplina.id_ciclo WHERE disciplina.id_ciclo = $id_ciclo");
+
+// Tabela alternativa
+echo '
+
+<table id="table"  class="table table-striped " style="  
+border-collapse: collapse; width: 100%; table-layout: fixed; width: 100%;
+border-collapse: collapse; ">
+<thead>
+  <tr>';
+echo '<th> Periodos/semestres';
+//disciplinas
+echo '</th>';
+echo '<th> português';
+//disciplinas
+echo '</th>';
+echo '<th> português';
+//disciplinas
+echo '</th>';
+echo '</tr>
+</thead>
+<tbody>';
+
+
+
+echo '<tr>';
+echo '<td> 1º';
+//notas disciplinas
+echo '</td>';
+
+echo '</tr>';
+
+echo '<tr>';
+echo '<td> 2º';
+//notas disciplinas
+echo '</td>';
+
+echo '</tr>';
+
+echo '<tr>';
+echo '<td> 3º';
+//notas disciplinas
+echo '</td>';
+
+echo '</tr>';
+echo ' <tr>';
+
+  
+echo '
+  </tr>';
+
+
+
+
+echo '</tbody>
+</table>
+';
+
+?>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+<script>
+   // Inicializar a tabela DataTable
+
+
+
+
+
+   var table = $('#table').DataTable({
+      columnDefs: [
+         { targets: [0], width: '10%' },
+         //{ targets: '_all', visible: false }
+      ]
+   });
+</script>
 ?>
 <?php
 include 'separador/horarioView.php'

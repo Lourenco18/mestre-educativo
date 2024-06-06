@@ -519,6 +519,8 @@ if (array_key_exists($pagina, $consultas)) {
 
   foreach ($arrResultados as $k => $v) {
 $id= $v['id_'.$tabela];
+$id_unico =my_query('SELECT unico, id_'.$tabela.' FROM '.$tabela.' WHERE id_'.$tabela.' = '.$id.'');
+$id_unico = $id_unico[0]['unico'];
     if (count($arrResultados) == 0) {
       echo 'Não existem registos';
 

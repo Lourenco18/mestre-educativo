@@ -109,29 +109,29 @@ if ($acao == 'adicionar') {
 
 
 } elseif ($acao == 'editar') {
-    $sql_form = "UPDATE $tabela SET ";
-    foreach ($dados as $coluna => $valor) {
-        $sql_form .= "$coluna = '$valor', ";
-    }
-    $sql_form = rtrim($sql_form, ", ") . " WHERE id_$tabela = $id";
+    $tabela = rtrim($tabela, "s");
+    $sql_form = "INSERT INTO $tabela ($campos) VALUES (" . implode(", ", array_map(function ($value) {
+        return "'$value'";
+    }, $dados)) . ")";
 
 } elseif ($acao == 'apagar') {
-    $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE id_$tabela = $id";
+    $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE unico = $id";
 
 }elseif($acao == 'desativar'){
    
-        $sql_form = "UPDATE $tabela SET ativo = 0 WHERE id_$tabela = $id";
+        $sql_form = "UPDATE $tabela SET ativo = 0 WHERE unico = $id";
     
     
 }elseif($acao == 'ativar'){
     if ($tabela == 'nota') {
         $sql_form = "UPDATE $tabela SET id_status = 1 WHERE id_nota = $id";
     } else{
-        $sql_form = "UPDATE $tabela SET ativo = 1 WHERE id_$tabela = $id";
+        $sql_form = "UPDATE $tabela SET ativo = 1 WHERE unico = $id";
     }
     }
    
 ;
+
 
 
 
