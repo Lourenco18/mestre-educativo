@@ -8,6 +8,7 @@ global $consultas;
 $consultas = [
     'aluno' => 'WITH AlunoRecente AS (
       SELECT 
+      aluno.foto_aluno,
       aluno.id_aluno,
         aluno.aluno,
           aluno.unico,
@@ -24,6 +25,7 @@ $consultas = [
           aluno.ativo = 1
   )
   SELECT 
+  ar.foto_aluno,
   ar.id_aluno,
   ar.aluno,
       ar.unico,
@@ -55,6 +57,7 @@ $consultas = [
     'myaluno' => 'SELECT * FROM aluno INNER JOIN turma on aluno.id_turma = turma.id_turma INNER JOIN escola on aluno.id_escola = escola.id_escola INNER JOIN colaborador ON aluno.id_orientador = colaborador.id_colaborador INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.id_encarregadoeducacao INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao WHERE colaborador.orientador = 1 AND colaborador.ativo = 1 AND aluno.ativo = 1 AND encarregadoeducacao.ativo = 1 and aluno.id_orientador = ' . $_SESSION['userID'] . '',
     'alunoinative' => 'WITH AlunoRecente AS (
       SELECT 
+      aluno.foto_aluno,
       aluno.id_aluno,
         aluno.aluno,
           aluno.unico,
@@ -71,6 +74,7 @@ $consultas = [
           aluno.ativo = 0 and aluno.removed = 0
   )
   SELECT 
+  ar.foto_aluno,
   ar.id_aluno,
   ar.aluno,
       ar.unico,

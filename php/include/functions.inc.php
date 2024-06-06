@@ -176,5 +176,23 @@ function gerar_upload($src, $buttonMsg, $type ){
     ';
 }
 
+function mostrarFoto($verf_foto, $arrResultados,$k, $tabela){
+    include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
+    if ($verf_foto) {
+        $foto = $arrResultados[$k]['foto_' . $tabela];
+        include $arrConfig['dir_admin'] . '/fotos.inc.php';
+        echo ' <td><img class="icons"  src="' . $src . ' height="100" width="100"></td>';
+      }else{
+        $foto= '';
+      }
+}
+
+function unicooperacao($tabela){
+    for ($x = 1; $x <= count(my_query('SELECT '.$tabela.' from '.$tabela.'')); $x++) {
+        my_query('UPDATE '.$tabela.' SET unico = '.$x.' WHERE id_'.$tabela. '= '.$x.'');
+    }
+  
+};
+
 
 
