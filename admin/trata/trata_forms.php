@@ -124,14 +124,13 @@ if ($acao == 'adicionar') {
     
 }elseif($acao == 'ativar'){
     if ($tabela == 'nota') {
-        $sql_form = "UPDATE $tabela SET id_status = 1 WHERE id_nota = $id";
+        $sql_form = "UPDATE $tabela SET id_status = 1 WHERE unico = $id";
     } else{
         $sql_form = "UPDATE $tabela SET ativo = 1 WHERE unico = $id";
     }
     }
    
 ;
-
 
 
 

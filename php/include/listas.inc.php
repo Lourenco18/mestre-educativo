@@ -105,7 +105,14 @@ $id_unico = $id_unico[0]['unico'];
       }
       // Exibir a foto, se existir
 
-       mostrarFoto($verf_foto, $arrResultados,$k, $tabela);
+    
+      if ($verf_foto) {
+          $foto = $arrResultados[$k]['foto_' . $tabela];
+          include $arrConfig['dir_admin'] . '/fotos.inc.php';
+          echo ' <td><img class="icons"  src="' . $src . ' height="100" width="100"></td>';
+        }else{
+          $foto= '';
+        }
 
 
 

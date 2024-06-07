@@ -1,13 +1,17 @@
 <?php
-$id_unico = my_query("SELECT MAX(unico) FROM $tabela");
-$id_unico = $id_unico[0]['MAX(unico)'] + 1;
-$tables = array(
-    'aluno', 'ano', 'cargo', 'ciclo', 'colaborador', 'conjunto', 'disciplina', 
-    'encarregadoeducacao', 'escola', 'especialidade', 'evento', 'formacao', 
-    'genero', 'localidade', 'log', 'login', 'nivel', 'nota', 'operacao', 
-    'permissao', 'pessoa', 'relacao', 'servico', 'servico-aluno', 'statu', 
-    'transporte', 'turma'
-);
+if(isset($tabela)){
+    $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
+    $id_unico = $id_unico[0]['MAX(unico)'] + 1;
+}else{
+$id_unico = 0;
+}
+if(isset($id_aluno)){
+
+}else{
+    $id_aluno = 0;
+}
+
+
 $GLOBALS['campos'] = array(
     array(
         
@@ -530,6 +534,20 @@ $GLOBALS['campos'] = array(
         'size' => 'mb-3 col-md-3',
         'divisao' => '',
         'object' => 'conjunto',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => ' value = "'.$id_unico.'"',
+        'placeholder'=>"",
+    ),
+    array(
+        'label' => '',
+        'id' => 'nota',
+        'name' => 'unico',
+        'type' => 'hidden',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => '',
+        'object' => 'nota',
         'min' => '',
         'maxlength' => '',
         'max' => '',

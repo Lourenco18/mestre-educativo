@@ -64,7 +64,7 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
 
 <div class="modal modal-mid fade" id="modalnotes" tabindex="-1">
   <div class="modal-dialog">
-    <form class="modal-content" action="<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id; ?>&tabela=nota&acao=adicionar" method="POST" enctype="multipart/form-data">
+    <form class="modal-content" action="<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id_unico; ?>&tabela=nota&acao=adicionar" method="POST" enctype="multipart/form-data">
       <div class="modal-header">
         <h5 class="modal-title" id="modalTopTitle">Notas</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -74,7 +74,8 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
           <?php if (count($arrNotas) == 0): ?>
             <h2>Não existem notas</h2>
           <?php else: ?>
-            <?php foreach ($arrNotas as $v): ?>
+            <?php foreach ($arrNotas as $v): $id= $v['id_nota'];$id_unico = my_query("SELECT id_nota, unico from nota where id_nota = $id"); $id_unico = $id_unico[0]['unico'];?>
+
               <div class="card">
                 <div class="card-body">
                   <div class="card-bar" style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background-color: <?php echo $v['cor_statu']; ?>"></div>
@@ -84,11 +85,11 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
                   <h7 class="card-text">Data da nota: <?php echo $v['data']; ?></h7>
                   <div class="card-buttons" style="margin-top: 4px;">
                     <?php if ($v['id_statu'] == 2): ?>
-                      <button class="btn btn-primary" type="button" style="background-color: green; border-color: green;" title="Visto" onclick="window.location.href = '<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?acao=ativar&tabela=nota&id=<?php echo $v['id_nota']; ?>';">
+                      <button class="btn btn-primary" type="button" style="background-color: green; border-color: green;" title="Visto" onclick="window.location.href = '<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?acao=ativar&tabela=nota&id=<?php echo $id_unico; ?>';">
                         <i class="bx bx-check"></i>
                       </button>
                     <?php endif; ?>
-                    <button class="btn btn-primary" type="button" style="background-color: orange; border-color: orange;" title="Visto" onclick="window.location.href = '<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?acao=apagar&tabela=nota&id=<?php echo $v['id_nota']; ?>';">
+                    <button class="btn btn-primary" type="button" style="background-color: orange; border-color: orange;" title="Remover" onclick="window.location.href = '<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?acao=apagar&tabela=nota&id=<?php echo $id_unico; ?>';">
                       <i class="bx bx-trash"></i>
                     </button>
                   </div>
