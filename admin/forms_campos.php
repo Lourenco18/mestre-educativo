@@ -1,9 +1,11 @@
 <?php
-if(isset($tabela)){
-    $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
-    $id_unico = $id_unico[0]['MAX(unico)'] + 1;
-}else{
-$id_unico = 0;
+if(isset($id_unico)){}else{
+    if(isset($tabela)){
+        $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
+        $id_unico = $id_unico[0]['MAX(unico)'] + 1;
+    }else{
+    $id_unico = 0;
+    }
 }
 if(isset($id_aluno)){
 
@@ -40,20 +42,33 @@ $GLOBALS['campos'] = array(
         'config' => '',
         'placeholder'=>"Nome completo do aluno",
     ),
-    
-   array(
-        'label' => 'Número do cartão de cidadão ',
-        'id' => 'cc',
-        'name' => 'cc_aluno',
-        'type' => 'number',
+    array(
+        'label' => 'Nacionalidade',
+        'id' => 'nacionalidade',
+        'name' => 'nacionalidade',
+        'type' => 'combobox',
         'size' =>'mb-3 col-md-3',
         'divisao' => 'Informações Pessoais',
         'object'=> 'aluno',
         'min'=> '',
-        'maxlength'=>'9',
+        'maxlength'=>'',
         'max'=> '',
         'config' => '',
-        'placeholder'=>"Número do Cartão de Cidadão",
+        'placeholder'=>"",
+    ),
+   array(
+        'label' => 'Número do cartão de cidadão ',
+        'id' => 'cc',
+        'name' => 'cc_aluno',
+        'type' => 'text',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'aluno',
+        'min'=> '',
+        'maxlength'=>'15',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"10890919-7-ZY3",
     ),
     array(
         'label' => 'Número de contribuinte (NIF)',
@@ -78,10 +93,24 @@ $GLOBALS['campos'] = array(
         'divisao' => 'Informações Pessoais',
         'object'=> 'aluno',
         'min'=> '',
-        'maxlength'=>'',
+        'maxlength'=>'11',
         'max'=> '',
         'config' => '',
         'placeholder'=>"Numero da segurança social",
+    ),
+    array(
+        'label' => 'Número de Indentificação (Caso Estrangeiro)',
+        'id' => 'ni',
+        'name' => 'ni_aluno',
+        'type' => 'number',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'aluno',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Número de Indentificação ",
     ),
     array(
         'label' => 'Número de Telefone',
