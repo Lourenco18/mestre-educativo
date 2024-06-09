@@ -1,11 +1,10 @@
 <?php
-if(isset($id_unico)){}else{
-    if(isset($tabela)){
-        $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
-        $id_unico = $id_unico[0]['MAX(unico)'] + 1;
-    }else{
-    $id_unico = 0;
-    }
+if($especificacao == 'adicionar'){
+    $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
+    $id_unico = $id_unico[0]['MAX(unico)'] + 1;
+   
+}else{
+    
 }
 if(isset($id_aluno)){
 
@@ -13,7 +12,13 @@ if(isset($id_aluno)){
     $id_aluno = 0;
 }
 
+if(isset($id_unico_aluno)){
 
+}else{
+    $id_unico_aluno = 0;
+}
+
+ 
 $GLOBALS['campos'] = array(
     array(
         
@@ -51,7 +56,7 @@ $GLOBALS['campos'] = array(
         'divisao' => 'Informações Pessoais',
         'object'=> 'aluno',
         'min'=> '',
-        'maxlength'=>'',
+    'maxlength'=>'',
         'max'=> '',
         'config' => '',
         'placeholder'=>"",
@@ -475,11 +480,12 @@ $GLOBALS['campos'] = array(
         'maxlength'=>'',
         'max'=> '',
        
-        'config' => ' value = "'.$id_aluno.'"',
+        'config' => ' value = "'.$id_unico_aluno.'"',
 
         'defenido'=>1,
         'placeholder'=>"",
     ),
+    
     array(
         'label' => '',
         'id' => 'aluno',
@@ -492,6 +498,20 @@ $GLOBALS['campos'] = array(
         'maxlength' => '',
         'max' => '',
         'config' => ' value = "'.$id_unico.'"',
+        'placeholder'=>"",
+    ),
+    array(
+        'label' => '',
+        'id' => 'pessoa',
+        'name' => 'unico',
+        'type' => 'hidden',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => '',
+        'object' => 'pessoa',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => ' value = "'.$id_unico_pessoa.'"',
         'placeholder'=>"",
     ),
     
@@ -766,20 +786,6 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
     
-    array(
-        'label' => '',
-        'id' => 'pessoa',
-        'name' => 'unico',
-        'type' => 'hidden',
-        'size' => 'mb-3 col-md-3',
-        'divisao' => '',
-        'object' => 'pessoa',
-        'min' => '',
-        'maxlength' => '',
-        'max' => '',
-        'config' => ' value = "'.$id_unico.'"',
-        'placeholder'=>"",
-    ),
     
     array(
         'label' => '',

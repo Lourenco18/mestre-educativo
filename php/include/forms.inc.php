@@ -1,3 +1,5 @@
+
+
 <div class="container-xxl ">
   <?php
   $pagename = $_SERVER['PHP_SELF'];
@@ -10,14 +12,19 @@
   $id_aluno = $id;
   $id_unico = my_query('SELECT unico, id_' . $tabela . ' FROM ' . $tabela . ' WHERE id_' . $tabela . ' = ' . $id . '');
   $id_unico = $id_unico[0]['unico'];
+  $id_unico_aluno = $id_unico;
   include $_SERVER['DOCUMENT_ROOT'] . '/mestre-educativo/php/include/config.inc.php';
+
+ 
   include $arrConfig['dir_admin'] . '/ajax/recive-ajax.php';
+
+ 
   include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
+
+ 
   include $arrConfig['dir_admin'] . '/forms_campos.php';
 
-
-
-
+ 
 
   if ($tipo == 'colaborador' || $tipo == 'professores') {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
     $arrResultados = my_query('SELECT * FROM colaborador WHERE ativo = 1');
@@ -320,7 +327,7 @@
         ?>
         <div class="card h-70 ps-0 py-xl-3" style="background-color: white; transition: all 0.3s ease;"
           onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff\'; this.style.zIndex=\'1\';"
-          onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
+          onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\'">
           <div class="card-body" style="text-align: center;height: 231.599258px;  margin-left: 0px">
             <h5 class="card-title">Adicionar Relação</h5>
             <img class="icons" src="'.$arrConfig['url_imjs_upload'].'/icons/'.$v['foto_operacao'].'" alt=""
@@ -340,7 +347,8 @@
           </div>
           <div class="modal-body" style="max-height: 800px; overflow-y: auto;">
             <?php
-
+            $id_unico_pessoa = my_query("SELECT MAX(unico) FROM pessoa");
+            $id_unico_pessoa = $id_unico_pessoa[0]['MAX(unico)'] + 1;
             include $arrConfig['dir_admin'] . '/forms_campos.php'; //vai buscar a array dos campos do formulário
             
 
@@ -385,7 +393,7 @@
                   echo '</select>';
                 } else {
                   $value = $especificacao == 'editar' ? $arrResultados[0][$name] : '';
-                  echo '<input placeholder="' . $placeholder . '" ' . $config . ' required type="' . $type . '" max="' . $max . '" min="' . $min . '" class="form-control" id="' . $id_campo . '" name="' . $name . '" value="' . $value . '"/>';
+                  echo '<input placeholder="' . $placeholder . '" ' . $config . ' required type="' . $type . '" max="' . $max . '" min="' . $min . '" class="form-control" id="' . $id_campo . '" name="' . $name . '" value="' . $value . '" oninput ="trata(this)"/>';
                 }
                 echo '</div>';
               }
@@ -400,20 +408,47 @@
       </div>
     </div>
     <?php
-    $arrRelacao = my_query('SELECT * FROM pessoa inner join relacao on relacao.id_relacao = pessoa.id_relacao Where pessoa.ativo = 1 and pessoa.removed = 0  and id_aluno = ' . $id . '');
+   
+   $arrRelacao = my_query('
+    SELECT 
+        pessoa.id_aluno, 
+        pessoa.data,
+        pessoa.pessoa, 
+        pessoa.telefone_pessoa, 
+        pessoa.unico AS unico_pessoa, 
+        relacao.relacao 
+    FROM 
+        pessoa 
+    INNER JOIN 
+        relacao 
+    ON 
+        relacao.id_relacao = pessoa.id_relacao 
+    WHERE 
+        pessoa.ativo = 1 
+        AND pessoa.removed = 0 
+        AND pessoa.id_aluno = ' . $id_unico_aluno . ' 
+        AND pessoa.data = (
+            SELECT MAX(p2.data)
+            FROM pessoa p2
+            WHERE p2.unico = pessoa.unico
+        )
+');
+
     if (count($arrRelacao) == 0) {
       echo 'Não existem relações';
     } else {
       ?>
-
-
-
-
       <?php foreach ($arrRelacao as $v) {
+
 
         $tabela_modal = 'pessoa';
         $especificacao = 'editar';
-        $id_modal = $v['id_pessoa'];
+        $id_modal = $v['unico_pessoa'];
+        $id_unico_pessoa = $v['unico_pessoa'];
+      
+        
+        include $arrConfig['dir_admin'] . '/forms_campos.php';
+    
         ?>
         <div class="card h-70 ps-0 py-xl-3" style="background-color: white; transition: all 0.3s ease;"
           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff'; this.style.zIndex='1';"
@@ -432,6 +467,9 @@
             <?php } ?>
           <?php } ?>
         </div>
+        
+        
+        
         <!-- Modal for removal -->
         <?php
         echo '
@@ -463,6 +501,7 @@
        </div>  ';
         //modal form
         ?>
+        
         <div class="modal modal-mid fade" id="modalForm<?php echo $id_modal; ?>" tabindex="-1">
           <div class="modal-dialog">
             <form class="modal-content"
@@ -478,7 +517,7 @@
                 include $arrConfig['dir_admin'] . '/forms_campos.php'; //vai buscar a array dos campos do formulário
                 $tipo = $tabela_modal;
 
-                $arrResultados = my_query('SELECT * FROM ' . $tabela_modal . ' WHERE id_' . $tabela_modal . ' = ' . $id_modal);
+                $arrResultados = my_query('SELECT * FROM ' . $tabela_modal . ' WHERE unico = ' . $id_modal);
 
                 foreach ($campos as $campo) {
                   if ($campo['object'] == $tipo) {
@@ -534,8 +573,10 @@
             </form>
           </div>
         </div>
-
+        </div>
+     
       <?php } ?>
+     
     </div>
   </div>
   <?php

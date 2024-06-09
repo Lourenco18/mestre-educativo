@@ -103,7 +103,7 @@ include_once 'functions.inc.php';
 include_once 'db.inc.php'; 
 include_once $arrConfig['dir_admin'].'/permissoes/config_permition.php'; 
 
-
+$arrConfig['anoLetivo']= my_query("SELECT * from anoletivo where ativo=1 ");
 
 
 

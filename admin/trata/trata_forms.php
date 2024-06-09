@@ -82,6 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Now $dados contains the appropriate data for the selected table
+
+
     $campos = ''; // Inicializa a variável que vai armazenar os campos
     $count = 0;
     foreach ($dados as $coluna => $valor) {
@@ -91,6 +93,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $campos .= $coluna; // Adiciona o nome da coluna
         $count++;
     }
+
+
+
 }
 ;
 
