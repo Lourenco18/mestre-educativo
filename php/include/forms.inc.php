@@ -3,19 +3,24 @@
 <div class="container-xxl ">
   <?php
   $pagename = $_SERVER['PHP_SELF'];
-
+unicooperacao( 'nacionalidade');
   $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : '';
   $especificacao = isset($_GET['especificacao']) ? $_GET['especificacao'] : '';
   $message_error = isset($_GET['message_error']) ? $_GET['message_error'] : '';
   $id = isset($_GET['id']) ? $_GET['id'] : '';
   $tabela = rtrim($tipo, "s");
   $id_aluno = $id;
-  $id_unico = my_query('SELECT unico, id_' . $tabela . ' FROM ' . $tabela . ' WHERE id_' . $tabela . ' = ' . $id . '');
-  $id_unico = $id_unico[0]['unico'];
+  if($especificacao == 'editar'){
+    $sqlUnico = "SELECT unico, id_$tabela from $tabela where id_$tabela = $id";
+    $arrisunico = my_query($sqlUnico);
+    $id_unico = $arrisunico [0]['unico'];
+  }
+
   $id_unico_aluno = $id_unico;
+  
   include $_SERVER['DOCUMENT_ROOT'] . '/mestre-educativo/php/include/config.inc.php';
 
- 
+
   include $arrConfig['dir_admin'] . '/ajax/recive-ajax.php';
 
  
@@ -23,7 +28,7 @@
 
  
   include $arrConfig['dir_admin'] . '/forms_campos.php';
-
+ 
  
 
   if ($tipo == 'colaborador' || $tipo == 'professores') {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
@@ -85,10 +90,10 @@
 
     }
 
-    if ($especificacao == "editar") {
+    if ($especificacao == "editar" && isset($arrResultados[$k]['foto_' . $tabela])) {
 
       foreach ($arrResultados as $k => $v) {
-        $foto = $arrResultados[$k]['foto_' . $tabela];
+        $foto = isset($arrResultados[$k]['foto_' . $tabela]);
 
       }
       include $arrConfig['dir_admin'] . '/fotos.inc.php';
@@ -118,7 +123,7 @@
               <div class="card mb-3 px-md-4 ps-0" style="background-color: white">
               <div id="personView" style="display: block;">';
 
-    echo gerar_upload($src, $buttonMsg, 'image');
+   if(isset($arrResultados[$k]['foto_' . $tabela])) {echo gerar_upload($src, $buttonMsg, 'image');}
 
 
 
@@ -130,7 +135,7 @@
         <?php
         $divisao1 = '';// variável que identifica a divisão do formulário
         
-
+      
         // precorre os campos do formulário
         foreach ($campos as $campos) {
 
@@ -194,10 +199,10 @@
 
               foreach ($arrtable as $k => $v) {
                 $selected = "";
-                if ($id_Selected == $v['id_' . $id_campo]) {
+                if ($id_Selected == $v['unico']) {
                   $selected = 'selected="selected" ';
                 }
-                echo '<option ' . $selected . ' value="' . $v['id_' . $id_campo] . '">' . $v[$id_campo] . '</option>';
+                echo '<option ' . $selected . ' value="' . $v['unico'] . '">' . $v[$id_campo] . ' '.$id_Selected.'</option>';
               }
               echo '</select>';
 
@@ -411,6 +416,7 @@
    
    $arrRelacao = my_query('
     SELECT 
+    pessoa.id_pessoa,
         pessoa.id_aluno, 
         pessoa.data,
         pessoa.pessoa, 
@@ -443,7 +449,7 @@
 
         $tabela_modal = 'pessoa';
         $especificacao = 'editar';
-        $id_modal = $v['unico_pessoa'];
+        $id_modal = $v['id_pessoa'];
         $id_unico_pessoa = $v['unico_pessoa'];
       
         
@@ -463,7 +469,7 @@
               data-bs-target="#modalForm<?php echo $id_modal; ?>"><i class="bx bx-pencil"></i> Editar</button>
             <?php if ($tabela != 'colaborador' || $v['cargo'] != 'supra_admin') { ?>
               <button style="margin: 3px;" type="button" class="btn btn-danger" data-bs-toggle="modal"
-                data-bs-target="#modalTopRemove<?php echo $id_modal; ?>"><i class="bx bx-trash"></i> Remover</button>
+                data-bs-target="#modalTopRemove<?php echo $id_unico_pessoa; ?>"><i class="bx bx-trash"></i> Remover</button>
             <?php } ?>
           <?php } ?>
         </div>
@@ -473,12 +479,11 @@
         <!-- Modal for removal -->
         <?php
         echo '
-         <div class="modal modal-mid fade" id="modalTopRemove' . $id_modal . '" tabindex="-1">
+         <div class="modal modal-mid fade" id="modalTopRemove' . $id_unico_pessoa . '" tabindex="-1">
          <div class="modal-dialog">
            <form class="modal-content">
              <div class="modal-header">
          <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer apagar este ';
-        echo $tabela_modal;
 
         echo '?</h5>
          <button
@@ -492,7 +497,7 @@
          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
            Cancelar
          </button>
-         <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_modal . '&tabela=' . $tabela_modal . '&acao=apagar&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()">Sim, quero remover</a>
+         <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico_pessoa . '&tabela=' . $tabela_modal . '&acao=apagar&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()">Sim, quero remover</a>
        
          </div>
          </form>
@@ -517,7 +522,9 @@
                 include $arrConfig['dir_admin'] . '/forms_campos.php'; //vai buscar a array dos campos do formulário
                 $tipo = $tabela_modal;
 
-                $arrResultados = my_query('SELECT * FROM ' . $tabela_modal . ' WHERE unico = ' . $id_modal);
+                $arrResultados = my_query('SELECT * FROM ' . $tabela_modal . ' WHERE unico = ' . $id_unico_pessoa . ' ORDER BY data DESC LIMIT 1');
+
+
 
                 foreach ($campos as $campo) {
                   if ($campo['object'] == $tipo) {
@@ -573,7 +580,7 @@
             </form>
           </div>
         </div>
-        </div>
+       
      
       <?php } ?>
      

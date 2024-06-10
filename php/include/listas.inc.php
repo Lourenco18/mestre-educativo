@@ -9,7 +9,7 @@ $tipo = $pagina;
   // Definir a categoria removendo o último "s" da palavra
   $tabela = rtrim($pagina, "s");
 
-
+  unicooperacao('relacao');
 
 include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
 include $arrConfig['dir_admin'] . '/information/detail-information.inc.php';
@@ -181,10 +181,8 @@ echo '</div>';
 
 // Tabela alternativa
 echo '
-<div id="tableView" style="display: none; text-align: center; padding-left: 0px;">
-<table id="table"  class="table table-striped " style="  
-border-collapse: collapse; width: 100%; table-layout: fixed; width: 100%;
-border-collapse: collapse; ">
+    <div id="tableView" style="display: none; ">
+<table id="table"  class="table table-striped " style=" padding:24px; width:100%">
 <thead>
   <tr>';
 if ($verf_foto) {
@@ -254,7 +252,7 @@ foreach ($arrResultados as $k => $v) {
     echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary" title="Editar"><i class="bx bx-pencil"></i></a>';
     if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
     } else {
-      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove'.$v['id_'.$tabela].'" title="Remover"><i class="bx bx-trash"></i></button>';
+      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove'.$v['id_'.$tabela].'" title="Remover"><i class="bx bx-trash"></i></button>';
     }
 
     if ($display == 'Alunos Inativos') {

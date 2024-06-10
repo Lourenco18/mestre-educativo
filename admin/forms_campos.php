@@ -1,25 +1,385 @@
 <?php
-if($especificacao == 'adicionar'){
+if(isset($especificacao) && $especificacao == 'adicionar'){
     $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
     $id_unico = $id_unico[0]['MAX(unico)'] + 1;
+ 
    
 }else{
-    
+
 }
 if(isset($id_aluno)){
 
 }else{
     $id_aluno = 0;
-}
+};     
 
 if(isset($id_unico_aluno)){
 
 }else{
     $id_unico_aluno = 0;
 }
+if(isset($id_unico_pessoa)){
 
+}else{
+    $id_unico_pessoa = 0;
+}
  
 $GLOBALS['campos'] = array(
+   
+    array(
+        'label' => 'Nome do encarregadoeducacao',
+        'id' => 'name',
+        'name' => 'encarregadoeducacao',
+        'type' => 'text',
+        'divisao' => 'Informações Pessoais',
+        'size' =>'mb-3 col-md-3',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Nome completo do Encarregado de Educação",
+    ),
+    array(
+        'label' => 'Nacionalidade',
+        'id' => 'nacionalidade',
+        'name' => 'nacionalidade',
+        'type' => 'combobox',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+    'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+   array(
+        'label' => 'Número do cartão de cidadão ',
+        'id' => 'cc',
+        'name' => 'cc_encarregadoeducacao',
+        'type' => 'text',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+        'maxlength'=>'15',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"10890919-7-ZY3",
+    ),
+    array(
+        'label' => 'Número de contribuinte (NIF)',
+        'id' => 'nif',
+        'name' => 'nif_encarregadoeducacao',
+        'type' => 'text',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+        'maxlength'=>'9',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Número de Contribuinte",
+    ),
+    array(
+        'label' => 'Número de Indentificação (Caso Estrangeiro)',
+        'id' => 'nif',
+        'name' => 'nif_encarregadoeducacao',
+        'type' => 'number',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Número de Indentificação ",
+    ),
+    array(
+        'label' => 'Número de Telefone',
+        'id' => 'telefone',
+        'name' => 'telefone_encarregadoeducacao',
+        'type' => 'number',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+      
+        'max'=> '',
+        'config' => 'pattern="[0-9]{9}"',
+        'placeholder'=>"123 456 789",
+    ),
+    array(
+        'label' => 'Email do encarregadoeducacao',
+        'id' => 'email',
+        'name' => 'email_encarregadoeducacao',
+        'type' => 'email',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object' => 'encarregadoeducacao',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => '',
+        'placeholder'=>"encarregadoeducacao@gmail.com",
+    ),
+
+    array(
+        'label' => 'Data de Nascimento ',
+        'id' => 'date',
+        'name' => 'data_nascimento_encarregadoeducacao',
+        'type' => 'date',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> date('Y-m-d', strtotime('-100 years')),
+        'maxlength'=>'',
+        'max'=> date('Y-m-d', strtotime('-18 years')),
+        'config' => '',
+        'placeholder'=>"",
+    ),
+
+    array(
+        'label' => 'Género',
+        'id' => 'genero',
+        'name' => 'genero',
+        'type' => 'combobox',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+    array(
+        'label' => 'Localidade',
+        'id' => 'localidade',
+        'name' => 'localidade',
+        'type' => 'combobox',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+   
+  
+    array(
+        'label' => 'Relação com o Educando',
+        'id' => 'relacao',
+        'name' => 'relacao',
+        'type' => 'combobox',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+   
+  
+    array(
+        'label' => 'Morada',
+        'id' => 'address',
+        'name' => 'morada_encarregadoeducacao',
+        'type' => 'text',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object' => 'encarregadoeducacao',
+        'min' => '',
+        'maxlength' => '100',
+        'max' => '',
+        'config' => '',
+        'placeholder'=>"Rua xxxxx, Nº xxx",
+    ),
+
+    array(
+        'label' => '',
+        'id' => 'encarregadoeducacao',
+        'name' => 'unico',
+        'type' => 'text',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => '',
+        'object' => 'encarregadoeducacao',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => ' value = "'.$id_unico.'"',
+        'placeholder'=>"",
+    ),
+
+
+
+
+
+
+
+
+    //turma
+    array(
+        'label' => 'Turma',
+        'id' => 'turma',
+        'name' => 'turma',
+        'type' => 'text',
+        'divisao' => 'Informações Pessoais',
+        'size' =>'mb-3 col-md-3',
+        'object'=> 'turma',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Nome da turma",
+    ),
+    array(
+        'label' => 'Escola',
+        'id' => 'escola',
+        'name' => 'escola',
+        'type' => 'combobox',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'turma',
+        'min'=> '',
+    'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+    array(
+        'label' => 'Ano',
+        'id' => 'ano',
+        'name' => 'ano',
+        'type' => 'combobox',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'turma',
+        'min'=> '',
+    'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+    array(
+        'label' => '',
+        'id' => 'turma',
+        'name' => 'unico',
+        'type' => 'hidden',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => '',
+        'object' => 'turma',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => ' value = "'.$id_unico.'"',
+        'placeholder'=>"",
+    ),
+
+
+
+    //escola
+    array(
+        'label' => 'Escola',
+        'id' => 'escola',
+        'name' => 'escola',
+        'type' => 'text',
+        'divisao' => 'Informações Pessoais',
+        'size' =>'mb-3 col-md-3',
+        'object'=> 'escola',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Nome da escola",
+    ),
+    array(
+        'label' => 'Código Postal',
+        'id' => 'postal_code',
+        'name' => 'cod_postal_escola',
+        'type' => 'text',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object' => 'escola',
+        'min' => '',
+        'maxlength' => '8',
+        'max' => '',
+        'config' => 'pattern="[0-9]{4}-[0-9]{3}"',
+        'placeholder'=>"xxxx-xxx",
+        
+    ),
+    array(
+        'label' => 'Morada',
+        'id' => 'address',
+        'name' => 'morada_escola',
+        'type' => 'text',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object' => 'escola',
+        'min' => '',
+        'maxlength' => '100',
+        'max' => '',
+        'config' => '',
+        'placeholder'=>"Rua xxxxx, Nº xxx",
+    ),
+    array(
+        'label' => 'Email da escola',
+        'id' => 'email',
+        'name' => 'email_escola',
+        'type' => 'email',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object' => 'escola',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => '',
+        'placeholder'=>"escola@gmail.com",
+    ),
+    array(
+        'label' => 'Número de Telefone',
+        'id' => 'telefone',
+        'name' => 'telefone_escola',
+        'type' => 'number',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'escola',
+        'min'=> '',
+      
+        'max'=> '',
+        'config' => 'pattern="[0-9]{9}"',
+        'placeholder'=>"123 456 789",
+    ),
+    array(
+        
+        'id' => 'foto',
+        'name' => 'foto_escola',
+        'type' => 'hidden',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'escola',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        
+    ),
+
+
+  
+
+
+
+
+
+
+
+
+    //alunos
     array(
         
         'id' => 'foto',
@@ -247,17 +607,14 @@ $GLOBALS['campos'] = array(
         'id' => 'escola',
         'name' => 'escola',
         'type' => 'combobox',
-        'ajax' => array(
-                        'file' =>'escola_turmas',
-                        'div' => 'escola_turmas'
-                        ),
+   
         'size' => 'mb-3 col-md-3',
         'divisao' => 'Informações Escolares',
         'object' => 'aluno',
         'min' => '',
         'maxlength' => '',
         'max' => '',
-        'config' => 'onchange="id_selected("escola")"',
+        'config' => '',
         'placeholder'=>"",
     ),
   
@@ -275,6 +632,11 @@ $GLOBALS['campos'] = array(
         'config' => '',
         'placeholder'=>"",
     ),
+    
+
+
+
+
     
     //colaboradores
     array(
@@ -504,7 +866,7 @@ $GLOBALS['campos'] = array(
         'label' => '',
         'id' => 'pessoa',
         'name' => 'unico',
-        'type' => 'hidden',
+        'type' => 'text',
         'size' => 'mb-3 col-md-3',
         'divisao' => '',
         'object' => 'pessoa',
@@ -619,20 +981,7 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
     
-    array(
-        'label' => '',
-        'id' => 'encarregadoeducacao',
-        'name' => 'unico',
-        'type' => 'hidden',
-        'size' => 'mb-3 col-md-3',
-        'divisao' => '',
-        'object' => 'encarregadoeducacao',
-        'min' => '',
-        'maxlength' => '',
-        'max' => '',
-        'config' => ' value = "'.$id_unico.'"',
-        'placeholder'=>"",
-    ),
+   
     
     array(
         'label' => '',

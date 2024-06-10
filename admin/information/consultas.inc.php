@@ -6,54 +6,205 @@
 global $consultas;
 $consultas = [
     'aluno' => 'WITH AlunoRecente AS (
-      SELECT 
-      aluno.foto_aluno,
-      aluno.id_aluno,
+    SELECT 
+        aluno.foto_aluno,
+        aluno.id_aluno,
         aluno.aluno,
-          aluno.unico,
-          aluno.id_turma,
-          aluno.id_escola,
-          aluno.id_orientador,
-          aluno.id_encarregadoeducacao,
-          aluno.data,
-          aluno.ativo,
-          ROW_NUMBER() OVER (PARTITION BY aluno.unico ORDER BY aluno.data DESC) AS rn
-      FROM 
-          aluno
-      WHERE
-          aluno.ativo = 1
-  )
-  SELECT 
-  ar.foto_aluno,
-  ar.id_aluno,
-  ar.aluno,
-      ar.unico,
-      ar.id_turma,
-      ar.id_escola,
-      ar.id_orientador,
-      ar.id_encarregadoeducacao,
-      ar.data,
-      ar.ativo,
-      turma.*,
-      escola.*,
-      colaborador.*,
-      encarregadoeducacao.*,
-      relacao.*
-  FROM 
-      AlunoRecente ar
-  INNER JOIN 
-      turma ON ar.id_turma = turma.id_turma
-  INNER JOIN 
-      escola ON ar.id_escola = escola.id_escola
-  INNER JOIN 
-      colaborador ON ar.id_orientador = colaborador.id_colaborador
-  INNER JOIN 
-      encarregadoeducacao ON ar.id_encarregadoeducacao = encarregadoeducacao.id_encarregadoeducacao
-  INNER JOIN 
-      relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao
-  WHERE 
-      ar.rn = 1;',
-    'myaluno' => 'SELECT * FROM aluno INNER JOIN turma on aluno.id_turma = turma.id_turma INNER JOIN escola on aluno.id_escola = escola.id_escola INNER JOIN colaborador ON aluno.id_orientador = colaborador.id_colaborador INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.id_encarregadoeducacao INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao WHERE colaborador.orientador = 1 AND colaborador.ativo = 1 AND aluno.ativo = 1 AND encarregadoeducacao.ativo = 1 and aluno.id_orientador = ' . $_SESSION['userID'] . '',
+        aluno.unico,
+        aluno.id_turma,
+        aluno.id_escola,
+        aluno.id_orientador,
+        aluno.id_encarregadoeducacao,
+        aluno.data,
+        aluno.ativo,
+        ROW_NUMBER() OVER (PARTITION BY aluno.unico ORDER BY aluno.data DESC) AS rn
+    FROM 
+        aluno
+    WHERE
+        aluno.ativo = 1
+),
+TurmaRecente AS (
+    SELECT 
+        turma.*,
+        ROW_NUMBER() OVER (PARTITION BY turma.unico ORDER BY turma.data DESC) AS rn
+    FROM 
+        turma
+),
+LocalidadeRecente AS (
+    SELECT 
+        localidade.*,
+        ROW_NUMBER() OVER (PARTITION BY localidade.unico ORDER BY localidade.data DESC) AS rn
+    FROM 
+        localidade
+),
+NacionalidadeRecente AS (
+    SELECT 
+        nacionalidade.*,
+        ROW_NUMBER() OVER (PARTITION BY nacionalidade.unico ORDER BY nacionalidade.data DESC) AS rn
+    FROM 
+        nacionalidade
+),
+
+CidadeRecente AS (
+    SELECT 
+        cidade.*,
+        ROW_NUMBER() OVER (PARTITION BY cidade.unico ORDER BY cidade.data DESC) AS rn
+    FROM 
+        cidade
+),
+GeneroRecente AS (
+    SELECT 
+        genero.*,
+        ROW_NUMBER() OVER (PARTITION BY genero.unico ORDER BY genero.data DESC) AS rn
+    FROM 
+        genero
+),
+
+EscolaRecente AS (
+    SELECT 
+        escola.*,
+        ROW_NUMBER() OVER (PARTITION BY escola.unico ORDER BY escola.data DESC) AS rn
+    FROM 
+        escola
+),
+ColaboradorRecente AS (
+    SELECT 
+        colaborador.*,
+        ROW_NUMBER() OVER (PARTITION BY colaborador.unico ORDER BY colaborador.data DESC) AS rn
+    FROM 
+        colaborador
+),
+EncarregadoEducacaoRecente AS (
+    SELECT 
+        encarregadoeducacao.*,
+        ROW_NUMBER() OVER (PARTITION BY encarregadoeducacao.unico ORDER BY encarregadoeducacao.data DESC) AS rn
+    FROM 
+        encarregadoeducacao
+),
+RelacaoRecente AS (
+    SELECT 
+        relacao.*,
+        ROW_NUMBER() OVER (PARTITION BY relacao.unico ORDER BY relacao.data DESC) AS rn
+    FROM 
+        relacao
+)
+SELECT 
+    ar.foto_aluno,
+    ar.id_aluno,
+    ar.aluno,
+    ar.unico,
+    ar.id_turma,
+    ar.id_escola,
+    ar.id_orientador,
+    ar.id_encarregadoeducacao,
+    ar.data,
+    ar.ativo,
+    tr.*,
+    er.*,
+    cr.*,
+    eer.*,
+    rr.*
+FROM 
+    AlunoRecente ar
+INNER JOIN 
+    TurmaRecente tr ON ar.id_turma = tr.unico AND tr.rn = 1
+INNER JOIN 
+    EscolaRecente er ON ar.id_escola = er.unico AND er.rn = 1
+    INNER JOIN 
+    LocalidadeRecente lr ON ar.id_localidade = lr.unico AND lr.rn = 1
+INNER JOIN 
+    ColaboradorRecente cr ON ar.id_orientador = cr.unico AND cr.rn = 1
+INNER JOIN 
+    EncarregadoEducacaoRecente eer ON ar.id_encarregadoeducacao = eer.unico AND eer.rn = 1
+INNER JOIN 
+    RelacaoRecente rr ON eer.id_relacao = rr.unico AND rr.rn = 1
+WHERE 
+    ar.rn = 1;
+',
+    'myaluno' => 'WITH AlunoRecente AS (
+    SELECT 
+        aluno.foto_aluno,
+        aluno.id_aluno,
+        aluno.aluno,
+        aluno.unico,
+        aluno.id_turma,
+        aluno.id_escola,
+        aluno.id_orientador,
+        aluno.id_encarregadoeducacao,
+        aluno.data,
+        aluno.ativo,
+        ROW_NUMBER() OVER (PARTITION BY aluno.unico ORDER BY aluno.data DESC) AS rn
+    FROM 
+        aluno
+    WHERE
+        aluno.ativo = 1
+),
+TurmaRecente AS (
+    SELECT 
+        turma.*,
+        ROW_NUMBER() OVER (PARTITION BY turma.unico ORDER BY turma.data DESC) AS rn
+    FROM 
+        turma
+),
+EscolaRecente AS (
+    SELECT 
+        escola.*,
+        ROW_NUMBER() OVER (PARTITION BY escola.unico ORDER BY escola.data DESC) AS rn
+    FROM 
+        escola
+),
+ColaboradorRecente AS (
+    SELECT 
+        colaborador.*,
+        ROW_NUMBER() OVER (PARTITION BY colaborador.unico ORDER BY colaborador.data DESC) AS rn
+    FROM 
+        colaborador
+),
+EncarregadoEducacaoRecente AS (
+    SELECT 
+        encarregadoeducacao.*,
+        ROW_NUMBER() OVER (PARTITION BY encarregadoeducacao.unico ORDER BY encarregadoeducacao.data DESC) AS rn
+    FROM 
+        encarregadoeducacao
+),
+RelacaoRecente AS (
+    SELECT 
+        relacao.*,
+        ROW_NUMBER() OVER (PARTITION BY relacao.unico ORDER BY relacao.data DESC) AS rn
+    FROM 
+        relacao
+)
+SELECT 
+    ar.foto_aluno,
+    ar.id_aluno,
+    ar.aluno,
+    ar.unico,
+    ar.id_turma,
+    ar.id_escola,
+    ar.id_orientador,
+    ar.id_encarregadoeducacao,
+    ar.data,
+    ar.ativo,
+    tr.*,
+    er.*,
+    cr.*,
+    eer.*,
+    rr.*
+FROM 
+    AlunoRecente ar
+INNER JOIN 
+    TurmaRecente tr ON ar.id_turma = tr.unico AND tr.rn = 1
+INNER JOIN 
+    EscolaRecente er ON ar.id_escola = er.unico AND er.rn = 1
+INNER JOIN 
+    ColaboradorRecente cr ON ar.id_orientador = cr.unico AND cr.rn = 1
+INNER JOIN 
+    EncarregadoEducacaoRecente eer ON ar.id_encarregadoeducacao = eer.unico AND eer.rn = 1
+INNER JOIN 
+    RelacaoRecente rr ON eer.id_relacao = rr.unico AND rr.rn = 1
+WHERE 
+    ar.rn = 1
+ and aluno.id_orientador = ' . $_SESSION['userID'] . '',
     'alunoinative' => 'WITH AlunoRecente AS (
       SELECT 
       aluno.foto_aluno,
@@ -91,19 +242,36 @@ $consultas = [
   FROM 
       AlunoRecente ar
   INNER JOIN 
-      turma ON ar.id_turma = turma.id_turma
+      turma ON ar.id_turma = turma.unico
   INNER JOIN 
-      escola ON ar.id_escola = escola.id_escola
+      escola ON ar.id_escola = escola.unico
   INNER JOIN 
-      colaborador ON ar.id_orientador = colaborador.id_colaborador
+      colaborador ON ar.id_orientador = colaborador.unico
   INNER JOIN 
-      encarregadoeducacao ON ar.id_encarregadoeducacao = encarregadoeducacao.id_encarregadoeducacao
+      encarregadoeducacao ON ar.id_encarregadoeducacao = encarregadoeducacao.unico
   INNER JOIN 
-      relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao
+      relacao ON encarregadoeducacao.id_relacao = relacao.unico
   WHERE 
       ar.rn = 1;',
     'alunoremoved' => 'SELECT * FROM aluno INNER JOIN turma on aluno.id_turma = turma.id_turma INNER JOIN escola on aluno.id_escola = escola.id_escola  INNER JOIN colaborador ON aluno.id_orientador = colaborador.id_colaborador INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.id_encarregadoeducacao INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao WHERE  aluno.removed = 1',
-    'encarregadoeducacao' => 'SELECT * FROM encarregadoeducacao INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao  WHERE encarregadoeducacao.ativo = 1',
+    'encarregadoeducacao' => 'WITH EncarregadoEducacaoRecente AS (
+        SELECT 
+            encarregadoeducacao.*, 
+            ROW_NUMBER() OVER (PARTITION BY encarregadoeducacao.unico ORDER BY encarregadoeducacao.data DESC) AS rn
+        FROM 
+            encarregadoeducacao
+        WHERE  encarregadoeducacao.removed = 0 and
+            encarregadoeducacao.ativo = 1
+    )
+    SELECT 
+        eer.*, 
+        relacao.*
+    FROM 
+        EncarregadoEducacaoRecente eer
+    INNER JOIN 
+        relacao ON eer.id_relacao = relacao.unico
+    WHERE 
+        eer.rn = 1;',
     'colaborador' => 'SELECT * FROM colaborador  INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE cargo.ativo = 1',
     'escola' => 'SELECT * FROM escola WHERE ativo = 1',
     'professor' => 'SELECT * FROM colaborador INNER JOIN especialidade ON colaborador.id_especialidade = especialidade.id_especialidade INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 3',
@@ -126,13 +294,14 @@ $consultas = [
 $consultasForms = [
     'aluno' => 'SELECT * 
     FROM aluno 
-    INNER JOIN colaborador ON aluno.id_orientador = colaborador.id_colaborador
-    INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.id_encarregadoeducacao
-    INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao
-    INNER JOIN genero ON Genero.id_genero = aluno.id_genero
-    INNER JOIN localidade ON Localidade.id_localidade = aluno.id_localidade
-    INNER JOIN escola ON escola.id_escola = aluno.id_escola
-    INNER JOIN turma ON turma.id_turma = aluno.id_turma
+    INNER JOIN colaborador ON aluno.id_orientador = colaborador.unico
+    INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.unico
+    INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.unico
+    INNER JOIN genero ON Genero.unico = aluno.id_genero
+    INNER JOIN localidade ON Localidade.unico = aluno.id_localidade
+    INNER JOIN escola ON escola.unico = aluno.id_escola
+    INNER JOIN nacionalidade ON nacionalidade.unico = aluno.id_nacionalidade
+    INNER JOIN turma ON turma.unico = aluno.id_turma
     Where  aluno.id_aluno = ' . $id . '',
     'encarregadoeducacao' => 'SELECT * FROM encarregadoeducacao INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao  WHERE encarregadoeducacao.ativo = 1',
     'colaborador' => 'SELECT * FROM colaborador  INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE cargo.ativo = 1',
