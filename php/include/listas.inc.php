@@ -1,4 +1,3 @@
-
 <?php
 
 // Convertendo o nome da página para minúsculas
@@ -6,10 +5,10 @@ $pagina = strtolower($pagina);
 
 $tipo = $pagina;
 
-  // Definir a categoria removendo o último "s" da palavra
-  $tabela = rtrim($pagina, "s");
+// Definir a categoria removendo o último "s" da palavra
+$tabela = rtrim($pagina, "s");
 
-  unicooperacao('relacao');
+unicooperacao('relacao');
 
 include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
 include $arrConfig['dir_admin'] . '/information/detail-information.inc.php';
@@ -27,16 +26,16 @@ if (array_key_exists($pagina, $consultas)) {
 
   if ($tabela == 'alunoinative' || $tabela == 'myaluno' || $tabela == 'alunoremoved') {
     $tabela = 'aluno';
- 
+
   } elseif ($tabela == 'professor' || $tabela == 'admin' || $tabela == 'supra_admin') {
     $tabela = 'colaborador';
   }
   // Mostrar os resultados
 
   foreach ($arrResultados as $k => $v) {
-$id= $v['id_'.$tabela];
-$id_unico =my_query('SELECT unico, id_'.$tabela.' FROM '.$tabela.' WHERE id_'.$tabela.' = '.$id.'');
-$id_unico = $id_unico[0]['unico'];
+    $id = $v['id_' . $tabela];
+    $id_unico = my_query('SELECT unico, id_' . $tabela . ' FROM ' . $tabela . ' WHERE id_' . $tabela . ' = ' . $id . '');
+    $id_unico = $id_unico[0]['unico'];
     if (count($arrResultados) == 0) {
       echo 'Não existem registos';
 
@@ -61,13 +60,13 @@ $id_unico = $id_unico[0]['unico'];
           }
         }
       }
-    
+
       // Exibir os resultados
       echo '
       <div class="col">';
-    
-        $id = $v['id_' . $tabela];  
-       
+
+      $id = $v['id_' . $tabela];
+
       echo '<a href="" class="card-link">';
       echo '<div class="card h-70 ps-0 py-xl-3" style=" background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">';
       echo '<div class="card-body" style="text-align: center; margin-left: 0px">';
@@ -100,43 +99,43 @@ $id_unico = $id_unico[0]['unico'];
       $verf_foto = false;
       if (isset($arrResultados[$k]['foto_' . $tabela])) {
         $verf_foto = true;
-  
-    
+
+
       }
       // Exibir a foto, se existir
 
-    
+
       if ($verf_foto) {
-          $foto = $arrResultados[$k]['foto_' . $tabela];
-          include $arrConfig['dir_admin'] . '/fotos.inc.php';
-          echo ' <td><img class="icons"  src="' . $src . ' height="100" width="100"></td>';
-        }else{
-          $foto= '';
-        }
+        $foto = $arrResultados[$k]['foto_' . $tabela];
+        include $arrConfig['dir_admin'] . '/fotos.inc.php';
+        echo ' <td><img class="icons"  src="' . $src . ' height="100" width="100"></td>';
+      } else {
+        $foto = '';
+      }
 
 
 
 
       // Botões de ação
       echo '<div class="d-grid gap-1 mt-3">';
-      if ( $_SESSION['userCargo'] == 'admin' || $_SESSION['userCargo'] == 'supra_admin') {
-       
-        if($pagina !== 'alunoremoved' && $pagina !== 'alunoinative' ){
+      if ($_SESSION['userCargo'] == 'admin' || $_SESSION['userCargo'] == 'supra_admin') {
+
+        if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative') {
           echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary"><i class="bx bx-pencil"></i> Editar</a>';
-        }else{
-        
-        }
-        if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin' ) {
-         
         } else {
-          echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove'.$v['id_'.$tabela].'"><i class="bx bx-trash"></i> Remover</button>';
+
         }
-       
-     
+        if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
+
+        } else {
+          echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . '"><i class="bx bx-trash"></i> Remover</button>';
+        }
+
+
         if ($pagina == 'alunoinative') {
-          echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopAtive'.$v['id_'.$tabela].'"><i class="bx bx-block"></i> Ativar</button>';
-        } elseif($pagina == 'aluno') {
-          echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopDesative'.$v['id_'.$tabela].'"><i class="bx bx-block"></i> Desativar</button>';
+          echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopAtive' . $v['id_' . $tabela] . '"><i class="bx bx-block"></i> Ativar</button>';
+        } elseif ($pagina == 'aluno') {
+          echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopDesative' . $v['id_' . $tabela] . '"><i class="bx bx-block"></i> Desativar</button>';
           if ($pagina == 'operacao' || $tabela == 'turma') {
 
           } else {
@@ -146,23 +145,23 @@ $id_unico = $id_unico[0]['unico'];
             echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn " style="color: #ffff;background-color: #3D8F42; border-color: #3D8F42;">  <i class="bx bx-envelope"></i> Envair E-mail</a>';
           }
         }
-     
+
       }
       echo '</div>';
 
 
-  
+
       echo '</div>';
       echo '</div>';
-  
+
 
       echo '</a>';
       echo '</div>';
       echo '</div>';
 
     }
-   include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
-   include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
+    include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
+    include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
 
   }
 
@@ -252,13 +251,13 @@ foreach ($arrResultados as $k => $v) {
     echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary" title="Editar"><i class="bx bx-pencil"></i></a>';
     if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
     } else {
-      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove'.$v['id_'.$tabela].'" title="Remover"><i class="bx bx-trash"></i></button>';
+      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . '" title="Remover"><i class="bx bx-trash"></i></button>';
     }
 
     if ($display == 'Alunos Inativos') {
-      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive'.$v['id_'.$tabela].'" title="Ativar"><i class="bx bx-block"></i></button>';
+      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive' . $v['id_' . $tabela] . '" title="Ativar"><i class="bx bx-block"></i></button>';
     } else {
-      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopDesative'.$v['id_'.$tabela].'" title="Desativar"><i class="bx bx-block"></i></button>';
+      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopDesative' . $v['id_' . $tabela] . '" title="Desativar"><i class="bx bx-block"></i></button>';
 
       if ($pagina != 'operacao' && $tabela != 'turma') {
         echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF" title="Adicionar Serviço"><i class="bx bx-file-blank"></i></button>';
@@ -295,15 +294,15 @@ echo '</tbody>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
 <script>
   // Inicializar a tabela DataTable
-  
 
 
 
 
-    var table = $('#table').DataTable( {
+
+  var table = $('#table').DataTable({
     columnDefs: [
-        { targets: [0],  width: '10%'},
-        //{ targets: '_all', visible: false }
+      { targets: [0], width: '10%' },
+      //{ targets: '_all', visible: false }
     ]
-} );
+  });
 </script>

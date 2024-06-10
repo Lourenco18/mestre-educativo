@@ -23,7 +23,13 @@ if(isset($id_unico_pessoa)){
 }else{
     $id_unico_pessoa = 0;
 }
- 
+if(isset($id_unico)){
+$id_unico;
+}else{
+    $id_unico = 0;
+    exit;
+}
+
 $GLOBALS['campos'] = array(
    
     array(

@@ -3,11 +3,7 @@
 global $arrConfig;
 
 
-if($_SERVER['HTTP_HOST'] == 'web.colgaia.local' || $_SERVER['HTTP_HOST'] == 'localhost') {
-    error_reporting(E_ALL);
-} else {
-    error_reporting(0);
-}
+
 if(isset($_GET['msg'])) {
     $msg = $_GET['msg'];
     
@@ -25,7 +21,7 @@ $arrConfig['isLoginKey'] = 'lourenco1978';
 
 // acessos FrontOffice
 $arrConfig['url_site']='http://localhost/mestre-educativo';
-$arrConfig['dir_site']='/Applications/XAMPP/xamppfiles/htdocs/mestre-educativo';
+$arrConfig['dir_site']=$_SERVER['DOCUMENT_ROOT'].'/mestre-educativo';
 
 
 $folderAdmin = 'admin';
