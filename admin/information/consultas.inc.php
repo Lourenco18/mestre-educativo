@@ -110,8 +110,7 @@ INNER JOIN
     TurmaRecente tr ON ar.id_turma = tr.unico AND tr.rn = 1
 INNER JOIN 
     EscolaRecente er ON ar.id_escola = er.unico AND er.rn = 1
-    INNER JOIN 
-    LocalidadeRecente lr ON ar.id_localidade = lr.unico AND lr.rn = 1
+
 INNER JOIN 
     ColaboradorRecente cr ON ar.id_orientador = cr.unico AND cr.rn = 1
 INNER JOIN 

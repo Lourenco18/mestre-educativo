@@ -43,7 +43,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php'
     $arrparticoes = my_query('SELECT * FROM operacao WHERE ativo = 1 AND pai = 1 AND visivel = 1 AND nivel <> ' . $nivel . ' AND id_operacao IN (' . $_SESSION['permissoes'] . ') ORDER BY ordem ASC');
 
     foreach ($arrparticoes as $k => $v) {
-
+      echo '<div class="grupos" style="border: 2px solid '.$v['cor'].'; border-radius: 15px;margin: 2px; padding: 10px;">';
       echo '<li class="menu-header small text-uppercase" >
     <a href="' . $arrConfig['url_site'] . '/' . $v['link'] . '?pagina=' . $v['operacao'] . '&id='.$v['id_operacao'].'&display=' . $v['display'] . '" >' . $v['display'] . '</a>
   </li>';
@@ -59,7 +59,8 @@ include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php'
  </li> ';
       }
       ;
-
+echo'</div>';
+      
     }
     ;
     ?>
