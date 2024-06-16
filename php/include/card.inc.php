@@ -38,8 +38,8 @@ if($page_name == 'index.php') {
         echo '
             <div class="col"  >
             <a  style="" href="'.$v['link'].'?pagina='.$v['operacao'].'&especificacao='.$v['tipo_form'].'&display='.$v['display'].'&id='.$v['id_operacao'].'&tipo='.$v['particao'].'">
-                <div class="card h-70 ps-0 py-xl-3" style=" border-color: black; background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0' .$cor.', 0 6px 20px 0 '.$cor.'\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">    
-                        <div class="card-body" style=" border: 2px solid '.$cor.'; border-radius: 8px; text-align: center;height: 231.599258px;  margin-left: 0px">
+                <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid '.$cor.'; border-radius: 8px; background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0' .$cor.', 0 6px 20px 0 '.$cor.'\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">    
+                        <div class="card-body" style="  text-align: center;height: 231.599258px;  margin-left: 0px">
                             <h5 class="card-title">'.$v['display'].'</h5>
                             <img class="icons" src="'.$arrConfig['url_imjs_upload'].'/icons/'.$v['foto_operacao'].'" alt="" height="100">
                         </div>
