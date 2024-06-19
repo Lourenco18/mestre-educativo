@@ -1,5 +1,6 @@
 <?php
  $id = isset($_GET['id']) ? $_GET['id'] : '';
+ 
  $id_modal = isset($_GET['id_modal']) ? $_GET['id_modal'] : '';
 
 //  consultas SQL para cada categoria
@@ -15,6 +16,7 @@ $consultas = [
         aluno.id_escola,
         aluno.id_orientador,
         aluno.id_encarregadoeducacao,
+        aluno.id_ciclo,
         aluno.data,
         aluno.ativo,
         ROW_NUMBER() OVER (PARTITION BY aluno.unico ORDER BY aluno.data DESC) AS rn
@@ -44,7 +46,6 @@ NacionalidadeRecente AS (
     FROM 
         nacionalidade
 ),
-
 CidadeRecente AS (
     SELECT 
         cidade.*,
@@ -59,7 +60,6 @@ GeneroRecente AS (
     FROM 
         genero
 ),
-
 EscolaRecente AS (
     SELECT 
         escola.*,
@@ -87,6 +87,13 @@ RelacaoRecente AS (
         ROW_NUMBER() OVER (PARTITION BY relacao.unico ORDER BY relacao.data DESC) AS rn
     FROM 
         relacao
+),
+CicloRecente AS (
+    SELECT 
+        ciclo.*,
+        ROW_NUMBER() OVER (PARTITION BY ciclo.unico ORDER BY ciclo.data DESC) AS rn
+    FROM 
+        ciclo
 )
 SELECT 
     ar.foto_aluno,
@@ -97,28 +104,32 @@ SELECT
     ar.id_escola,
     ar.id_orientador,
     ar.id_encarregadoeducacao,
+    ar.id_ciclo,
     ar.data,
     ar.ativo,
     tr.*,
     er.*,
     cr.*,
     eer.*,
-    rr.*
+    rr.*,
+    cir.*
 FROM 
     AlunoRecente ar
 INNER JOIN 
     TurmaRecente tr ON ar.id_turma = tr.unico AND tr.rn = 1
 INNER JOIN 
     EscolaRecente er ON ar.id_escola = er.unico AND er.rn = 1
-
 INNER JOIN 
     ColaboradorRecente cr ON ar.id_orientador = cr.unico AND cr.rn = 1
 INNER JOIN 
     EncarregadoEducacaoRecente eer ON ar.id_encarregadoeducacao = eer.unico AND eer.rn = 1
 INNER JOIN 
     RelacaoRecente rr ON eer.id_relacao = rr.unico AND rr.rn = 1
+INNER JOIN 
+    CicloRecente cir ON ar.id_ciclo = cir.unico AND cir.rn = 1
 WHERE 
     ar.rn = 1;
+
 ',
     'myaluno' => 'WITH AlunoRecente AS (
     SELECT 
@@ -281,7 +292,29 @@ WHERE
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 1 ',
     'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo',
     
-
+'pessoa'=> 'SELECT 
+    pessoa.id_pessoa,
+        pessoa.id_aluno, 
+        pessoa.data,
+        pessoa.pessoa, 
+        pessoa.telefone_pessoa, 
+        pessoa.unico AS unico_pessoa, 
+        relacao.relacao 
+    FROM 
+        pessoa 
+    INNER JOIN 
+        relacao 
+    ON 
+        relacao.id_relacao = pessoa.id_relacao 
+    WHERE 
+        pessoa.ativo = 1 
+        AND pessoa.removed = 0 
+        AND pessoa.id_aluno = ' . $id_unico_aluno . ' 
+        AND pessoa.data = (
+            SELECT MAX(p2.data)
+            FROM pessoa p2
+            WHERE p2.unico = pessoa.unico
+        )',
   ];
 
 

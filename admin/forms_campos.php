@@ -1,5 +1,6 @@
 <?php
-if(isset($especificacao) && $especificacao == 'adicionar'){
+
+if(isset($especificacao) && $especificacao == 'adicionar'  ){
     $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
     $id_unico = $id_unico[0]['MAX(unico)'] + 1;
  
@@ -27,7 +28,7 @@ if(isset($id_unico)){
 $id_unico;
 }else{
     $id_unico = 0;
-    exit;
+    
 }
 
 $GLOBALS['campos'] = array(
@@ -638,6 +639,20 @@ $GLOBALS['campos'] = array(
         'config' => '',
         'placeholder'=>"",
     ),
+    array(
+        'label' => 'Ciclo',
+        'id' => 'ciclo',
+        'name' => 'ciclo',
+        'type' => 'combobox',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => 'Informações Escolares',
+        'object' => 'aluno',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
     
 
 
@@ -872,7 +887,7 @@ $GLOBALS['campos'] = array(
         'label' => '',
         'id' => 'pessoa',
         'name' => 'unico',
-        'type' => 'text',
+        'type' => 'hidden',
         'size' => 'mb-3 col-md-3',
         'divisao' => '',
         'object' => 'pessoa',
