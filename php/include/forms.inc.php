@@ -10,6 +10,14 @@
   $id = isset($_GET['id']) ? $_GET['id'] : '';
   $tabela = rtrim($tipo, "s");
   $id_aluno = $id;
+  if ($tipo == 'colaborador' || $tipo == 'professor') {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
+    
+    $tabela = 'colaborador';// o $categoria vai ser uma variavel que vou usar para identificar a tabela que tenho de utilizar
+    $tipo = "colaborador";
+  } else {
+    $tabela = rtrim($tipo, "s");
+  }
+  $tabela = rtrim($tipo, "s");
   if($especificacao == 'editar'){
     $sqlUnico = "SELECT unico, id_$tabela from $tabela where id_$tabela = $id";
     $arrisunico = my_query($sqlUnico);
@@ -31,14 +39,6 @@
  
  
 
-  if ($tipo == 'colaborador' || $tipo == 'professores') {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
-    $arrResultados = my_query('SELECT * FROM colaborador WHERE ativo = 1');
-    $tabela = 'colaborador';// o $categoria vai ser uma variavel que vou usar para identificar a tabela que tenho de utilizar
-    $tipo = "colaborador";
-  } else {
-    $tabela = rtrim($tipo, "s");
-  }
-  $tabela = rtrim($tipo, "s");
   include $arrConfig['dir_include'] . '/caminho.inc.php';// caminho de cada página
   if ($tabela == 'aluno' && $especificacao == 'editar') {
     echo '
@@ -151,6 +151,7 @@
           $config = $campos['config'] ?? null;
           $placeholder = $campos['placeholder'] ?? null;
           $ajax = $campos['ajax'] ?? null;
+          $maxlength = $campos['maxlength'] ?? null;
 
 
 
@@ -172,7 +173,16 @@
               if (isset($id_received)) {
                 $sql_combobox = "SELECT * FROM $table WHERE ativo = 1 ";
               } else {
-                $sql_combobox = "SELECT * FROM $table WHERE ativo = 1";
+                $sql_combobox = "WITH RecentRecords AS (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY unico ORDER BY data DESC) as rn
+    FROM $table
+    WHERE ativo = 1
+)
+SELECT * 
+FROM RecentRecords
+WHERE rn = 1;";
               }
 
               $arrtable = my_query($sql_combobox);
@@ -225,7 +235,7 @@
 
             } else {
           
-              echo '<input  '; if($id_campo == "ni"){}else{echo 'required';}; echo' type="' . $type . '" ' . $config . ' placeholder = "' . $placeholder . '" oninput="trata(this)"';
+              echo '<input  '; if($id_campo == "ni"){}else{echo 'required';}; echo' type="' . $type . '" ' . $config . ' maxlength= "'.$maxlength.'" placeholder = "' . $placeholder . '" oninput="trata(this)"';
               if ($max != '' || $min != '') {
                 echo "max='" . $max;
                 echo "' min='$min'";
@@ -395,44 +405,47 @@ function validarCC(number) {
   } 
  //validar NIF
   function validarNIF(contribuinte) {
-    var erro = 0;
-    if (
-      contribuinte.substr(0, 1) != '1' && // pessoa singular
-      contribuinte.substr(0, 1) != '2' && // pessoa singular
-      contribuinte.substr(0, 1) != '3' && // pessoa singular
-      contribuinte.substr(0, 2) != '45' && // pessoa singular não residente
-      contribuinte.substr(0, 1) != '5' && // pessoa colectiva
-      contribuinte.substr(0, 1) != '6' && // administração pública
-      contribuinte.substr(0, 2) != '70' && // herança indivisa
-      contribuinte.substr(0, 2) != '71' && // pessoa colectiva não residente
-      contribuinte.substr(0, 2) != '72' && // fundos de investimento
-      contribuinte.substr(0, 2) != '77' && // atribuição oficiosa
-      contribuinte.substr(0, 2) != '79' && // regime excepcional
-      contribuinte.substr(0, 1) != '8' && // empresário em nome individual (extinto)
-      contribuinte.substr(0, 2) != '90' && // condominios e sociedades irregulares
-      contribuinte.substr(0, 2) != '91' && // condominios e sociedades irregulares
-      contribuinte.substr(0, 2) != '98' && // não residentes
-      contribuinte.substr(0, 2) != '99' // sociedades civis
+   
+var temErro=0;
 
-    ) { erro = 1; }
-    var verf1 = contribuinte.substr(0, 1) * 9;
-    var verf2 = contribuinte.substr(1, 1) * 8;
-    var verf3 = contribuinte.substr(2, 1) * 7;
-    var verf4 = contribuinte.substr(3, 1) * 6;
-    var verf5 = contribuinte.substr(4, 1) * 5;
-    var verf6 = contribuinte.substr(5, 1) * 4;
-    var verf7 = contribuinte.substr(6, 1) * 3;
-    var verf8 = contribuinte.substr(7, 1) * 2;
+if (
+contribuinte.substr(0,1) != '1' && // pessoa singular
+contribuinte.substr(0,1) != '2' && // pessoa singular
+contribuinte.substr(0,1) != '3' && // pessoa singular
+contribuinte.substr(0,2) != '45' && // pessoa singular não residente
+contribuinte.substr(0,1) != '5' && // pessoa colectiva
+contribuinte.substr(0,1) != '6' && // administração pública
+contribuinte.substr(0,2) != '70' && // herança indivisa
+contribuinte.substr(0,2) != '71' && // pessoa colectiva não residente
+contribuinte.substr(0,2) != '72' && // fundos de investimento
+contribuinte.substr(0,2) != '77' && // atribuição oficiosa
+contribuinte.substr(0,2) != '79' && // regime excepcional
+contribuinte.substr(0,1) != '8' && // empresário em nome individual (extinto)
+contribuinte.substr(0,2) != '90' && // condominios e sociedades irregulares
+contribuinte.substr(0,2) != '91' && // condominios e sociedades irregulares
+contribuinte.substr(0,2) != '98' && // não residentes
+contribuinte.substr(0,2) != '99' // sociedades civis
 
-    var total = verf1 + verf2 + verf3 + verf4 + verf5 + verf6 + verf7 + verf8;
-    var divisao = total / 11;
-    var modulo11 = total - parseInt(divisao) * 11;
-    if (modulo11 == 1 || modulo11 == 0) { comparador = 0; } // excepção
-    else { comparador = 11 - modulo11; }
+) { temErro=1;}
+var check1 = contribuinte.substr(0,1)*9;
+var check2 = contribuinte.substr(1,1)*8;
+var check3 = contribuinte.substr(2,1)*7;
+var check4 = contribuinte.substr(3,1)*6;
+var check5 = contribuinte.substr(4,1)*5;
+var check6 = contribuinte.substr(5,1)*4;
+var check7 = contribuinte.substr(6,1)*3;
+var check8 = contribuinte.substr(7,1)*2;
+
+var total= check1 + check2 + check3 + check4 + check5 + check6 + check7 + check8;
+var divisao= total / 11;
+var modulo11=total - parseInt(divisao)*11;
+if ( modulo11==1 || modulo11==0){ comparador=0; } // excepção
+else { comparador= 11-modulo11;}
 
 
-    var ultimoDigito = contribuinte.substr(8, 1) * 1;
-    if (ultimoDigito != comparador) { erro = 1; }
+var ultimoDigito=contribuinte.substr(8,1)*1;
+if ( ultimoDigito != comparador ){ temErro=1;}
+
 
     if (erro == 1) { return false; }else { return true; }
 
@@ -461,7 +474,7 @@ function validarCC(number) {
         element.style.borderColor = 'red';
       };
     } else if (inputName == 'nif') {
-      if (validarNIF(inputValue)) {
+      if (validarNIF(inputValue) &&  inputValue.length < 10) {
         element.style.borderColor = 'green';
       } else {
         element.style.borderColor = 'red';

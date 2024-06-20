@@ -40,7 +40,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php'
 
 
 
-    $arrparticoes = my_query('SELECT * FROM operacao WHERE ativo = 1 AND pai = 1 AND visivel = 1 AND nivel <> ' . $nivel . ' AND id_operacao IN (' . $_SESSION['permissoes'] . ') ORDER BY ordem ASC');
+    $arrparticoes = my_query('SELECT * FROM operacao WHERE ativo = 1 AND pai = 1 AND visivel = 1  AND unico IN (' . $_SESSION['permissoes'] . ') ORDER BY ordem ASC');
 
     foreach ($arrparticoes as $k => $v) {
       echo '<div class="grupos" style="border: 2px solid '.$v['cor'].'; border-radius: 15px;margin: 2px; padding: 10px;">';
@@ -48,7 +48,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php'
     <a href="' . $arrConfig['url_site'] . '/' . $v['link'] . '?pagina=' . $v['operacao'] . '&id='.$v['id_operacao'].'&display=' . $v['display'] . '" >' . $v['display'] . '</a>
   </li>';
   //
-      $arroperacoes = my_query('SELECT * FROM operacao WHERE ativo = 1  AND id_operacao IN (' . $_SESSION['permissoes'] . ') AND particao = "' . $v['operacao'] . '"');
+      $arroperacoes = my_query('SELECT * FROM operacao WHERE ativo = 1  AND unico IN (' . $_SESSION['permissoes'] . ') AND particao = "' . $v['operacao'] . '"');
       foreach ($arroperacoes as $s => $w) {
         echo '<li class="menu-item ' . ($pagina == $w['operacao'] ? 'active' : '') . '">
 

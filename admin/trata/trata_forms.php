@@ -9,6 +9,8 @@ $pagename = $_GET['pagename'] ?? '';
 $id = $_GET['id'] ?? '';
 $tabela = $_GET['tabela'] ?? '';
 $acao = $_GET['acao'] ?? '';
+$id_unico = my_query("SELECT MAX(unico) FROM $tabela");
+$id_unico = $id_unico[0]['MAX(unico)'] + 1;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //imagem
@@ -105,6 +107,39 @@ if ($acao == 'adicionar') {
     $sql_form = "INSERT INTO $tabela ($campos) VALUES (" . implode(", ", array_map(function ($value) {
         return "'$value'";
     }, $dados)) . ")";
+    
+    // atribuir as notas o valor zero, de todos os periodos e de todas as disciplinas
+    if($tabela == "aluno"){
+     
+        $id_ciclo = $dados['id_ciclo'];
+        $arrDisciplinas = my_query("SELECT id_disciplina from disciplina INNER JOIN ciclo on ciclo.id_ciclo = disciplina.id_ciclo WHERE disciplina.id_ciclo = $id_ciclo and disciplina.ativo = 1");
+        var_dump($arrDisciplinas);
+        $arrPeriodos= array(1,2,3);
+       foreach ($arrDisciplinas as $k => $v) {
+            for ($i = 0; $i < count($arrPeriodos); $i++) {
+                $avaliacaoUnico = my_query("SELECT MAX(unico) FROM avaliacao");
+                $avaliacaoUnico = $avaliacaoUnico[0]['MAX(unico)'] + 1;
+                $sql = "INSERT INTO avaliacao (id_aluno, id_disciplina, periodo, id_anoletivo, unico, ativo) VALUES ($id_unico,{$v['id_disciplina']}, {$arrPeriodos[$i]}, {$arrConfig['anoLetivo']}, $avaliacaoUnico, 1)";
+                echo $sql;
+            }
+       }
+       
+    }elseif($tabela == "operacao"){
+        $id_novaOperacao = my_query("SELECT MAX(unico) FROM operacao");
+        $id_novaOperacao = $id_novaOperacao[0]['MAX(unico)'] + 1;
+        $nomeOperacao = $dados['operacao'];
+        $arrCargos = array('Administrador' => 2,'Super administrador'=>1);
+        foreach ($arrCargos as $k => $v) {
+            my_query ("INSERT INTO permissao (id_operacao, permissao, id_cargo) VALUES ($id_novaOperacao, '$nomeOperacao-$k', $v)");
+         
+        }
+    
+            
+         
+      
+    
+    }
+
 
 
 

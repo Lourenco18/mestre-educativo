@@ -283,8 +283,45 @@ WHERE
     WHERE 
         eer.rn = 1;',
     'colaborador' => 'SELECT * FROM colaborador  INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE cargo.ativo = 1',
-    'escola' => 'SELECT * FROM escola WHERE ativo = 1',
-    'professor' => 'SELECT * FROM colaborador INNER JOIN especialidade ON colaborador.id_especialidade = especialidade.id_especialidade INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 3',
+    'escola' => 'SELECT * FROM (
+    SELECT 
+        escola.*, 
+        ROW_NUMBER() OVER (PARTITION BY escola.unico ORDER BY escola.data DESC) as rn
+    FROM escola
+    WHERE ativo = 1
+) sub
+WHERE rn = 1;',
+    'professor' => 'WITH RecentEspecialidade AS (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY id_especialidade ORDER BY data DESC) as rn
+    FROM especialidade
+),
+RecentCargo AS (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY id_cargo ORDER BY data DESC) as rn
+    FROM cargo
+),
+RecentColaborador AS (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY id_colaborador ORDER BY data DESC) as rn
+    FROM colaborador
+    WHERE ativo = 1 AND id_cargo = 3
+)
+SELECT 
+    RecentColaborador.*, 
+    RecentEspecialidade.*, 
+    RecentCargo.*
+FROM 
+    RecentColaborador
+INNER JOIN 
+    RecentEspecialidade ON RecentColaborador.id_especialidade = RecentEspecialidade.id_especialidade AND RecentEspecialidade.rn = 1
+INNER JOIN 
+    RecentCargo ON RecentColaborador.id_cargo = RecentCargo.id_cargo AND RecentCargo.rn = 1
+WHERE 
+    RecentColaborador.rn = 1;',
     'admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 2',
     'supra_admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 1',
     'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.ativo = 1',
@@ -336,15 +373,17 @@ $consultasForms = [
     INNER JOIN turma ON turma.unico = aluno.id_turma
     Where  aluno.id_aluno = ' . $id . '',
     'encarregadoeducacao' => 'SELECT * FROM encarregadoeducacao INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao  WHERE encarregadoeducacao.ativo = 1',
-    'colaborador' => 'SELECT * FROM colaborador  INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE cargo.ativo = 1',
+    'colaborador' => 'SELECT * FROM colaborador  INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE cargo.ativo = 1 and colaborador.id_colaborador = ' . $id . '',
     'escola' => 'SELECT * FROM escola WHERE id_escola = ' . $id . ' ',
-    'professor' => 'SELECT * FROM colaborador INNER JOIN especialidade ON colaborador.id_especialidade = especialidade.id_especialidade INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.id_cargo = 3',
-    'admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE  colaborador.id_cargo = 2',
-    'supra_admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE  colaborador.id_cargo = 1',
     'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.id_turma = ' . $id . '',
     'operacao'=> 'SELECT * FROM operacao  WHERE operacao.id_operacao = ' . $id . ' ',
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = '.$id.' ',
     'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.id_cargo = '.$id.' ',
     'pessoa'=> 'SELECT * FROM pessoa  WHERE id_pessoa = '.$id_modal.' ',  
   ];
+
+  $consultasHistorico=[
+    
+  ]
+  ;
  

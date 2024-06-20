@@ -28,7 +28,43 @@ if($page_name == 'index.php') {
             $cor = $v['cor'];
             
           }else{
-            $cor = my_query('SELECT cor from operacao WHERE pai = 1 AND operacao = "'.$v['particao'].'" ');
+      ;
+            if($v['particao'] == "turma" ){
+              $particao = "escola";  
+            }elseif($v['particao'] == "encarregadoeducacao"){
+              $particao = "aluno";
+            }elseif($v['particao'] == "professor" || $v['particao'] == "admin" || $v['particao'] == "supra_admin"){
+              $particao = "colaborador";
+            }elseif($v['particao'] == "motorista"){
+              $particao = "transporte";
+            }elseif(
+              $v['particao'] == "disciplinas" ||
+              $v['particao'] == "Anoletivo" ||
+              $v['particao'] == "genero" ||
+              $v['particao'] == "ano" ||
+              $v['particao'] == "cargo" ||
+              $v['particao'] == "ciclo" ||
+              $v['particao'] == "cidade" ||
+              $v['particao'] == "colaborador" ||
+              $v['particao'] == "conjunto" ||
+              $v['particao'] == "distrito" ||
+              $v['particao'] == "especialidade" ||
+              $v['particao'] == "evento" ||
+              $v['particao'] == "formacao" ||
+              $v['particao'] == "localidade" ||
+              $v['particao'] == "log" ||
+              $v['particao'] == "nacionalidade" ||
+              $v['particao'] == "nota" ||
+              $v['particao'] == "pessoa" ||
+              $v['particao'] == "relação" ||
+              $v['particao'] == "statu" || $v['particao'] == "operacao" 
+          ){
+              $particao = "backoffice";
+            }
+              else{
+              $particao = $v['particao'];
+            };
+            $cor = my_query('SELECT cor from operacao WHERE pai = 1 AND operacao = "'.$particao.'" ');
             $cor = $cor[0]['cor'];
           }
         

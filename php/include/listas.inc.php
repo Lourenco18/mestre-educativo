@@ -8,7 +8,6 @@ $tipo = $pagina;
 // Definir a categoria removendo o último "s" da palavra
 $tabela = rtrim($pagina, "s");
 
-unicooperacao('relacao');
 
 include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
 include $arrConfig['dir_admin'] . '/information/detail-information.inc.php';
