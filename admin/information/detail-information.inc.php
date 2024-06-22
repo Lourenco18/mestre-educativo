@@ -63,6 +63,10 @@ $information = array(
     "Relação" => "relacao",
   
   ),
+  "disciplina" => array(
+    "Ciclo" => "ciclo",
+   
+  ),
 
   "transporte" => array(
 

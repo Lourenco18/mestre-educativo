@@ -15,7 +15,7 @@ if($page_name == 'index.php') {
 
 };
 
-    $arrResultados = my_query('SELECT * FROM operacao WHERE ativo = 1 '. $cards.'  AND id_operacao IN (' . $_SESSION['permissoes'] . ') ' );
+    $arrResultados = my_query('SELECT * FROM operacao WHERE ativo = 1 '. $cards.'  AND unico IN (' . $_SESSION['permissoes'] . ') ' );
 
 
     foreach($arrResultados as $k => $v) {
@@ -57,6 +57,7 @@ if($page_name == 'index.php') {
               $v['particao'] == "nota" ||
               $v['particao'] == "pessoa" ||
               $v['particao'] == "relação" ||
+              $v['particao'] == "disciplina" ||
               $v['particao'] == "statu" || $v['particao'] == "operacao" 
           ){
               $particao = "backoffice";

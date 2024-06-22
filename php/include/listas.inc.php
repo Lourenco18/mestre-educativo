@@ -12,8 +12,10 @@ $tabela = rtrim($pagina, "s");
 include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
 include $arrConfig['dir_admin'] . '/information/detail-information.inc.php';
 // Verificar se a página está presente no array de consultas
+
 if (array_key_exists($pagina, $consultas)) {
   // Definir a consulta SQL
+ 
   $consulta = $consultas[$pagina];
   $tipo = $pagina;
 

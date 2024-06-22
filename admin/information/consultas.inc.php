@@ -328,6 +328,7 @@ WHERE
     'operacao'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 1 Order by ordem ASC',
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 1 ',
     'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo',
+    'disciplina'=> 'SELECT * FROM disciplina inner join ciclo on disciplina.id_ciclo = ciclo.unico WHERE disciplina.ativo = 1',
     
 'pessoa'=> 'SELECT 
     pessoa.id_pessoa,

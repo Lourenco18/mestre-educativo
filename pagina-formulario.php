@@ -28,7 +28,8 @@ include $arrConfig['dir_admin'].'/head.inc.php';
           <div class="content-wrapper">
             <!-- Content -->
               <?php
-              include "php/include/forms.inc.php"
+              include "php/include/forms.inc.php";
+      
              ?>
           
             <!-- / Content -->
