@@ -79,6 +79,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
     .disciplina-group {
         padding: 10px;
         margin-bottom: 10px;
+        
     }
 
     .periodo-item {
@@ -86,6 +87,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
     }
     .anoletivo-container {
         margin-bottom: 20px;
+       
     }
 
     .anoletivo-header {
@@ -174,6 +176,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                     echo '<tr>';
                     echo '<td>' . $periodo . 'º</td>';
                     foreach ($arrDisciplinas as $disciplina) {
+                        
                         $avaliacao = my_query("SELECT * FROM avaliacao WHERE id_disciplina = {$disciplina['unico']} AND id_aluno = $id_unico_aluno AND periodo = $periodo");
                         $nota = $avaliacao[0]['avaliacao'];
                         // Verificar ciclo atual para determinar a legenda
@@ -203,54 +206,57 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
 <!-- Modal para Editar Avaliações -->
 <div class="modal fade" id="modalavaliacao" tabindex="-1" aria-labelledby="modalTopTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <form class="modal-content" action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id_unico_aluno; ?>&tabela=avaliacao&acao=editar" method="POST" enctype="multipart/form-data">
+        
+
+   <form class="modal-content" action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id_unico_aluno; ?>&tabela=avaliacao&acao=editar" method="POST" enctype="multipart/form-data">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTopTitle">Editar Avaliações</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-    <?php foreach ($anoCicloMap as $anoletivoId => $anoCiclo) {
-        $id_ano_letivo = $anoletivoId;
-        if (isset($anoCicloMap[$id_ano_letivo])) {
-            $cicloDoAnoLetivo = $anoCicloMap[$id_ano_letivo]['id_ciclo'];
-        }
-    ?>
-     <div class="anoletivo-container mb-4 p-3" style="border: 2px solid #000000; 
-    border-radius: 10px;">
-
-
-            <h6 style="cursor: pointer;" class="toggle-disciplinas" data-toggle-target="anoletivo-<?php echo $anoletivoId; ?>">
-                Ano Letivo: <?php echo $anoCiclo['anoletivo']; ?>
-                <i class="bi bi-chevron-down"></i> <!-- Ícone da seta -->
-            </h6>
-            <div id="anoletivo-<?php echo $anoletivoId; ?>" class="disciplinas-container" style="display: none;  ">
-                <?php
-                $arrDisciplinas = my_query("
-                    SELECT d.*
-                    FROM (
-                        SELECT disciplina.*, 
-                            ROW_NUMBER() OVER (PARTITION BY disciplina.unico ORDER BY disciplina.data DESC) AS row_num
-                        FROM disciplina
-                        INNER JOIN ciclo ON ciclo.id_ciclo = disciplina.id_ciclo
-                        WHERE disciplina.id_ciclo = $cicloDoAnoLetivo
-                    ) AS d
-                    WHERE d.row_num = 1
-                ");
-                foreach ($arrDisciplinas as $disciplina) {
-                    ?>
-                    <div class="disciplina-group mb-3" style = "border: 2px solid <?php echo $disciplina['cor'];?>; 
-    border-radius: 10px;">
-                        <h6 style="cursor: pointer;" class="toggle-periodos" data-toggle-target="disciplina-<?php echo $disciplina['unico']; ?>">
-                            <?php echo $disciplina['disciplina']; ?>
-                            <i class="bi bi-chevron-down"></i> <!-- Ícone da seta -->
-                        </h6>
-                        <div id="disciplina-<?php echo $disciplina['unico']; ?>" class="periodos-container" style="display: none;">
-                            <?php for ($periodo = 1; $periodo <= 3; $periodo++) { ?>
+                <?php 
+                foreach ($anoCicloMap as $anoletivoId => $anoCiclo) {
+                    $id_ano_letivo = $anoletivoId;
+                    if (isset($anoCicloMap[$id_ano_letivo])) {
+                        $cicloDoAnoLetivo = $anoCicloMap[$id_ano_letivo]['id_ciclo'];
+                    }
+                ?>
+                <div class="anoletivo-container mb-4 p-3" style="border: 2px solid #000000; border-radius: 10px;">
+                    <h6 style="cursor: pointer;" class="toggle-disciplinas" data-toggle-target="anoletivo-<?php echo $anoletivoId; ?>">
+                        Ano Letivo: <?php echo $anoCiclo['anoletivo']; ?>
+                        <i class="bi bi-chevron-down"></i> <!-- Ícone da seta -->
+                    </h6>
+                    <div id="anoletivo-<?php echo $anoletivoId; ?>" class="disciplinas-container" style="display: none;">
+                        <?php
+                        $arrDisciplinas = my_query("
+                            SELECT d.*
+                            FROM (
+                                SELECT disciplina.*, 
+                                    ROW_NUMBER() OVER (PARTITION BY disciplina.unico ORDER BY disciplina.data DESC) AS row_num
+                                FROM disciplina
+                                INNER JOIN ciclo ON ciclo.id_ciclo = disciplina.id_ciclo
+                                WHERE disciplina.id_ciclo = $cicloDoAnoLetivo
+                            ) AS d
+                            WHERE d.row_num = 1
+                        ");
+                        foreach ($arrDisciplinas as $disciplina) {
+                        ?>
+                        <div class="disciplina-group mb-3" style="border: 2px solid <?php echo $disciplina['cor'];?>; border-radius: 10px;">
+                            <h6 style="cursor: pointer;" class="toggle-periodos" data-toggle-target="disciplina-<?php echo $disciplina['unico']; ?>">
+                                <?php echo $disciplina['disciplina']; ?>
+                                <i class="bi bi-chevron-down"></i> <!-- Ícone da seta -->
+                            </h6>
+                            <div id="disciplina-<?php echo $disciplina['unico']; ?>" class="periodos-container" style="display: none;">
+                                <?php 
+                                for ($periodo = 1; $periodo <= 3; $periodo++) {
+                                    $avaliacao = my_query("SELECT * FROM avaliacao WHERE id_disciplina = {$disciplina['unico']} AND id_aluno = $id_unico_aluno AND periodo = $periodo");
+                                    $nota_atual = isset($avaliacao[0]['avaliacao']) ? $avaliacao[0]['avaliacao'] : '';
+                                ?>
                                 <div class="periodo-item">
                                     <label for="disciplina_<?php echo $disciplina['unico']; ?>_periodo_<?php echo $periodo; ?>" class="form-label">
                                         <?php echo "Período {$periodo}"; ?>
                                     </label>
-                                    <select class="form-select" id="disciplina_<?php echo $disciplina['unico']; ?>_periodo_<?php echo $periodo; ?>" name="disciplina_<?php echo $disciplina['unico']; ?>_periodo_<?php echo $periodo; ?>" required>
+                                    <select class="form-select" id="disciplina_<?php echo $disciplina['unico']; ?>_periodo_<?php echo $periodo; ?>aluno_<?php echo $id_unico_aluno ?>" name="disciplina_<?php echo $disciplina['unico']; ?>_periodo_<?php echo $periodo; ?>aluno_<?php echo $id_unico_aluno ?>" required>
                                         <option value="">Selecione a avaliação</option>
                                         <?php
                                         if (isset($legendasPorCiclo[$cicloDoAnoLetivo])) {
@@ -259,7 +265,8 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                                                 echo '<option value="' . $nota . '" ' . $selected . '>' . $legenda . '</option>';
                                             }
                                         } else {
-                                            for ($nota = 0; $nota <= 10; $nota++) {
+
+                                            for ($nota = 0; $nota <= 20; $nota++) {
                                                 $selected = ($nota == $nota_atual) ? 'selected' : '';
                                                 echo '<option value="' . $nota . '" ' . $selected . '>' . $nota . '</option>';
                                             }
@@ -267,15 +274,14 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                                         ?>
                                     </select>
                                 </div>
-                            <?php } ?>
+                                <?php } ?>
+                            </div>
                         </div>
+                        <?php } ?>
                     </div>
+                </div>
                 <?php } ?>
             </div>
-        </div>
-    <?php } ?>
-</div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary me-2">Guardar</button>
@@ -283,6 +289,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
         </form>
     </div>
 </div>
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -322,3 +329,6 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
         });
     });
 </script>
+
+
+
