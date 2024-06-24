@@ -25,8 +25,8 @@ if(count($arrResultados) > 0) {
         $_SESSION['userCargoID'] = $arrResultados[0]['id_cargo'];
         $_SESSION['userfoto'] = $arrResultados[0]['foto'];
         $arrPermissoes = my_query('SELECT * FROM permissao WHERE id_cargo = '.$_SESSION['userCargoID']);
+      
         foreach($arrPermissoes as $k => $v) {
-          
             $_SESSION['permissoes'] = implode(',', array_column($arrPermissoes, 'id_operacao'));
         }
      

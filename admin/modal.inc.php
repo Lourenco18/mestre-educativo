@@ -2,6 +2,7 @@
 $current_page = $_SERVER['REQUEST_URI'];
 include 'forms_campos.php';
 $page_name = basename($current_page);
+
 ?>
 
 <div class="modal modal-mid fade" id="modalTopEvent" tabindex="-1">
@@ -59,7 +60,7 @@ $page_name = basename($current_page);
 </div>
 
 <?php
-$arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = nota.id_status INNER JOIN colaborador ON colaborador.unico = nota.id_colaborador INNER JOIN cargo ON cargo.unico = colaborador.id_cargo WHERE nota.ativo = 1 AND nota.id_destinatario = '. $_SESSION['userCargoID'].' ORDER BY nota.id_status DESC');
+$arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = nota.id_status INNER JOIN colaborador ON colaborador.unico = nota.id_colaborador INNER JOIN cargo ON cargo.unico = colaborador.id_cargo WHERE nota.ativo = 1 AND nota.id_destinatario >= '. $_SESSION['userCargoID'].' ORDER BY nota.id_status DESC'); 
 ?>
 
 <div class="modal modal-mid fade" id="modalnotes" tabindex="-1">
@@ -74,7 +75,8 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
           <?php if (count($arrNotas) == 0): ?>
             <h2>Não existem notas</h2>
           <?php else: ?>
-            <?php foreach ($arrNotas as $v): $id= $v['id_nota'];$id_unico = my_query("SELECT id_nota, unico from nota where id_nota = $id"); $id_unico = $id_unico[0]['unico'];?>
+            <?php foreach ($arrNotas as $v): $id= $v['id_nota'];$id_unico = my_query("SELECT id_nota, unico from nota where id_nota = $id"); $id_unico = $id_unico[0]['unico']; $id_unico_nota = $id_unico
+            ?>
 
               <div class="card">
                 <div class="card-body">
@@ -88,10 +90,17 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
                       <button class="btn btn-primary" type="button" style="background-color: green; border-color: green;" title="Visto" onclick="window.location.href = '<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?acao=ativar&tabela=nota&id=<?php echo $id_unico; ?>';">
                         <i class="bx bx-check"></i>
                       </button>
-                    <?php endif; ?>
-                    <button class="btn btn-primary" type="button" style="background-color: orange; border-color: orange;" title="Remover" onclick="window.location.href = '<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?acao=apagar&tabela=nota&id=<?php echo $id_unico; ?>';">
-                      <i class="bx bx-trash"></i>
-                    </button>
+                    <?php endif; 
+                    if($_SESSION['userCargoID'] == 4 || $_SESSION['userCargoID']== 3 || $_SESSION['userCargoID'] == $v['id_cargo']){
+                      
+                      ?>
+                      <button class="btn btn-primary" type="button" style="background-color: orange; border-color: orange;" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoveNota<?php echo $id_unico_nota?>">
+                        <i class="bx bx-trash"></i>
+                      </button>
+                    <?php
+                    }else{ }
+                  ?>
+                    
                   </div>
                 </div>
               </div><br>
@@ -138,7 +147,7 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
                 $onChange = $ajax ? 'onchange="ajax(this.value)"' : '';
                 echo '<select ' . $onChange . ' required name="' . $name . '" id="' . $id_campo . '" class="select2 form-select">';
 
-                echo '<option value="">Selecione uma opção</option>';
+               
 
                 foreach ($arrtable as $v) {
                   echo '<option value="' . $v['id_' . $id_campo] . '">' . $v[$id_campo] . '</option>';
@@ -173,3 +182,35 @@ document.getElementById("active-listView").addEventListener("click", function ()
   document.getElementById("formView").style.display = "none";
 });
 </script>
+
+<?php
+
+foreach($arrNotas as $k => $v) {
+  echo '
+  <div class="modal modal-mid fade" id="modalRemoveNota'.$id_unico_nota.'" tabindex="-1">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header">
+  <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer remover esta nota ';
+
+
+  echo '?</h5>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="modal"
+    aria-label="Close"
+  ></button>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+    Cancelar
+  </button>
+  <a type="button" style = "color = white;" class="btn btn-danger" href=" '.$arrConfig['url_trata'].'/trata_forms.php?acao=apagar&tabela=nota&id='.$id_unico_nota.'" onclick="SwalSuccess()">Sim, quero remover</a>
+
+  </div>
+  </form>
+</div>
+</div>
+';
+}
