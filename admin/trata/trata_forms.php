@@ -144,28 +144,21 @@ if ($acao == 'adicionar') {
             return "'$value'";
         }, $dados)) . ")";
     } else {
-  
-        $arrayAvaliacao = array();
-
-        // Itera sobre os dados do formulário
-        foreach ($_POST as $key => $value) {
+        $arrayAvaliacao = array(); //array onde vão ser armazenadas as avaliações com as suas respetivas definições
+    
+        foreach ($_POST as $key => $value) { // ler os dados do formulário enviado com todas as avaliações
             // Verifica se o nome do campo segue o padrão esperado
-            if (preg_match('/^disciplina_(\d+)_periodo_(\d+)aluno_(\d+)$/', $key, $matches)) {
+            if (preg_match('/^disciplina_(\d+)_periodo_(\d+)aluno_(\d+)$/', $key, $matches)) {// verifica o padrão do id de cada selectedBox
                 // Extrai os valores de disciplina, periodo e id_aluno
                 $disciplina = $matches[1];
                 $periodo = $matches[2];
                 $id_aluno = $matches[3];
-
                 // Armazena o valor da select box na array
                 $arrayAvaliacao[$id_aluno][$disciplina][$periodo] = $value;
             }
         }
-
-        //visualizar dados
+        // query para realizar a alteração das avaliações
         foreach ($arrayAvaliacao as $id_aluno => $disciplinas) {
-            //query para atualizar as notas
-          
-            
             foreach ($disciplinas as $disciplina => $periodos) {
                 foreach ($periodos as $periodo => $selectValue) {
                     my_query("UPDATE $tabela set avaliacao =  $selectValue where id_disciplina = $disciplina AND id_aluno = $id_aluno and periodo =  $periodo");

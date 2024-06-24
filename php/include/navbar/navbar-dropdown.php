@@ -27,7 +27,7 @@ echo '<ul class="dropdown-menu dropdown-menu-end">';
     echo '<li><div class="dropdown-divider"></div></li>';
 
 
-// Adicione mais itens conforme necessário
+
 echo '<li>
         <a class="dropdown-item" href="minha_conta.php">
             <i class="bx bx-user me-2"></i>
@@ -41,6 +41,12 @@ echo '<li>
             <span class="align-middle">Log Out</span>
         </a>
       </li>';
+      echo '<li>
+      <a class="dropdown-item" href="'.$arrConfig['url_site'].'/pagina-sobre.php" target="_blank"" >
+          <i class="bx bx-info-circle me-2"></i>
+          <span class="align-middle">Sobre</span>
+      </a>
+    </li>';
 
 // Fim da tag </ul>
 echo '</ul>';

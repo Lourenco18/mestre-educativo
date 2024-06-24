@@ -265,8 +265,12 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                                                 echo '<option value="' . $nota . '" ' . $selected . '>' . $legenda . '</option>';
                                             }
                                         } else {
-
-                                            for ($nota = 0; $nota <= 20; $nota++) {
+                                            if($cicloDoAnoLetivo == "2" || $cicloDoAnoLetivo == "3") {
+                                                $valores = 5;
+                                            }else{
+                                                $valores = 20;
+                                            }
+                                            for ($nota = 0; $nota <= $valores; $nota++) {
                                                 $selected = ($nota == $nota_atual) ? 'selected' : '';
                                                 echo '<option value="' . $nota . '" ' . $selected . '>' . $nota . '</option>';
                                             }

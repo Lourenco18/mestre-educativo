@@ -4,7 +4,7 @@ echo '
     <div class="modal-dialog">
       <form class="modal-content">
         <div class="modal-header">
-    <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer apagar este ';
+    <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer remover este ';
     echo $tabela;
   
     echo '?</h5>

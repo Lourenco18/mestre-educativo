@@ -59,7 +59,7 @@ $page_name = basename($current_page);
 </div>
 
 <?php
-$arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = nota.id_status INNER JOIN colaborador ON colaborador.id_colaborador = nota.id_colaborador INNER JOIN cargo ON cargo.id_cargo = colaborador.id_cargo WHERE nota.ativo = 1 ORDER BY nota.id_status DESC');
+$arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = nota.id_status INNER JOIN colaborador ON colaborador.unico = nota.id_colaborador INNER JOIN cargo ON cargo.unico = colaborador.id_cargo WHERE nota.ativo = 1 AND nota.id_destinatario = '. $_SESSION['userCargoID'].' ORDER BY nota.id_status DESC');
 ?>
 
 <div class="modal modal-mid fade" id="modalnotes" tabindex="-1">

@@ -142,7 +142,7 @@
          <div class="modal-dialog">
            <form class="modal-content">
              <div class="modal-header">
-         <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer apagar esta ';
+         <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer remover esta ';
 echo $tabela_modal;
         echo '?</h5>
          <button

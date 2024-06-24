@@ -41,6 +41,7 @@ include $arrConfig['dir_admin'].'/head.inc.php';
 
 
    <?php
+   include 'admin/modal/modal-sobre.php';
 include $arrConfig['dir_admin'].'/end.inc.php';
 ?>
 
