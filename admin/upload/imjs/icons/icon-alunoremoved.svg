@@ -1,30 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 28.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 800 800" style="enable-background:new 0 0 800 800;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:none;stroke:#697A8D;stroke-width:32;stroke-miterlimit:133.3333;}
-	.st1{fill:none;stroke:#697A8D;stroke-width:32;stroke-linecap:round;stroke-miterlimit:133.3333;}
-	.st2{fill:none;stroke:#566A7F;stroke-width:25;stroke-linecap:round;stroke-miterlimit:133.3333;}
-	.st3{fill:#566A7F;}
-</style>
-<g id="SVGRepo_bgCarrier">
-</g>
-<g id="SVGRepo_tracerCarrier">
-</g>
-<g id="SVGRepo_iconCarrier">
-	<circle class="st0" cx="400" cy="200" r="133.3"/>
-	<path class="st1" d="M666.6,600c0.1-5.5,0.1-11,0.1-16.7c0-82.8-119.4-150-266.7-150c-147.3,0-266.7,67.2-266.7,150
-		s0,150,266.7,150c74.4,0,128-5.2,166.7-14.6"/>
-</g>
-<g id="SVGRepo_bgCarrier_00000041983071275380280770000004879813574543453588_">
-</g>
-<g id="SVGRepo_tracerCarrier_00000047744305542068249520000018308414479886120343_">
-</g>
-<g id="SVGRepo_iconCarrier_00000130648615908692758380000014651091125600585641_">
-	<path class="st2" d="M610.5,292.7c24.6-40.6,39.5-60.9,61.4-60.9c24.9,0,40.6,26.3,72.1,78.8l3.9,6.5
-		c26.1,43.6,39.2,65.4,27.4,81.4c-11.8,16-41.1,16-99.5,16h-7.8c-58.5,0-87.7,0-99.5-16c-10.3-13.8-1.8-32.1,17.8-65.2"/>
-	<path class="st2" d="M671.8,282.6v50.7"/>
-	<ellipse class="st3" cx="671.8" cy="363.7" rx="10.8" ry="10.1"/>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 800">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1, .cls-3 {
+        stroke: #697a8d;
+        stroke-miterlimit: 133.3;
+        stroke-width: 32px;
+      }
+
+      .cls-2 {
+        stroke: #566a7f;
+        stroke-miterlimit: 133.3;
+        stroke-width: 20px;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+  <g id="SVGRepo_iconCarrier" data-name="SVGRepo iconCarrier">
+    <circle class="cls-1" cx="400" cy="200" r="133.3"/>
+    <path class="cls-3" d="M666.6,600c0-5.5,0-11,0-16.7,0-82.8-119.4-150-266.7-150s-266.7,67.2-266.7,150,0,150,266.7,150,128-5.2,166.7-14.6"/>
+  </g>
+  <g id="SVGRepo_iconCarrier-2" data-name="SVGRepo iconCarrier">
+    <path class="cls-2" d="M615.4,239c4.1-11.7,15.3-20.1,28.4-20.1s24.3,8.4,28.4,20.1"/>
+    <path class="cls-2" d="M729.3,259.1h-170.9"/>
+    <path class="cls-2" d="M707.9,353.6c-1.8,26.7-2.7,40-11.4,48.2-8.7,8.1-22.1,8.1-48.8,8.1h-7.8c-26.8,0-40.1,0-48.8-8.1-8.7-8.1-9.6-21.5-11.4-48.2l-4.6-69.4M712.5,284.2l-2,30.2"/>
+    <path class="cls-2" d="M618.7,309.3l5,50.3"/>
+    <path class="cls-2" d="M669,309.3l-5,50.3"/>
+  </g>
 </svg>

@@ -1,7 +1,21 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier"> <path d="M9.17065 4C9.58249 2.83481 10.6937 2 11.9999 2C13.3062 2 14.4174 2.83481 14.8292 4" stroke="#566a7f" stroke-width="1.248" stroke-linecap="round"/> <path d="M20.5 6H3.49988" stroke="#566a7f" stroke-width="1.248" stroke-linecap="round"/> <path d="M18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5M18.8334 8.5L18.6334 11.5" stroke="#566a7f" stroke-width="1.248" stroke-linecap="round"/> <path d="M9.5 11L10 16" stroke="#566a7f" stroke-width="1.248" stroke-linecap="round"/> <path d="M14.5 11L14 16" stroke="#566a7f" stroke-width="1.248" stroke-linecap="round"/> </g>
-</svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Camada_1" data-name="Camada 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 800">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #566a7f;
+        stroke-linecap: round;
+        stroke-miterlimit: 133.3;
+        stroke-width: 23px;
+      }
+    </style>
+  </defs>
+  <g id="SVGRepo_iconCarrier" data-name="SVGRepo iconCarrier">
+    <path class="cls-1" d="M610.8,138.7c4-11.3,14.8-19.4,27.5-19.4s23.5,8.1,27.5,19.4"/>
+    <path class="cls-1" d="M720.7,158.1h-165"/>
+    <path class="cls-1" d="M700.1,249.3c-1.7,25.8-2.6,38.7-11,46.5-8.4,7.9-21.3,7.9-47.1,7.9h-7.5c-25.8,0-38.7,0-47.1-7.9-8.4-7.9-9.3-20.7-11-46.5l-4.5-67M704.6,182.4l-1.9,29.1"/>
+    <path class="cls-1" d="M614,206.6l4.9,48.5"/>
+    <path class="cls-1" d="M662.5,206.6l-4.9,48.5"/>
+  </g>
+</svg>
