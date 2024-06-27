@@ -723,6 +723,19 @@ $GLOBALS['campos'] = array(
 
     //colaboradores
     array(
+        
+        'id' => 'foto',
+        'name' => 'foto_colaborador',
+        'type' => 'hidden',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'colaborador',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        
+    ),
+    array(
         'label' => 'Nome do Colaborador',
         'id' => 'name',
         'name' => 'colaborador',

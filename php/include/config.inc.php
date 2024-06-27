@@ -86,8 +86,8 @@ $arrConfig['url_fotos']=$arrConfig['url_imjs'].'/fotos';
 $arrConfig['dir_fotos']=$arrConfig['dir_imjs'].'/fotos';
 
 $folderIcon = 'icons';
-$arrConfig['url_icons']=$arrConfig['url_imjs'].'/'. $folderIcon;
-$arrConfig['dir_icons']=$arrConfig['dir_imjs'].'/'. $folderIcon;
+$arrConfig['url_icons_upload']=$arrConfig['url_imjs_upload'].'/'. $folderIcon;
+$arrConfig['dir_icons_ipload']=$arrConfig['dir_imjs_upload'].'/'. $folderIcon;
 
 $arrConfig['fotos_auth'] = array ('image/jpeg', 'image/jpg', 'image/png', 'image/gif');
 $arrConfig['fotos_maxUpload'] = 3000000;

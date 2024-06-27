@@ -1,9 +1,9 @@
 <?php
 
 if ($foto != ''  ) {
-      
+    
     if ($tipo == 'operacao') {
-        $src=  $arrConfig['url_icons'] . '/' . $foto . '" alt="' .$tabela. ': ' . $v[$tabela] . '"';
+        $src=  $arrConfig['url_icons_upload'] . '/' . $foto . '" alt="' .$tabela. ': ' . $v[$tabela] . '"';
 
     }else{
         $src = $arrConfig['url_fotos_upload'] . '/' . $tabela . '/' . $foto . '" alt="' . $tabela . ': ' . $v[$tabela] . '"';
@@ -13,9 +13,10 @@ if ($foto != ''  ) {
   } else{
     
 
-    $arricons = my_query('SELECT operacao, foto_operacao FROM operacao WHERE ativo = 1 AND foto_operacao = "icon-'.$tabela.'.svg"');
-   
+    $arricons = my_query('SELECT operacao, foto_operacao FROM operacao WHERE ativo = 1 AND removed = 0 and operacao = "'.$tabela.' "');
+  
     $icon = $arricons[0]['foto_operacao'];
  
-    $src=  $arrConfig['url_icons'] . '/' . $icon . ' "';
+    $src=  $arrConfig['url_icons_upload'] . '/' . $icon . ' "';
+   
   }

@@ -141,7 +141,7 @@
               <div class="card mb-3 px-md-4 ps-0" style="background-color: white">
               <div id="personView" style="display: block;">';
 
-   if(isset($arrResultados[$k]['foto_' . $tabela])) {echo gerar_upload($src, $buttonMsg, 'image');}
+   if(isset($arrResultados[$k]['foto_' . $tabela])) { gerar_upload($src, $buttonMsg, 'image');}
 
 
 

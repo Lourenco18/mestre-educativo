@@ -188,7 +188,6 @@ if ($acao == 'adicionar') {
 
 ;
 
-
 if(isset($sql_form)){
     my_query($sql_form);
 }
