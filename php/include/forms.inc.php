@@ -40,27 +40,43 @@
  
 
   include $arrConfig['dir_include'] . '/caminho.inc.php';// caminho de cada página
-  if ($tabela == 'aluno' && $especificacao == 'editar') {
+  if ( $especificacao == 'editar') {
     echo '
         <ul class="nav nav-pills flex-column flex-md-row mb-3">
         <li class="nav-item">
           <a class="nav-link active" href="#personView"
             ><i class="bx bx-user me-1"></i> Aluno</a
           >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#relacaoView"
-            ><i class="bx bx-bell me-1"></i> Relações</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#avaliacoesView"
-            ><i class="bx bx-link-alt me-1"></i> Avaliações</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#horarioView"
-            ><i class="bx bx-link-alt me-1"></i> Horário</a
+        </li>';
+        if($tabela == 'aluno'){
+          echo'
+          <li class="nav-item">
+            <a class="nav-link" href="#relacaoView"
+              ><i class="bx bx-network-chart"></i> Relações</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#avaliacoesView"
+              ><i class="bx bx-link-alt me-1"></i> Avaliações</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#horarioView"
+              ><i class="bx bx-calendar"></i> Horário</a
+            >
+          </li>
+  
+           <li class="nav-item">
+            <a class="nav-link" href="#pagamentosView"
+              ><i class="bx bx-dollar"></i> Pagamentos</a
+            >
+          </li>';
+        }
+       
+        echo'
+          <li class="nav-item">
+          <a class="nav-link" href="#historyView"
+            ><i class="bx bx-history"></i> Histórico</a
           >
         </li>
         </ul>
@@ -334,19 +350,22 @@ WHERE rn = 1;";
 
 <?php
 
-include 'separador/relacaoView.php'
+include 'separador/relacaoView.php';
 
+
+
+include 'separador/avaliacoesView.php';
+
+
+  include 'separador/horarioView.php';
+
+  include 'separador/historyView.php';
+
+  include 'separador/pagamentosView.php';
 ?>
-<?php
 
-include 'separador/avaliacoesView.php'
-
-?>
-
-<?php
-  include 'separador/horarioView.php'
-?>
 </div>
+
 
 <script>
   
@@ -521,6 +540,8 @@ if ( ultimoDigito != comparador ){ temErro=1;}
     var avaliacoesView = document.getElementById('avaliacoesView');
     var horarioView = document.getElementById('horarioView');
     var personView = document.getElementById('personView');
+    var historyView = document.getElementById('historyView');
+    var pagamentosView = document.getElementById('pagamentosView');
     console.log(nomeBotao);
 
     if (nomeBotao === 'personView') {
@@ -528,21 +549,45 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       relacaoView.style.display = 'none';
       avaliacoesView.style.display = 'none';
       horarioView.style.display = 'none';
+      historyView.style.display = 'none';
+      pagamentosView.style.display = 'none';
     } else if (nomeBotao === 'relacaoView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'block';
       avaliacoesView.style.display = 'none';
       horarioView.style.display = 'none';
+      historyView.style.display = 'none';
+      pagamentosView.style.display = 'none';
     } else if (nomeBotao === 'avaliacoesView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'none';
       avaliacoesView.style.display = 'block';
       horarioView.style.display = 'none';
+      historyView.style.display = 'none';
+      pagamentosView.style.display = 'none';
     } else if (nomeBotao === 'horarioView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'none';
       avaliacoesView.style.display = 'none';
       horarioView.style.display = 'block';
+      historyView.style.display = 'none';
+      pagamentosView.style.display = 'none';
+    }
+   else if (nomeBotao === 'historyView') {
+      personView.style.display = 'none';
+      relacaoView.style.display = 'none';
+      avaliacoesView.style.display = 'none';
+      horarioView.style.display = 'none';
+      historyView.style.display = 'block';
+      pagamentosView.style.display = 'none';
+    }
+    else if (nomeBotao === 'pagamentosView') {
+      personView.style.display = 'none';
+      relacaoView.style.display = 'none';
+      avaliacoesView.style.display = 'none';
+      horarioView.style.display = 'none';
+      historyView.style.display = 'none';
+      pagamentosView.style.display = 'block';
     }
 
   }

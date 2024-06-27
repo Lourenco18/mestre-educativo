@@ -172,7 +172,7 @@ if (array_key_exists($pagina, $consultas)) {
   // Se a página não for encontrada no array de consultas
   echo "Página não encontrada!";
 }
-echo '</div>';
+
 
 
 

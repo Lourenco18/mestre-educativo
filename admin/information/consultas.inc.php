@@ -384,7 +384,25 @@ $consultasForms = [
   ];
 
   $consultasHistorico=[
-    
+    'aluno' => 'SELECT * 
+    FROM aluno 
+    INNER JOIN colaborador ON aluno.id_orientador = colaborador.unico
+    INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.unico
+    INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.unico
+    INNER JOIN genero ON Genero.unico = aluno.id_genero
+    INNER JOIN localidade ON Localidade.unico = aluno.id_localidade
+    INNER JOIN escola ON escola.unico = aluno.id_escola
+    INNER JOIN nacionalidade ON nacionalidade.unico = aluno.id_nacionalidade
+    INNER JOIN turma ON turma.unico = aluno.id_turma
+    Where  unico = '.$id_unico.' ORDER BY data DESC',
+    'encarregadoeducacao' => 'SELECT * FROM encarregadoeducacao INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao  WHERE encarregadoeducacao.ativo = 1',
+    'colaborador' => 'SELECT * FROM colaborador  INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE cargo.ativo = 1 and colaborador.id_colaborador = ' . $id . '',
+    'escola' => 'SELECT * FROM escola WHERE id_escola = ' . $id . ' ',
+    'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.id_turma = ' . $id . '',
+    'operacao'=> 'SELECT * FROM operacao  WHERE operacao.id_operacao = ' . $id . ' ',
+    'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = '.$id.' ',
+    'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.id_cargo = '.$id.' ',
+    'pessoa'=> 'SELECT * FROM pessoa  WHERE id_pessoa = '.$id_modal.' ',  
   ]
   ;
  
