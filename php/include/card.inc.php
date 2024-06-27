@@ -1,4 +1,27 @@
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <?php
+
+include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
+$data = [
+    'labels' => ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho','Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    'data' => [5, 10, 15, 11, 12]
+];
+$masc =0;
+$fem = 0;
+$alunos = $consultas['aluno'];
+$alunos = my_query($alunos);
+
+
+foreach ($alunos as $k => $v) {
+    if ($v['id_genero'] = 1) {
+        $fem = $fem+1;
+    }else{
+        $masc = $masc+1;
+    }
+}
+
 if(isset($_GET['pagina'])){
     $pagina = $_GET['pagina'];
   }else{
@@ -15,6 +38,98 @@ if($page_name == 'index.php') {
 
 };
 
+$disciplinas = "
+   WITH DisciplinaRecente AS (
+    SELECT 
+        disciplina.*,
+        ROW_NUMBER() OVER (PARTITION BY disciplina.unico ORDER BY disciplina.data DESC) AS rn
+    FROM 
+        disciplina
+    WHERE
+        disciplina.ativo = 1
+),
+CicloRecente AS (
+    SELECT 
+        ciclo.*,
+        ROW_NUMBER() OVER (PARTITION BY ciclo.unico ORDER BY ciclo.data DESC) AS rn
+    FROM 
+        ciclo
+    WHERE
+        ciclo.ativo = 1
+)
+SELECT 
+    dr.*,
+    cr.*
+FROM 
+    DisciplinaRecente dr
+INNER JOIN 
+    CicloRecente cr ON dr.id_ciclo = cr.unico AND cr.rn = 1
+WHERE 
+    dr.rn = 1;
+
+";
+$arrDisciplinas = my_query($disciplinas);
+if ($page_name == "index.php") {
+  echo '
+      <div class="col">
+          <div class="card h-100 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
+              onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
+              onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
+              <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
+                  <h5 class="card-title">Novas Inscrições</h5>
+
+<canvas id="chart1" style="height: 200px;"></canvas>
+
+
+              </div>
+          </div>
+      </div>';
+      echo '
+      <div class="col">
+          <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
+              onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
+              onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
+              <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
+           
+
+<canvas id="sexoChart" style="height: 200px;"></canvas>
+
+
+              </div>
+          </div>
+      </div>';
+      echo '
+      <div class="col">
+          <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
+              onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
+              onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
+              <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
+                  <h5 class="card-title">Avaliações</h5>
+              </div>
+          </div>
+      </div>';
+      echo '
+      <div class="col">
+          <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
+              onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
+              onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
+              <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
+                  <h5 class="card-title">Faturação</h5>
+              </div>
+          </div>
+      </div>';
+      echo '
+      <div class="col">
+          <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
+              onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
+              onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
+              <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
+                  <h5 class="card-title"></h5>
+              </div>
+          </div>
+      </div>';
+}
+
     $arrResultados = my_query('SELECT * FROM operacao WHERE ativo = 1 '. $cards.'  AND unico IN (' . $_SESSION['permissoes'] . ') ' );
 
 
@@ -26,6 +141,7 @@ if($page_name == 'index.php') {
         if(isset($pagina)){
           if( $page_name =='index.php'){
             $cor = $v['cor'];
+            
             
           }else{
       ;
@@ -85,5 +201,63 @@ if($page_name == 'index.php') {
             </div>';
     };
 
+?>
+    <script>
+    // Configuração do gráfico
+    var ctx = document.getElementById('chart1').getContext('2d');
+    var chart1 = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <?php echo json_encode($data['labels']); ?>,
+            datasets: [{
+                label: 'Quantidade',
+                data: <?php echo json_encode($data['data']); ?>,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    </script>
+    <script>
+// Configuração do gráfico de pizza
+var ctx = document.getElementById('sexoChart').getContext('2d');
+var sexoChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Feminino', 'Masculino'],
+        datasets: [{
+            label: 'Sexo',
+            data: [<?php echo $fem; ?>, <?php echo $masc; ?>],
+            backgroundColor: ['#FFC0CB', '#87CEEB'],
+            hoverOffset: 4
+        }]
+    },
+    options: {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        var dataset = sexoChart.data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percent = Math.round((currentValue / total) * 100);
+                        return currentValue + ' (' + percent + '%)';
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
 
-   
+    

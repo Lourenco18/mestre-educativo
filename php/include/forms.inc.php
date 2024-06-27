@@ -10,7 +10,7 @@
   $id = isset($_GET['id']) ? $_GET['id'] : '';
   $tabela = rtrim($tipo, "s");
   $id_aluno = $id;
-  if ($tipo == 'colaborador' || $tipo == 'professor') {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
+  if ($tipo == 'colaborador' || $tipo == 'professor'  ) {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
     
     $tabela = 'colaborador';// o $categoria vai ser uma variavel que vou usar para identificar a tabela que tenho de utilizar
     $tipo = "colaborador";
@@ -36,7 +36,6 @@
 
  
   include $arrConfig['dir_admin'] . '/forms_campos.php';
- 
  
 
   include $arrConfig['dir_include'] . '/caminho.inc.php';// caminho de cada página
@@ -106,12 +105,15 @@
 
     }
 
-    if ($especificacao == "editar" && isset($arrResultados[$k]['foto_' . $tabela])) {
-
+ 
+    if ($especificacao == "editar" && $tabela == 'aluno' || $tabela == 'escola' || $tabela == 'colaborador') {
+    
       foreach ($arrResultados as $k => $v) {
-        $foto = isset($arrResultados[$k]['foto_' . $tabela]);
+
+        $foto = $arrResultados[0]['foto_' . $tabela];
 
       }
+  
       include $arrConfig['dir_admin'] . '/fotos.inc.php';
 
       if ($foto == '') {
@@ -620,7 +622,31 @@ if ( ultimoDigito != comparador ){ temErro=1;}
     });
   });
 
+  document.addEventListener('DOMContentLoaded', function(e) {
+            console.log('DOM fully loaded and parsed');
+            const deactivateAcc = document.querySelector('#formAccountDeactivation');
+            let accountUserImage = document.getElementById('uploadedAvatar');
+            const fileInput = document.querySelector('.account-file-input');
+            const resetFileInput = document.querySelector('.account-image-reset');
 
+            if (accountUserImage) {
+                console.log('accountUserImage found');
+                const resetImage = accountUserImage.src;
+                fileInput.onchange = () => {
+                    if (fileInput.files[0]) {
+                        console.log('File selected');
+                        accountUserImage.src = window.URL.createObjectURL(fileInput.files[0]);
+                    }
+                };
+                resetFileInput.onclick = () => {
+                    console.log('Reset clicked');
+                    fileInput.value = '';
+                    accountUserImage.src = resetImage;
+                };
+            } else {
+                console.log('accountUserImage not found');
+            }
+        });
 
 
 </script>

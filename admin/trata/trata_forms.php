@@ -61,20 +61,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $columnName = str_replace('id_', '', $column);
         // Verificar se o campo existe no POST antes de atribuir seu valor
         if (isset($_POST[$columnName])) {
-
+            $dados[$column] = $_POST[$columnName];
             // Verificar se o campo é uma foto
             if ($image != '') {
-
                 if (strpos($columnName, 'foto') !== false) {
+                
                     $dados[$column] = $nome_arquivo . '.' . $extensao;
+                   
+                   
                 }
             } else {
-
-
-
-
+               
             }
-            $dados[$column] = $_POST[$columnName];
+           
         } else {
 
             // Se o campo não existe no POST, atribuir uma string vazia

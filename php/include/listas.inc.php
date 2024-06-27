@@ -176,7 +176,7 @@ if (array_key_exists($pagina, $consultas)) {
 
 
 
-
+echo '</div>';
 
 
 // Tabela alternativa
