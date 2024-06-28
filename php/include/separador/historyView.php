@@ -1,9 +1,5 @@
 <?php
 
- $arrisunico = my_query('SELECT unico, id_'.$tabela.' from '.$tabela.' where id_'.$tabela.' = '.$id.'');
- $id_unico = $arrisunico [0]['unico'];
- $historico = $consultasHistorico[$tabela];
- $dadosHistorico = my_query($historico);
 
 ?>
 

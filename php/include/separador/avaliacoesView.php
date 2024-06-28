@@ -1,5 +1,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <?php
+
 include $_SERVER['DOCUMENT_ROOT'] . '/mestre-educativo/php/include/config.inc.php';
 include $arrConfig['dir_admin'] . '/head.inc.php';
 $legendasPorCiclo = [
@@ -72,6 +73,7 @@ foreach ($arrAnoCiclo as $entry) {
 
 // Query para obter as avaliações do aluno
 $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_aluno");
+
 ?>
 
 <style>
@@ -138,6 +140,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
     <div class="card mb-3 px-md-4 ps-0" style="background-color: white;">
         <div class="container mt-5">
             <?php
+        
             foreach ($anoCicloMap as $anoletivoId => $anoCiclo) {
                 // Definir o ano letivo padrão para carregar inicialmente
                 $id_ano_letivo = $anoletivoId;

@@ -69,7 +69,14 @@
             <a class="nav-link" href="#pagamentosView"
               ><i class="bx bx-dollar"></i> Pagamentos</a
             >
-          </li>';
+          </li>
+          </li>
+  
+          <li class="nav-item">
+           <a class="nav-link" href="#galeriaView"
+             ><i class="bx bx-photo-album"></i> Galeria</a
+           >
+         </li>';
         }
        
         echo'
@@ -114,7 +121,7 @@
 
       }
   
-      include $arrConfig['dir_admin'] . '/fotos.inc.php';
+    
 
       if ($foto == '') {
         $buttonMsg = "Adicionar uma foto - $tabela";
@@ -122,12 +129,12 @@
         $buttonMsg = "Alterar foto - $tabela";
       }
     } else {
-      $foto = array();
+      $foto = '';
       $buttonMsg = "Inserir foto - $tabela";
 
     }
 
-
+    include $arrConfig['dir_admin'] . '/fotos.inc.php';
 
 
 
@@ -141,7 +148,7 @@
               <div class="card mb-3 px-md-4 ps-0" style="background-color: white">
               <div id="personView" style="display: block;">';
 
-   if(isset($arrResultados[$k]['foto_' . $tabela])) { gerar_upload($src, $buttonMsg, 'image');}
+   if($tabela == 'aluno' || $tabela == 'escola' || $tabela == 'colaborador') { gerar_upload($src, $buttonMsg, 'image');}
 
 
 
@@ -358,12 +365,13 @@ include 'separador/relacaoView.php';
 
 include 'separador/avaliacoesView.php';
 
-
+include 'separador/galeriaView.php';
   include 'separador/horarioView.php';
-
+  include 'separador/pagamentosView.php';
+  
   include 'separador/historyView.php';
 
-  include 'separador/pagamentosView.php';
+ 
 ?>
 
 </div>
@@ -544,6 +552,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
     var personView = document.getElementById('personView');
     var historyView = document.getElementById('historyView');
     var pagamentosView = document.getElementById('pagamentosView');
+    var galeriaView = document.getElementById('galeriaView');
     console.log(nomeBotao);
 
     if (nomeBotao === 'personView') {
@@ -553,6 +562,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       horarioView.style.display = 'none';
       historyView.style.display = 'none';
       pagamentosView.style.display = 'none';
+      galeriaView.style.display = 'none';
     } else if (nomeBotao === 'relacaoView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'block';
@@ -560,6 +570,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       horarioView.style.display = 'none';
       historyView.style.display = 'none';
       pagamentosView.style.display = 'none';
+      galeriaView.style.display = 'none';
     } else if (nomeBotao === 'avaliacoesView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'none';
@@ -567,6 +578,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       horarioView.style.display = 'none';
       historyView.style.display = 'none';
       pagamentosView.style.display = 'none';
+      galeriaView.style.display = 'none';
     } else if (nomeBotao === 'horarioView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'none';
@@ -574,6 +586,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       horarioView.style.display = 'block';
       historyView.style.display = 'none';
       pagamentosView.style.display = 'none';
+      galeriaView.style.display = 'none';
     }
    else if (nomeBotao === 'historyView') {
       personView.style.display = 'none';
@@ -582,6 +595,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       horarioView.style.display = 'none';
       historyView.style.display = 'block';
       pagamentosView.style.display = 'none';
+      galeriaView.style.display = 'none';
     }
     else if (nomeBotao === 'pagamentosView') {
       personView.style.display = 'none';
@@ -590,6 +604,17 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       horarioView.style.display = 'none';
       historyView.style.display = 'none';
       pagamentosView.style.display = 'block';
+      galeriaView.style.display = 'none';
+    
+    }
+    else if (nomeBotao === 'galeriaView') {
+      personView.style.display = 'none';
+      relacaoView.style.display = 'none';
+      avaliacoesView.style.display = 'none';
+      horarioView.style.display = 'none';
+      historyView.style.display = 'none';
+      pagamentosView.style.display = 'none';
+      galeriaView.style.display = 'block';
     }
 
   }

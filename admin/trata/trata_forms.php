@@ -31,7 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     }
 }else{
-    $nome_arquivo = my_query("SELECT foto_$tabela FROM $tabela WHERE id_$tabela = $id");
+    if($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'escola'){
+        $nome_arquivo = my_query("SELECT foto_$tabela FROM $tabela WHERE id_$tabela = $id");
+    }
+   
 }
    
 
@@ -109,23 +112,47 @@ if ($acao == 'adicionar') {
     $sql_form = "INSERT INTO $tabela ($campos) VALUES (" . implode(", ", array_map(function ($value) {
         return "'$value'";
     }, $dados)) . ")";
+    
 
     // atribuir as notas o valor zero, de todos os periodos e de todas as disciplinas
     if ($tabela == "aluno") {
+        //adicionar relação
+        //dados do encarregado de educação
+       
+        $ee = my_query('SELECT encarregadoeducacao, telefone_encarregadoeducacao, id_relacao from encarregadoeducacao WHERE unico = '.$_POST['encarregadoeducacao'].'');
+       
+      
+       foreach($ee as $k => $v){
+            $nome_ee = $v['encarregadoeducacao'];
+            $telefone_ee = $v['telefone_encarregadoeducacao'];
+            $id_relacao = $v['id_relacao'];
+        }
 
+       
+        $id_aluno = my_query("SELECT MAX(unico) FROM aluno");
+        $id_aluno = $id_aluno[0]['MAX(unico)'] + 1;
+        $aql_pessoa = 'INSERT INTO pessoa (pessoa, telefone_pessoa, id_relacao, id_aluno, unico) VALUES ("'.$nome_ee.'", '.$telefone_ee.', '.$id_relacao.','.$id_aluno.', '.$id_unico.')';
+        echo $aql_pessoa. '<br>';
+        my_query('INSERT INTO pessoa (pessoa, telefone_pessoa, id_relacao, id_aluno, unico) VALUES ("'.$nome_ee.'", '.$telefone_ee.', '.$id_relacao.','.$id_aluno.', '.$id_unico.')');
+       
+        //adicionar avaliações
         $id_ciclo = $dados['id_ciclo'];
-        $arrDisciplinas = my_query("SELECT id_disciplina from disciplina INNER JOIN ciclo on ciclo.id_ciclo = disciplina.id_ciclo WHERE disciplina.id_ciclo = $id_ciclo and disciplina.ativo = 1");
-        var_dump($arrDisciplinas);
+        $arrDisciplinas = my_query("SELECT disciplina.unico as unico_disp from disciplina INNER JOIN ciclo on ciclo.id_ciclo = disciplina.id_ciclo WHERE disciplina.id_ciclo = $id_ciclo and disciplina.ativo = 1");
+       
         $arrPeriodos = array(1, 2, 3);
         foreach ($arrDisciplinas as $k => $v) {
             for ($i = 0; $i < count($arrPeriodos); $i++) {
                 $avaliacaoUnico = my_query("SELECT MAX(unico) FROM avaliacao");
                 $avaliacaoUnico = $avaliacaoUnico[0]['MAX(unico)'] + 1;
-                $sql = "INSERT INTO avaliacao (id_aluno, id_disciplina, periodo, id_anoletivo, unico, ativo) VALUES ($id_unico,{$v['id_disciplina']}, {$arrPeriodos[$i]}, {$arrConfig['anoLetivo']}, $avaliacaoUnico, 1)";
-                echo $sql;
+               
+             $avaliacoes = "INSERT INTO avaliacao (id_aluno, id_disciplina, periodo, id_anoletivo, unico, ativo) VALUES ($id_unico,{$v['unico_disp']}, {$arrPeriodos[$i]}, {$arrConfig['anoLetivo']}, $avaliacaoUnico, 1)";
+             echo $avaliacoes . '<br>'; 
+         my_query($avaliacoes);
+          
             }
         }
-
+      
+ 
     } elseif ($tabela == "operacao") {
         $id_novaOperacao = my_query("SELECT MAX(unico) FROM operacao");
         $id_novaOperacao = $id_novaOperacao[0]['MAX(unico)'] + 1;
@@ -152,22 +179,28 @@ if ($acao == 'adicionar') {
             if (preg_match('/^disciplina_(\d+)_periodo_(\d+)aluno_(\d+)$/', $key, $matches)) {// verifica o padrão do id de cada selectedBox
                 // Extrai os valores de disciplina, periodo e id_aluno
                 $disciplina = $matches[1];
+               
                 $periodo = $matches[2];
                 $id_aluno = $matches[3];
                 // Armazena o valor da select box na array
                 $arrayAvaliacao[$id_aluno][$disciplina][$periodo] = $value;
             }
         }
+        
         // query para realizar a alteração das avaliações
         foreach ($arrayAvaliacao as $id_aluno => $disciplinas) {
             foreach ($disciplinas as $disciplina => $periodos) {
+                
                 foreach ($periodos as $periodo => $selectValue) {
+                    echo "UPDATE $tabela set avaliacao =  $selectValue where id_disciplina = $disciplina AND id_aluno = $id_aluno and periodo =  $periodo". '<br>';
+                   
                     my_query("UPDATE $tabela set avaliacao =  $selectValue where id_disciplina = $disciplina AND id_aluno = $id_aluno and periodo =  $periodo");
                    
                 }
             }
         }
-        
+       
+      
     }
 
 
@@ -191,7 +224,7 @@ if ($acao == 'adicionar') {
 ;
 
 if(isset($sql_form)){
-    my_query($sql_form);
+ my_query($sql_form);
 }
 
 header("Location: ../../index.php");

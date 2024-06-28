@@ -8,10 +8,9 @@ if(isset($_GET['msg'])) {
     $msg = $_GET['msg'];
     
 }
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
+//error_reporting(-1);
+//ini_set( 'display_errors', 1 );
 
 $arrConfig['servername'] = 'localhost';
 $arrConfig['username'] = 'root';
@@ -101,7 +100,8 @@ include_once 'functions.inc.php';
 include_once 'db.inc.php'; 
 include_once $arrConfig['dir_admin'].'/permissoes/config_permition.php'; 
 
-$arrConfig['anoLetivo']= my_query("SELECT * from anoletivo where ativo=1 ");
+$arrConfig['anoLetivo']= my_query("SELECT * from anoletivo where ativo =1 ");
+$arrConfig['anoLetivo']= $arrConfig['anoLetivo'][0]['anoletivo'];
 
 
 

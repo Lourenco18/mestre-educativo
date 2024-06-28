@@ -4,10 +4,10 @@ if(isset($especificacao) && $especificacao == 'adicionar'  ){
     $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
     $id_unico = $id_unico[0]['MAX(unico)'] + 1;
  
-   
 }else{
 
 }
+
 if(isset($id_aluno)){
 
 }else{
@@ -72,7 +72,7 @@ $GLOBALS['campos'] = array(
         'min'=> '',
         'maxlength'=>'15',
         'max'=> '',
-        'config' => 'pattern="[0-9]{8}-[0-9]-a[bB]x"',
+        'config' => 'pattern="\d{8}-\d-[a-zA-Z]{2}\d"',
         'placeholder'=>"10890919-7-ZY3",
     ),
     array(
@@ -86,7 +86,7 @@ $GLOBALS['campos'] = array(
         'min'=> '',
         'maxlength'=>'9',
         'max'=> '',
-        'config' => 'pattern="[0-9]"',
+        'config' => '',
         'placeholder'=>"Número de Contribuinte",
     ),
     array(
@@ -404,7 +404,7 @@ $GLOBALS['campos'] = array(
         
         'id' => 'foto',
         'name' => 'foto_aluno',
-        'type' => 'text',
+        'type' => 'hidden',
         'divisao' => 'Informações Pessoais',
         'object'=> 'aluno',
         'min'=> '',
@@ -775,7 +775,7 @@ $GLOBALS['campos'] = array(
         'min'=> '',
         'maxlength'=>'',
         'max'=> '',
-        'config' => '',
+        'config' => 'pattern="\d{8}-\d-[a-zA-Z]{2}\d"',
         'placeholder'=>"",
     ),
     array(
@@ -1115,6 +1115,25 @@ $GLOBALS['campos'] = array(
         'config' => '',
         'placeholder'=>"",
     ),
+
+    array(
+        'label' => '',
+        'id' => 'nota',
+        'name' => 'unico',
+        'type' => 'text',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => '',
+        'object' => 'nota',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => ' value = "'.$id_unico.'"',
+        'placeholder'=>"",
+    ),
+
+
+
+
     array(
         'label' => '',
         'id' => 'colaborador',

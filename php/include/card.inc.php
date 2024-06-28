@@ -1,6 +1,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<style>
+      .item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+        .details {
+            text-align: left;
+        }
+        .details .title {
+            font-weight: bold;
+        }
+        .details .date {
+            color: #777;
+        }
+</style>
 <?php
 
 include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
@@ -13,14 +34,18 @@ $fem = 0;
 $alunos = $consultas['aluno'];
 $alunos = my_query($alunos);
 
-
+//géneros
 foreach ($alunos as $k => $v) {
     if ($v['id_genero'] = 1) {
         $fem = $fem+1;
     }else{
         $masc = $masc+1;
     }
+    $v['data_nascimento_aluno'];
 }
+//aniversários
+
+
 
 if(isset($_GET['pagina'])){
     $pagina = $_GET['pagina'];
@@ -72,7 +97,7 @@ $arrDisciplinas = my_query($disciplinas);
 if ($page_name == "index.php") {
   echo '
       <div class="col">
-          <div class="card h-100 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
+          <div class="card h-100 ps-0 py-xl-3" style="border: 4px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
               onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
               onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
               <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
@@ -86,7 +111,7 @@ if ($page_name == "index.php") {
       </div>';
       echo '
       <div class="col">
-          <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
+          <div class="card h-70 ps-0 py-xl-3" style="border: 4px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
               onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
               onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
               <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
@@ -98,36 +123,74 @@ if ($page_name == "index.php") {
               </div>
           </div>
       </div>';
+    
+     
       echo '
       <div class="col">
-          <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
+          <div class="card h-70 ps-0 py-xl-3" style="border: 4px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
               onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
               onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
               <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
-                  <h5 class="card-title">Avaliações</h5>
+                 
+                  <canvas id="faturacaoChart"></canvas>
               </div>
           </div>
       </div>';
       echo '
-      <div class="col">
-          <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
-              onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
-              onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
-              <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
-                  <h5 class="card-title">Faturação</h5>
-              </div>
-          </div>
-      </div>';
-      echo '
-      <div class="col">
-          <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
-              onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
-              onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
-              <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
-                  <h5 class="card-title"></h5>
-              </div>
-          </div>
-      </div>';
+        
+    <div class="col">
+        <div class="card h-70 ps-0 py-xl-3">
+            <div class="card-body">
+                <h5 class="card-title">Aniversários</h5>
+                <div class="scrollable">';
+                    
+                    // Dados de aniversários
+                    $birthdays = [
+                        ['date' => '2006-01-07', 'image' => 'data:image/png;base64,INSERT_BASE64_IMAGE_HERE_1', 'name' => 'Marta'],
+                        ['date' => '2006-10-11', 'image' => 'data:image/svg+xml;base64,INSERT_BASE64_IMAGE_HERE_2', 'name' => 'Leonor'],
+                        ['date' => '2006-07-12', 'image' => 'data:image/png;base64,INSERT_BASE64_IMAGE_HERE_3', 'name' => 'João Silva'],
+                        ['date' => '2006-09-23', 'image' => 'data:image/png;base64,INSERT_BASE64_IMAGE_HERE_4', 'name' => 'Maria Oliveira'],
+                        ['date' => '2006-10-07', 'image' => 'data:image/png;base64,INSERT_BASE64_IMAGE_HERE_5', 'name' => 'Carlos Souza']
+                    ];
+
+                    // Função para calcular os dias até o próximo aniversário
+                    function days_until_birthday($birthday) {
+                        $today = new DateTime();
+                        $currentYear = $today->format('Y');
+                        $nextBirthday = new DateTime($currentYear . '-' . date('m-d', strtotime($birthday)));
+                        
+                        if ($nextBirthday < $today) {
+                            $nextBirthday->modify('+1 year');
+                        }
+                        
+                        return $today->diff($nextBirthday)->days;
+                    }
+
+                    // Calcular dias até o próximo aniversário e ordenar
+                    foreach ($birthdays as &$person) {
+                        $person['days_until'] = days_until_birthday($person['date']);
+                    }
+
+                    usort($birthdays, function($a, $b) {
+                        return $a['days_until'] - $b['days_until'];
+                    });
+
+                    // Limitar a 4 aniversários mais próximos
+                    $birthdays = array_slice($birthdays, 0, 3);
+                    foreach ($birthdays as $person) {
+                        echo '<div class="item">';
+                        echo '<img src="' . $person['image'] . '" alt="Icone" class="icon">';
+                        echo '<div class="details">';
+                        echo '<div class="title">' . htmlspecialchars($person['name']) . '</div>';
+                        echo '<div class="date">' . date('d/m/Y', strtotime($person['date'])) . '</div>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                    
+                echo'</div>
+            </div>
+        </div>
+    </div>';
 }
 
     $arrResultados = my_query('SELECT * FROM operacao WHERE ativo = 1 '. $cards.'  AND unico IN (' . $_SESSION['permissoes'] . ') ' );
@@ -191,7 +254,7 @@ if ($page_name == "index.php") {
         echo '
             <div class="col"  >
             <a  style="" href="'.$v['link'].'?pagina='.$v['operacao'].'&especificacao='.$v['tipo_form'].'&display='.$v['display'].'&id='.$v['id_operacao'].'&tipo='.$v['particao'].'">
-                <div class="card h-70 ps-0 py-xl-3" style="border: 2px solid '.$cor.'; border-radius: 8px; background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0' .$cor.', 0 6px 20px 0 '.$cor.'\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">    
+                <div class="card h-70 ps-0 py-xl-3" style="border: 4px solid '.$cor.'; border-radius: 8px; background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0' .$cor.', 0 6px 20px 0 '.$cor.'\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">    
                         <div class="card-body" style="  text-align: center;height: 231.599258px;  margin-left: 0px">
                             <h5 class="card-title">'.$v['display'].'</h5>
                             <img class="icons" src="'.$arrConfig['url_imjs_upload'].'/icons/'.$v['foto_operacao'].'" alt="" height="100">
@@ -258,6 +321,35 @@ var sexoChart = new Chart(ctx, {
         }
     }
 });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+            const ctx = document.getElementById('faturacaoChart').getContext('2d');
+            const faturacaoChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                    datasets: [{
+                        label: 'Faturação (Euros)',
+                        data: [1200, 1500, 1800, 2000, 2200, 2500, 2700, 3000, 3200, 3500, 3700, 4000],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </script>
 
     

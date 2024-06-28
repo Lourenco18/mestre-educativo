@@ -94,7 +94,7 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
                     if($_SESSION['userCargoID'] == 4 || $_SESSION['userCargoID']== 3 || $_SESSION['userCargoID'] == $v['id_cargo']){
                       
                       ?>
-                      <button class="btn btn-primary" type="button" style="background-color: orange; border-color: orange;" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoveNota<?php echo $id_unico_nota?>">
+                      <button class="btn btn-primary" type="button" style="background-color: orange; border-color: orange;" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoveNota<?php echo $id_unico_nota;?>">
                         <i class="bx bx-trash"></i>
                       </button>
                     <?php

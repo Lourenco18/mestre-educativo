@@ -100,6 +100,7 @@
 
     if (count($arrRelacao) == 0) {
       echo 'Não existem relações';
+      
     } else {
       ?>
       <?php foreach ($arrRelacao as $v) {

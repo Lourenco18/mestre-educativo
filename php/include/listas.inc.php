@@ -34,6 +34,7 @@ if (array_key_exists($pagina, $consultas)) {
   // Mostrar os resultados
 
   foreach ($arrResultados as $k => $v) {
+   
     $id = $v['id_' . $tabela];
     $id_unico = my_query('SELECT unico, id_' . $tabela . ' FROM ' . $tabela . ' WHERE id_' . $tabela . ' = ' . $id . '');
     $id_unico = $id_unico[0]['unico'];
