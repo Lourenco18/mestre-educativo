@@ -14,23 +14,26 @@ $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
 $id_unico = $id_unico[0]['MAX(unico)'] + 1;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //imagem
-    $image = $_FILES['image'] ?? '';
+    if(isset($_FILES['image'])){
 
-    $pdf = $_FILES['pdf'] ?? '';
-    //carcateristicas da imagem
-    if ($image != '') {
-        $extensao = pathinfo($image['name'], PATHINFO_EXTENSION);
-    }
-
-    if ($image != '') {
+        $image = $_FILES['image'] ?? '';
+        if ($image['name'] != ''){
+       
+            $extensao = pathinfo($image['name'], PATHINFO_EXTENSION);
+        
+        
+        
         $nome_arquivo = uniqid();
-        $pasta = $arrConfig['dir_fotos_upload'] . '/' . $tabela . '/';
-
-
-        move_uploaded_file($image['tmp_name'], $pasta . $nome_arquivo . '.' . $extensao);
-
+        $pasta =$arrConfig['dir_fotos_upload'].'/'.$tabela.'/';
+    
+        
+            move_uploaded_file($image['tmp_name'], $pasta.$nome_arquivo.'.'.$extensao);
+    
     }
+}else{
+    $nome_arquivo = my_query("SELECT foto_$tabela FROM $tabela WHERE id_$tabela = $id");
+}
+   
 
     //resto de dados
     $dados = [];
@@ -59,30 +62,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     foreach ($columns as $column) {
         $columnName = str_replace('id_', '', $column);
-        // Verificar se o campo existe no POST antes de atribuir seu valor
         if (isset($_POST[$columnName])) {
-            $dados[$column] = $_POST[$columnName];
-            // Verificar se o campo é uma foto
-            if ($image != '') {
-                if (strpos($columnName, 'foto') !== false) {
-                
-                    $dados[$column] = $nome_arquivo . '.' . $extensao;
-                   
-                   
+            if($image['name'] != ''){
+             
+                if(strpos($columnName , 'foto') !== false) {
+
+                    $dados[$column] =  $nome_arquivo.'.'.$extensao; 
+
+                }else{
+                    $dados[$column] = $_POST[$columnName];
                 }
-            } else {
-               
+            }else{
+                $dados[$column] = $_POST[$columnName];
             }
            
-        } else {
 
+        } else {
             // Se o campo não existe no POST, atribuir uma string vazia
             $dados[$column] = '';
         }
 
     }
 
-
+ 
     // Now $dados contains the appropriate data for the selected table
 
 

@@ -404,7 +404,7 @@ $GLOBALS['campos'] = array(
         
         'id' => 'foto',
         'name' => 'foto_aluno',
-        'type' => 'hidden',
+        'type' => 'text',
         'divisao' => 'Informações Pessoais',
         'object'=> 'aluno',
         'min'=> '',
@@ -652,7 +652,21 @@ $GLOBALS['campos'] = array(
  
 
     
+    array(
+        'label' => 'Ano de Escolaridade',
+        'id' => 'ano',
+        'name' => 'ano',
+        'type' => 'combobox',
    
+        'size' => 'mb-3 col-md-3',
+        'divisao' => 'Informações Escolares',
+        'object' => 'aluno',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
     array(
         'label' => 'Escola',
         'id' => 'escola',

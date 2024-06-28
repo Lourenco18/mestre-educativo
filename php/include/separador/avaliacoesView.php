@@ -4,14 +4,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/mestre-educativo/php/include/config.inc.ph
 include $arrConfig['dir_admin'] . '/head.inc.php';
 $legendasPorCiclo = [
     1 => [
-
         2 => 'Insuficiente',
         3 => 'Suficiente',
         4 => 'Bom',
         5 => 'Muito Bom'
     ],
-
 ];
+
 // Query para obter o ciclo mais recente do aluno
 $arrCicloMaisRecente = my_query("WITH CicloMaisRecente AS (
     SELECT 
@@ -79,15 +78,14 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
     .disciplina-group {
         padding: 10px;
         margin-bottom: 10px;
-        
     }
 
     .periodo-item {
         margin-bottom: 5px;
     }
+    
     .anoletivo-container {
         margin-bottom: 20px;
-       
     }
 
     .anoletivo-header {
@@ -111,11 +109,15 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
         transform: rotate(-90deg);
     }
 
+    .table-container {
+        overflow-x: auto;
+        margin: 20px 0;
+    }
+
     table {
         border-collapse: collapse;
-        width: 50%;
+        width: 100%;
         max-width: 100%;
-        margin: auto;
         table-layout: auto;
     }
 
@@ -162,6 +164,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                 echo '<img class="arrow-icon" src="https://cdn-icons-png.flaticon.com/512/54/54772.png">';
                 echo '</div>'; // fecha anoletivo-header
                 echo '<div id="anoletivo_' . $anoletivoId . '" class="collapse">';
+                echo '<div class="table-container">';
                 echo '<table>';
                 echo '<thead>';
                 echo '<tr>';
@@ -176,7 +179,6 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                     echo '<tr>';
                     echo '<td>' . $periodo . 'º</td>';
                     foreach ($arrDisciplinas as $disciplina) {
-                        
                         $avaliacao = my_query("SELECT * FROM avaliacao WHERE id_disciplina = {$disciplina['unico']} AND id_aluno = $id_unico_aluno AND periodo = $periodo");
                         $nota = $avaliacao[0]['avaliacao'];
                         // Verificar ciclo atual para determinar a legenda
@@ -190,6 +192,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                 }
                 echo '</tbody>';
                 echo '</table>';
+                echo '</div>'; // fecha table-container
                 echo '</div>'; // fecha collapse
                 echo '</div>'; // fecha anoletivo-container
             }
@@ -201,14 +204,10 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
     </div>
 </div>
 
-
-
 <!-- Modal para Editar Avaliações -->
 <div class="modal fade" id="modalavaliacao" tabindex="-1" aria-labelledby="modalTopTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        
-
-   <form class="modal-content" action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id_unico_aluno; ?>&tabela=avaliacao&acao=editar" method="POST" enctype="multipart/form-data">
+        <form class="modal-content" action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id_unico_aluno; ?>&tabela=avaliacao&acao=editar" method="POST" enctype="multipart/form-data">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTopTitle">Editar Avaliações</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -333,6 +332,3 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
         });
     });
 </script>
-
-
-

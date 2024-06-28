@@ -295,15 +295,5 @@ echo '</tbody>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
 <script>
   // Inicializar a tabela DataTable
-
-
-
-
-
-  var table = $('#table').DataTable({
-    columnDefs: [
-      { targets: [0], width: '10%' },
-      //{ targets: '_all', visible: false }
-    ]
-  });
+  new DataTable('#table');
 </script>
