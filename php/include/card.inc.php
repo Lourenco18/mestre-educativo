@@ -223,7 +223,7 @@ if ($page_name == "index.php") {
               $v['particao'] == "ano" ||
               $v['particao'] == "cargo" ||
               $v['particao'] == "ciclo" ||
-              $v['particao'] == "cidade" ||
+              
               $v['particao'] == "colaborador" ||
               $v['particao'] == "conjunto" ||
               $v['particao'] == "distrito" ||

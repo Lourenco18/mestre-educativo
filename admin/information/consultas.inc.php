@@ -56,13 +56,7 @@ NacionalidadeRecente AS (
     FROM 
         nacionalidade
 ),
-CidadeRecente AS (
-    SELECT 
-        cidade.*,
-        ROW_NUMBER() OVER (PARTITION BY cidade.unico ORDER BY cidade.data DESC) AS rn
-    FROM 
-        cidade
-),
+
 GeneroRecente AS (
     SELECT 
         genero.*,
@@ -296,13 +290,7 @@ NacionalidadeRecente AS (
     FROM 
         nacionalidade
 ),
-CidadeRecente AS (
-    SELECT 
-        cidade.*,
-        ROW_NUMBER() OVER (PARTITION BY cidade.unico ORDER BY cidade.data DESC) AS rn
-    FROM 
-        cidade
-),
+
 GeneroRecente AS (
     SELECT 
         genero.*,
@@ -519,7 +507,7 @@ escola.escola AS nome_escola_anterior,
 nacionalidade.nacionalidade AS nome_nacionalidade_anterior,
 turma.turma AS nome_turma_anterior,
 distrito.distrito AS nome_distrito_anterior,
-cidade.cidade AS nome_cidade_anterior,
+
 ciclo.ciclo AS nome_ciclo_anterior,
 anoletivo.anoletivo AS nome_anoletivo_anterior
 FROM aluno 
@@ -532,7 +520,7 @@ INNER JOIN escola ON escola.unico = aluno.id_escola
 INNER JOIN nacionalidade ON nacionalidade.unico = aluno.id_nacionalidade
 INNER JOIN turma ON turma.unico = aluno.id_turma
 INNER JOIN distrito ON distrito.unico = aluno.id_distrito
-INNER JOIN cidade ON cidade.unico = aluno.id_cidade
+
 INNER JOIN ciclo ON ciclo.unico = aluno.id_ciclo
 INNER JOIN anoletivo ON anoletivo.unico = aluno.id_anoletivo
 WHERE aluno.unico = '.$id_unico.'
@@ -581,11 +569,7 @@ SELECT MAX(data)
 FROM distrito 
 WHERE distrito.unico = aluno.id_distrito
 )
-AND cidade.data = (
-SELECT MAX(data) 
-FROM cidade 
-WHERE cidade.unico = aluno.id_cidade
-)
+
 AND ciclo.data = (
 SELECT MAX(data) 
 FROM ciclo 

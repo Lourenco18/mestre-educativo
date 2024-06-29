@@ -232,6 +232,19 @@ $GLOBALS['campos'] = array(
 
     //turma
     array(
+        
+        'id' => 'horario',
+        'name' => 'horario',
+        'type' => 'text',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'turma',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        
+    ),
+    array(
         'label' => 'Turma',
         'id' => 'turma',
         'name' => 'turma',
@@ -572,20 +585,7 @@ $GLOBALS['campos'] = array(
         'config' => '',
         'placeholder'=>"",
     ),
-    array(
-        'label' => 'Cidade',
-        'id' => 'cidade',
-        'name' => 'cidade',
-        'type' => 'combobox',
-        'size' =>'mb-3 col-md-3',
-        'divisao' => 'Informações Pessoais',
-        'object'=> 'aluno',
-        'min'=> '',
-        'maxlength'=>'',
-        'max'=> '',
-        'config' => '',
-        'placeholder'=>"",
-    ),
+  
     array(
         'label' => 'Localidade',
         'id' => 'localidade',
@@ -880,20 +880,7 @@ $GLOBALS['campos'] = array(
             'config' => '',
             'placeholder'=>"",
         ),
-        array(
-            'label' => 'Cidade',
-            'id' => 'cidade',
-            'name' => 'cidade',
-            'type' => 'combobox',
-            'size' =>'mb-3 col-md-3',
-            'divisao' => 'Informações Pessoais',
-            'object'=> 'colaborador',
-            'min'=> '',
-    'maxlength'=>'',
-            'max'=> '',
-            'config' => '',
-            'placeholder'=>"",
-        ),
+       
     
     array(
         'label' => 'Localidade',
