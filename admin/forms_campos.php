@@ -235,7 +235,7 @@ $GLOBALS['campos'] = array(
         
         'id' => 'horario',
         'name' => 'horario',
-        'type' => 'text',
+        'type' => 'hidden',
         'divisao' => 'Informações Pessoais',
         'object'=> 'turma',
         'min'=> '',

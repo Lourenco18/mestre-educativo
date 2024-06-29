@@ -1,11 +1,19 @@
 <?php
 // Recolher os horários
-
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 if ($tabela == "aluno") {
-    $id_turma = my_query('SELECT MAX(turma.id_turma) as idturma, aluno.id_turma from aluno inner join turma on turma.unico = aluno.id_turma where id_aluno = ' . $id . '');
+    $id_turma = my_query('SELECT MAX(turma.id_turma) as idturma, turma.turma as turma, aluno.id_turma, aluno.id_escola, escola.escola as escola from aluno inner join turma on turma.unico = aluno.id_turma  inner join escola on escola.unico = aluno.id_escola where id_aluno = ' . $id . '');
+    $turma = $id_turma[0]['turma'];
+    $escola = $id_turma[0]['escola'];
     $id_turma = $id_turma[0]['idturma'];
+   
 } else {
-    $id_turma = $id_unico;
+  $id_turma = $id;
+    $arrResultados = my_query('SELECT MAX(escola.id_escola) as id_escola, turma.turma, turma.id_turma  from turma inner join escola on escola.unico = turma.id_escola where id_turma = '.$id_turma.'');
+    $id_escola = $arrResultados[0]['id_escola'];
+    $arrescola = my_query('SELECT escola, id_escola from escola where escola.id_escola = '.$id_escola.'');
+    $escola = $arrescola[0]['escola']; 
+    $turma = $arrResultados[0]['turma'];
 }
 $horario = my_query('SELECT horario from turma where id_turma = ' . $id_turma . ' ');
 $horario = $horario[0]['horario'];
@@ -67,9 +75,10 @@ if (isset($horario)) {
         <div class="row row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 g-4 mb-2 ps-lg-4 pe-lg-3"
              style="padding: 20px;">
             <?php
-
+            
             $accept = 'image/png, image/jpeg, image/*';
             $permitido = 'JPG e PNG';
+         
 
             if ($turma == '0') {
                 echo '<h5>O aluno não têm nenhuma turma associada, para inserirar/ver o horário, associe uma tuma ao aluno</h5>';
@@ -79,7 +88,8 @@ if (isset($horario)) {
           <div class="card-body">
     <div class="d-flex flex-column align-items-center gap-4">
         <form id="imageForm" action="' . $arrConfig['url_trata'] . '/trata_horario.php" method="post" enctype="multipart/form-data">
-        
+         <h6>Escola: '.$escola.' </h6>
+        <h6>Turma: '.$turma.' </h6>
             <div class="mb-3">
                 <label for="imageUpload" class="form-label">Clique abaixo para escolher uma imagem:</label>
                 <input type="file" id="imageUpload" hidden name="imageUpload" accept="' . $accept . '">

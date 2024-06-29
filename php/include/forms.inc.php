@@ -77,6 +77,12 @@
              ><i class="bx bx-photo-album"></i> Galeria</a
            >
          </li>';
+        }elseif($tabela == 'turma'){
+          echo'<li class="nav-item">
+          <a class="nav-link" href="#horarioView"
+            ><i class="bx bx-calendar"></i> Horário</a
+          >
+        </li>';
         }
        
         echo'
@@ -358,18 +364,18 @@ WHERE rn = 1;";
 
 
 <?php
-
-include 'separador/relacaoView.php';
-
-
-
-include 'separador/avaliacoesView.php';
-
-include 'separador/galeriaView.php';
-  include 'separador/horarioView.php';
+if($tabela == 'aluno'){
+  include 'separador/relacaoView.php';
+  include 'separador/avaliacoesView.php';
+  include 'separador/galeriaView.php';
   include 'separador/pagamentosView.php';
-  
-  include 'separador/historyView.php';
+}
+
+if($tabela == 'turma' || $tabela == 'aluno'){
+
+  include 'separador/horarioView.php';
+}
+include 'separador/historyView.php';
 
  
 ?>
@@ -553,7 +559,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
     var historyView = document.getElementById('historyView');
     var pagamentosView = document.getElementById('pagamentosView');
     var galeriaView = document.getElementById('galeriaView');
-    console.log(nomeBotao);
+
 
     if (nomeBotao === 'personView') {
       personView.style.display = 'block';
@@ -563,6 +569,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       historyView.style.display = 'none';
       pagamentosView.style.display = 'none';
       galeriaView.style.display = 'none';
+      ersonView.style.display = 'block';
     } else if (nomeBotao === 'relacaoView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'block';
@@ -571,31 +578,34 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       historyView.style.display = 'none';
       pagamentosView.style.display = 'none';
       galeriaView.style.display = 'none';
+      relacaoView.style.display = 'block';
     } else if (nomeBotao === 'avaliacoesView') {
       personView.style.display = 'none';
-      relacaoView.style.display = 'none';
-      avaliacoesView.style.display = 'block';
+    
       horarioView.style.display = 'none';
       historyView.style.display = 'none';
       pagamentosView.style.display = 'none';
       galeriaView.style.display = 'none';
+      relacaoView.style.display = 'none';
+      avaliacoesView.style.display = 'block';
     } else if (nomeBotao === 'horarioView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'none';
       avaliacoesView.style.display = 'none';
-      horarioView.style.display = 'block';
       historyView.style.display = 'none';
       pagamentosView.style.display = 'none';
       galeriaView.style.display = 'none';
+      horarioView.style.display = 'block';
+      console.log('aaa');
     }
    else if (nomeBotao === 'historyView') {
       personView.style.display = 'none';
       relacaoView.style.display = 'none';
       avaliacoesView.style.display = 'none';
       horarioView.style.display = 'none';
-      historyView.style.display = 'block';
       pagamentosView.style.display = 'none';
       galeriaView.style.display = 'none';
+      historyView.style.display = 'block';
     }
     else if (nomeBotao === 'pagamentosView') {
       personView.style.display = 'none';
@@ -603,8 +613,9 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       avaliacoesView.style.display = 'none';
       horarioView.style.display = 'none';
       historyView.style.display = 'none';
-      pagamentosView.style.display = 'block';
+
       galeriaView.style.display = 'none';
+      pagamentosView.style.display = 'block';
     
     }
     else if (nomeBotao === 'galeriaView') {
