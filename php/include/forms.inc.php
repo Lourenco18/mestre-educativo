@@ -44,7 +44,7 @@
         <ul class="nav nav-pills flex-column flex-md-row mb-3">
         <li class="nav-item">
           <a class="nav-link active" href="#personView"
-            ><i class="bx bx-user me-1"></i> Aluno</a
+            ><i class="bx '.$arrDisplay[$tabela]['Icon'].' me-1"></i> '.$arrDisplay[$tabela]['Display'].'</a
           >
         </li>';
         if($tabela == 'aluno'){
@@ -77,12 +77,7 @@
              ><i class="bx bx-photo-album"></i> Galeria</a
            >
          </li>';
-        }elseif($tabela == 'turma'){
-          echo'<li class="nav-item">
-          <a class="nav-link" href="#horarioView"
-            ><i class="bx bx-calendar"></i> Horário</a
-          >
-        </li>';
+        
         }
        
         echo'
@@ -358,6 +353,7 @@ WHERE rn = 1;";
 
       ?>
     </div>
+</div>
 </div>
 
 

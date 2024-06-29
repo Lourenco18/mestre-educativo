@@ -71,7 +71,7 @@ if (isset($horario)) {
     }
 </style>
 <div class="card mb-3 px-md-4 ps-0" style="background-color: white">
-    <div id="horarioView" class="divisao" style="display: none;">
+    <div id="horarioView" class="divisao" style="display: block;">
         <div class="row row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 g-4 mb-2 ps-lg-4 pe-lg-3"
              style="padding: 20px;">
             <?php
@@ -88,6 +88,7 @@ if (isset($horario)) {
           <div class="card-body">
     <div class="d-flex flex-column align-items-center gap-4">
         <form id="imageForm" action="' . $arrConfig['url_trata'] . '/trata_horario.php" method="post" enctype="multipart/form-data">
+        <h3>Horário </h3>
          <h6>Escola: '.$escola.' </h6>
         <h6>Turma: '.$turma.' </h6>
             <div class="mb-3">

@@ -99,6 +99,7 @@ $arrConfig['foto_empresa']='admin/upload/imjs/logos/logo.png';
 include_once 'functions.inc.php'; 
 include_once 'db.inc.php'; 
 include_once $arrConfig['dir_admin'].'/permissoes/config_permition.php'; 
+include_once $arrConfig['dir_admin'].'/displayConfig.php'; 
 
 $arrConfig['anoLetivo']= my_query("SELECT * from anoletivo where ativo =1 ");
 $arrConfig['anoLetivo']= $arrConfig['anoLetivo'][0]['anoletivo'];
