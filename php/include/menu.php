@@ -25,7 +25,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php'
 
     ?>
     <li class="menu-item <?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>">
-      <a href="index.php" class="menu-link">
+      <a href="<?php echo $arrConfig['url_site']; ?>/index.php" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div>Página Inicial</div>
       </a>

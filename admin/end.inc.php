@@ -15,14 +15,13 @@
     <!-- Main JS -->
     <script src="<?php echo $arrConfig['url_site'] ?>/assets/js/main.js"></script>
 
-
+    <script src="<?php echo $arrConfig['url_site'] ?>/calender/index.global.min.js"></script>
    
   </body>
 
 <!-- Functions js -->
 <script src="<?php echo $arrConfig['url_js'] ?>/functions.js"></script>
-<script src="<?php echo $arrConfig['url_calender'] ?>/script-calender.js"></script>
-  <script src="<?php echo $arrConfig['url_calender'] ?>/index.global.min.js"></script>
+
   <?php
 include $arrConfig['dir_admin'].'/modal.inc.php';
 ?>

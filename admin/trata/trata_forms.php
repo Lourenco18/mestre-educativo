@@ -222,7 +222,8 @@ if ($acao == 'adicionar') {
 }
 
 ;
-
+//echo $sql_form; 
+//die();
 if(isset($sql_form)){
  my_query($sql_form);
 }

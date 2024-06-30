@@ -76,59 +76,6 @@ function logs()
     $result = my_query($query);
 }
 
-// Função para exibir um formulário de evento
-function event_view($prefixo, $acao, $tituloBotao) {
-    echo '
-    <div id="edit_event" style ="display: none;">
-      
-        <form id="form'.$prefixo.'evento" method="POST" action="'.$acao.'">
-            <div class="modal-body">
-                <div class="mb-3 col-md-10">
-                    <label class="form-label" for="'.$prefixo.'_title">Título</label>
-                    <div class="input-group input-group-merge">
-                        <input type="text" value = "'.$prefixo.'" id="'.$prefixo.'_title" name="'.$prefixo.'_title" class="form-control"/>
-                    </div>
-                </div>
-
-                <div class="mb-3 col-md-15">
-                    <label class="form-label" for="'.$prefixo.'_descricao">Descrição</label>
-                    <div class="input-group input-group-merge">
-                        <input type="text" id="'.$prefixo.'_descricao" name="'.$prefixo.'_descricao" class="form-control"/>
-                    </div>
-                </div>
-
-                <div class="mb-3 col-md-3">
-                    <label for="'.$prefixo.'_escola" class="form-label">Escola</label> 
-                    <select id="'.$prefixo.'_escola" class="select2 form-select">
-                        <option value="Feminino">Feminino</option>
-                    </select>
-                </div>
-
-                <div class="mb-3 col-md-3">
-                    <label for="'.$prefixo.'_turma" class="form-label">Turma</label> 
-                    <select id="'.$prefixo.'_turma" class="select2 form-select">
-                        <option value="Feminino">Feminino</option>
-                    </select>
-                </div>
-
-                <div class="mb-3 col-md-10">
-                    <label class="form-label" for="'.$prefixo.'_start">Data de início</label>
-                    <div class="input-group input-group-merge">
-                        <input type="datetime-local" id="'.$prefixo.'_start" name="'.$prefixo.'_start" class="form-control"/>
-                    </div>
-                </div>
-
-                <div class="mb-3 col-md-10">
-                    <label class="form-label" for="'.$prefixo.'_end">Data de Fim</label>
-                    <div class="input-group input-group-merge">
-                        <input type="datetime-local" id="'.$prefixo.'_end" name="'.$prefixo.'_end" class="form-control"/>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">'.$tituloBotao.'</button>
-        </form>
-    </div>';
-}
 
 // Função para gerar upload de arquivos
 function gerar_upload($src, $buttonMsg, $type ){
