@@ -1,3 +1,4 @@
+
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 include $arrConfig['dir_include'] . '/auth.inc.php';
@@ -49,40 +50,35 @@ if (isset($_GET['display'])) {
 
       <br>
 
-      <!-- cards-->
       <div class="content-wrapper">
-
-        <div class="row  row-cols-sm-2  row-cols-lg-4 row-cols-xl-5 row-cols-md-3 g-4 mb-2 ps-lg-4 pe-lg-3 ">
-
-          <?php
-          include "php/include/card.inc.php";
-          ?>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4 mb-2 ps-lg-4 pe-lg-3"><?php
+        include  'php/include/card.inc.php';
+        ?>
 
           <div class="content-backdrop fade"></div>
 
         </div>
         <div>
           <hr class="mb-4"
-            style="border-color: #566a7f; display: block;  margin-left: 0; margin-right: 0; border-width: 1px;">
+            style="border-color: #f01e1e; display: block;  margin-left: 0; margin-right: 0; border-width: 1px;">
         </div>
 
         <div class="content-wrapper">
-
           <?php
-          include "php/include/titulo_listas.inc.php";
+          include 'php/include/titulo_listas.inc.php';
           ?>
-
           <button id="toggleViewBtn"><i class='bx bx-menu'></i></button>
-       
+          <div id="cardView">
+          <div class="row row-cols-sm-2 row-cols-2 row-cols-xl-6 row-cols-lg-5 row-cols-md-4 g-4 mb-2 ps-lg-4 pe-lg-3 ">
 
-            <div class="row row-cols-sm-2 row-cols-2 row-cols-xl-6 row-cols-lg-5 row-cols-md-4 g-4 mb-2 ps-lg-4 pe-lg-3 ">
               <?php
-              include "php/include/listas.inc.php";
+              include 'php/include/listas.inc.php';
               ?>
 
               <div class="content-backdrop fade"></div>
             </div>
-          
+          </div>
+
 
 
           <div class="layout-overlay layout-menu-toggle"></div>

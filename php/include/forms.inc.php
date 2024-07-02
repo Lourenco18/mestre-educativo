@@ -10,7 +10,7 @@
   $id = isset($_GET['id']) ? $_GET['id'] : '';
   $tabela = rtrim($tipo, "s");
   $id_aluno = $id;
-  if ($tipo == 'colaborador' || $tipo == 'professor'  ) {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
+  if ($tipo == 'colaborador' || $tipo == 'professor' || $tipo == "supra_admin" || $tipo == "motorista" ) {// esta verificação está a ser feita pois os professores estão inseridos na tabela colaborador, ou seja, é necessário igualar-los 
     
     $tabela = 'colaborador';// o $categoria vai ser uma variavel que vou usar para identificar a tabela que tenho de utilizar
     $tipo = "colaborador";
@@ -114,7 +114,7 @@
     }
 
  
-    if ($especificacao == "editar" && $tabela == 'aluno' || $tabela == 'escola' || $tabela == 'colaborador') {
+    if ($especificacao == "editar" && $tabela == 'aluno' || $tabela == 'escola' || $tabela == 'colaborador' || $tabela == 'operacao') {
     
       foreach ($arrResultados as $k => $v) {
 
@@ -149,7 +149,7 @@
               <div class="card mb-3 px-md-4 ps-0" style="background-color: white">
               <div id="personView" style="display: block;">';
 
-   if($tabela == 'aluno' || $tabela == 'escola' || $tabela == 'colaborador') { gerar_upload($src, $buttonMsg, 'image');}
+   if($tabela == 'aluno' || $tabela == 'escola' || $tabela == 'colaborador' || $tabela == 'operacao') { gerar_upload($src, $buttonMsg, 'image');}
 
 
 
@@ -258,7 +258,7 @@ WHERE rn = 1;";
                     }
                     </script>';
               }
-
+           
             } else {
           
               echo '<input  '; if($id_campo == "ni"){}else{echo 'required';}; echo' type="' . $type . '" ' . $config . ' maxlength= "'.$maxlength.'" placeholder = "' . $placeholder . '" oninput="trata(this)"';
@@ -286,7 +286,7 @@ WHERE rn = 1;";
         ?>
       </div>
       <?php
-
+     
       if ($especificacao == 'editar') {
         echo '<button type="submit" class="btn btn-primary me-2">Guardar Alterações</button></form>
          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove' . $id . '"><i class="bx bx-trash"></i> Remover</button>';
@@ -294,6 +294,34 @@ WHERE rn = 1;";
         echo '<button type="submit" class="btn btn-primary me-2">Criar</button></form>';
       }
 
+      if($tabela == 'operacao'){
+        $arrordem = my_query('SELECT ordem, display from operacao where pai = 1 order by ordem ASC ');
+       echo ' <h3 >Tabela de ordem</h3>';
+       echo ' <h5 >Entre as existentes colocar -10 do que a seguinte.</h5>';
+       echo ' <h5 >Depois da última colocar +20 do que a última.</h5>';
+       echo'  <table class="table">
+                     <thead>
+                       <tr>
+                         <th>Operação</th>
+                         <th>Ordem</th>
+                       </tr>
+                     </thead>
+                     <tbody class="table-border-bottom-0">';
+                     foreach ($arrordem as $t => $k) {
+                       echo'<tr>
+ 
+                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>'.$k['display'].'</strong></td>
+                         <td>'.$k['ordem'].'</td>';
+                      
+                      echo' </tr>';
+                     }
+                     
+                    
+                     echo'</tbody>
+                   </table>';
+       echo'<br>';
+       }
+ 
       echo '
          <div class="modal modal-mid fade" id="modalTopDesative' . $id . '" tabindex="-1">
          <div class="modal-dialog">
@@ -365,13 +393,14 @@ if($tabela == 'aluno'){
   include 'separador/avaliacoesView.php';
   include 'separador/galeriaView.php';
   include 'separador/pagamentosView.php';
+  include 'separador/historyView.php';
 }
 
 if($tabela == 'turma' || $tabela == 'aluno'){
 
   include 'separador/horarioView.php';
 }
-include 'separador/historyView.php';
+
 
  
 ?>
@@ -380,7 +409,43 @@ include 'separador/historyView.php';
 
 
 <script>
-  
+    //tratar formulário
+  //receber os dados do formulário
+  function trata(element) {
+    console.log('a');
+    var inputName = element.id;
+    var inputValue = element.value;
+    console.log(`Input changed: Name = ${inputName}, Value = ${inputValue}`);
+    //tratamento dos dados e aviso de erro
+    if (inputName == 'telefone') {// se for telemovel
+      if (inputValue.length < 6 || inputValue.length > 15) {// mundialmente o minimo de digitos é 6 e o máximo é 15 retirando o indicativo de país
+        element.style.borderColor = 'red';
+      } else {
+        element.style.borderColor = 'green';
+      }
+    } else if (inputName == 'cc') {
+      if (validarCC(inputValue)) {
+        element.style.borderColor = 'green';
+      } else {
+        element.style.borderColor = 'red';
+      };
+    } else if (inputName == 'nif') {
+      if (validarNIF(inputValue) &&  inputValue.length < 10) {
+        element.style.borderColor = 'green';
+      } else {
+        element.style.borderColor = 'red';
+      };
+    }else if (inputName == 'sc') {
+      if (validarNISS(inputValue)) {
+        element.style.borderColor = 'green';
+      } else {
+        element.style.borderColor = 'red';
+      };
+
+
+    };
+
+  }
   function validarNISS(niss) {
     
     //deve ter 11 dígitos
@@ -485,42 +550,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
 
 
 
-  //tratar formulário
-  //receber os dados do formulário
-  function trata(element) {
-    var inputName = element.id;
-    var inputValue = element.value;
-    console.log(`Input changed: Name = ${inputName}, Value = ${inputValue}`);
-    //tratamento dos dados e aviso de erro
-    if (inputName == 'telefone') {// se for telemovel
-      if (inputValue.length < 6 || inputValue.length > 15) {// mundialmente o minimo de digitos é 6 e o máximo é 15 retirando o indicativo de país
-        element.style.borderColor = 'red';
-      } else {
-        element.style.borderColor = 'green';
-      }
-    } else if (inputName == 'cc') {
-      if (validarCC(inputValue)) {
-        element.style.borderColor = 'green';
-      } else {
-        element.style.borderColor = 'red';
-      };
-    } else if (inputName == 'nif') {
-      if (validarNIF(inputValue) &&  inputValue.length < 10) {
-        element.style.borderColor = 'green';
-      } else {
-        element.style.borderColor = 'red';
-      };
-    }else if (inputName == 'sc') {
-      if (validarNISS(inputValue)) {
-        element.style.borderColor = 'green';
-      } else {
-        element.style.borderColor = 'red';
-      };
 
-
-    };
-
-  }
   //altearar a imagem e reseta-la dos formulários
   document.addEventListener('DOMContentLoaded', function (e) {
     (function () {

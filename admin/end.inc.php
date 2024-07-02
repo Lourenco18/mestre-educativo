@@ -26,4 +26,3 @@
 include $arrConfig['dir_admin'].'/modal.inc.php';
 ?>
 </html>
-

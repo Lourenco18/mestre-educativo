@@ -35,8 +35,7 @@ $page_name = basename($current_page);
           </dl>
           <button type="button" id="btnEdit" class="btn btn-primary">Editar</button>
         </div>
-        <?php event_view("edit", "processar_edit.php", "Editar"); ?>
-        <?php event_view("add", "processar_add.php", "Adicionar"); ?>
+       
       </div>
     </form>
   </div>
@@ -104,6 +103,7 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
                   </div>
                 </div>
               </div><br>
+              
             <?php endforeach; ?>
           <?php endif; ?>
         </div>
@@ -186,6 +186,7 @@ document.getElementById("active-listView").addEventListener("click", function ()
 <?php
 
 foreach($arrNotas as $k => $v) {
+  $id= $v['id_nota'];$id_unico = my_query("SELECT id_nota, unico from nota where id_nota = $id"); $id_unico = $id_unico[0]['unico']; $id_unico_nota = $id_unico;
   echo '
   <div class="modal modal-mid fade" id="modalRemoveNota'.$id_unico_nota.'" tabindex="-1">
   <div class="modal-dialog">

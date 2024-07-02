@@ -140,7 +140,7 @@ $GLOBALS['campos'] = array(
         'size' =>'mb-3 col-md-3',
         'divisao' => 'Informações Pessoais',
         'object'=> 'encarregadoeducacao',
-        'min'=> date('Y-m-d', strtotime('-100 years')),
+        'min'=> date('Y-m-d', strtotime('-65 years')),
         'maxlength'=>'',
         'max'=> date('Y-m-d', strtotime('-18 years')),
         'config' => '',
@@ -162,6 +162,20 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
     array(
+        'label' => 'Distrito',
+        'id' => 'distrito',
+        'name' => 'distrito',
+        'type' => 'combobox',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Pessoais',
+        'object'=> 'encarregadoeducacao',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+    array(
         'label' => 'Localidade',
         'id' => 'localidade',
         'name' => 'localidade',
@@ -170,7 +184,7 @@ $GLOBALS['campos'] = array(
         'divisao' => 'Informações Pessoais',
         'object'=> 'encarregadoeducacao',
         'min'=> '',
-'maxlength'=>'',
+        'maxlength'=>'',
         'max'=> '',
         'config' => '',
         'placeholder'=>"",
@@ -212,7 +226,7 @@ $GLOBALS['campos'] = array(
         'label' => '',
         'id' => 'encarregadoeducacao',
         'name' => 'unico',
-        'type' => 'text',
+        'type' => 'hidden',
         'size' => 'mb-3 col-md-3',
         'divisao' => '',
         'object' => 'encarregadoeducacao',
@@ -860,9 +874,9 @@ $GLOBALS['campos'] = array(
         'size' =>'mb-3 col-md-3',
         'divisao' => 'Informações Pessoais',
         'object'=> 'colaborador',
-        'min'=> date('Y-m-d', strtotime('-19 years')),
+        'min'=> date('Y-m-d', strtotime('-65 years')),
         'maxlength'=>'',
-        'max'=> date('Y-m-d', strtotime('-6 years')),
+        'max'=> date('Y-m-d', strtotime('-18 years')),
         'config' => '',
         'placeholder'=>"",
     ),
@@ -1027,21 +1041,6 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
         
-    
-
-
-  
-  
-
-
-
-
-
-
-
-
-
-
 
     //email
     array(
@@ -1153,6 +1152,23 @@ $GLOBALS['campos'] = array(
         'defenido'=>1,
         'placeholder'=>"",
     ),
+
+
+    //permissao
+    array(
+        'label' => 'Nome da Permissão',
+        'id' => 'permissao',
+        'name' => 'permissao',
+        'type' => 'text',
+        'size' =>'mb-3 col-md-10',
+        'divisao' => 'Permissão',
+        'object'=> 'permissao',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Operação-Cargo",
+    ),
     array(
         'label' => 'Operacao',
         'id' => 'operacao',
@@ -1182,6 +1198,9 @@ $GLOBALS['campos'] = array(
         'config' => '',
         'placeholder'=>"",
     ),
+
+
+
     array(
         'label' => 'Nome',
         'id' => 'pessoa',
@@ -1499,20 +1518,7 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
     
-    array(
-        'label' => '',
-        'id' => 'operacao',
-        'name' => 'unico',
-        'type' => 'hidden',
-        'size' => 'mb-3 col-md-3',
-        'divisao' => '',
-        'object' => 'operacao',
-        'min' => '',
-        'maxlength' => '',
-        'max' => '',
-        'config' => ' value = "'.$id_unico.'"',
-        'placeholder'=>"",
-    ),
+    
     
     array(
         'label' => '',
@@ -1612,11 +1618,24 @@ $GLOBALS['campos'] = array(
 
     //operações
     array(
-        'label' => 'Nome de Display',
+        
+        'id' => 'foto',
+        'name' => 'foto_operacao',
+        'type' => 'hidden',
+     
+        'object'=> 'operacao',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        
+    ),
+    array(
+        'label' => 'Nome de apresentação',
         'id' => 'name',
         'name' => 'display',
         'type' => 'text',
-        'size' =>'mb-3 col-md-3',
+        'size' =>'mb-3 col-md-4',
         'object'=> 'operacao',
         'min'=> '',
         'maxlength'=>'',
@@ -1625,11 +1644,11 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"Nome de amostra no ecrã",
     ),
     array(
-        'label' => 'Nome da operacao',
+        'label' => 'Nome da operação',
         'id' => 'name',
         'name' => 'operacao',
         'type' => 'text',
-        'size' =>'mb-3 col-md-3',
+        'size' =>'mb-3 col-md-4',
         'object'=> 'operacao',
         'min'=> '',
         'maxlength'=>'',
@@ -1651,20 +1670,20 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"'pagina-formulario.php' ou 'subcategorias.php'",
     ),
     array(
-        'label' => 'Detalhes da operacao',
+        'label' => 'Descrição da operação',
         'id' => 'name',
         'name' => 'descricao',
         'type' => 'text',
-        'size' =>'mb-3 col-md-3',
+        'size' =>'mb-3 col-md-6',
         'object'=> 'operacao',
         'min'=> '',
         'maxlength'=>'',
         'max'=> '',
         'config' => '',
-        'placeholder'=>"Detalhes da operacao",
+        'placeholder'=>"Detalhes da operação",
     ),
     array(
-        'label' => 'Partição(Caso faça parte de um conjunto de operações)',
+        'label' => 'Caso faça parte de um conjunto de operações, escreva qual',
         'id' => 'name',
         'name' => 'particao',
         'type' => 'text',
@@ -1677,9 +1696,9 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"Nome do conjunto",
     ),
     array(
-        'label' => 'Pai(Caso seja o principal de um conjunto de operações)',
-        'id' => 'name',
-        'name' => 'descricao',
+        'label' => 'Caso seja o principal de um conjunto de operações',
+        'id' => 'pai',
+        'name' => 'pai',
         'type' => 'number',
         'size' =>'mb-3 col-md-3',
         'object'=> 'operacao',
@@ -1700,7 +1719,7 @@ $GLOBALS['campos'] = array(
         'maxlength'=>'',
         'max'=> '',
         'config' => '',
-        'placeholder'=>"Escreva 'Adicionar'",
+        'placeholder'=>"Escreva 'adicionar'",
     ),
     array(
         'label' => 'Visível no menu',
@@ -1729,7 +1748,7 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"1 se sim 0 se não",
     ),
     array(
-        'label' => 'Cor( Caso seja PAI)',
+        'label' => 'Cor (caso seja principal)',
         'id' => 'name',
         'name' => 'cor',
         'type' => 'color',
@@ -1740,6 +1759,19 @@ $GLOBALS['campos'] = array(
         'max'=> '1',
         'config' => '',
         'placeholder'=>"1 se sim 0 se não",
+    ),
+    array(
+        'label' => 'Ordem',
+        'id' => 'name',
+        'name' => 'ordem',
+        'type' => 'text',
+        'size' =>'mb-3 col-md-6',
+        'object'=> 'operacao',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Digite em que posição quer colocar",
     ),
     array(
         'label' => '',
@@ -1755,20 +1787,6 @@ $GLOBALS['campos'] = array(
         'config' => ' value = "'.$id_unico.'"',
         'placeholder'=>"",
     ),
-    array(
-        'label' => '',
-        'id' => 'operacao',
-        'name' => 'ordem',
-        'type' => 'hidden',
-        'size' => 'mb-3 col-md-3',
-        'divisao' => '',
-        'object' => 'operacao',
-        'min' => '',
-        'maxlength' => '',
-        'max' => '',
-        'config' => ' value = "'.$id_unico.'"',
-        'placeholder'=>"",
-    ),
-    
+ 
     
 );

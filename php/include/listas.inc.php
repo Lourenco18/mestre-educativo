@@ -32,7 +32,7 @@ if (array_key_exists($pagina, $consultas)) {
     $tabela = 'colaborador';
   }
   // Mostrar os resultados
-
+ 
   foreach ($arrResultados as $k => $v) {
    
     $id = $v['id_' . $tabela];
@@ -44,7 +44,7 @@ if (array_key_exists($pagina, $consultas)) {
 
     } else {
 
-      echo '<div id="cardView">';
+   
       // Se a página for "Encarregados de Educação"
       if ($pagina == "encarregadoeducacao") {
         // Obter os educandos deste encarregado
@@ -114,6 +114,7 @@ if (array_key_exists($pagina, $consultas)) {
       } else {
         $foto = '';
       }
+      echo $v['id_'. $tabela];
 
 
 
@@ -127,16 +128,19 @@ if (array_key_exists($pagina, $consultas)) {
         } else {
 
         }
-        if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
+        if (strpos($pagina, 'removed') !== false|| $tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
 
         } else {
           echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . '"><i class="bx bx-trash"></i> Remover</button>';
         }
-
+        if (strpos($pagina, 'removed') !== false){
+          echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopNullRemove3"><i class="bx bx-x-circle"></i> Desfazer remoção</button>';
+        }
 
         if ($pagina == 'alunoinative') {
           echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopAtive' . $v['id_' . $tabela] . '"><i class="bx bx-block"></i> Ativar</button>';
         } elseif ($pagina == 'aluno') {
+          
           echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;"data-bs-toggle="modal" data-bs-target="#modalTopDesative' . $v['id_' . $tabela] . '"><i class="bx bx-block"></i> Desativar</button>';
           if ($pagina == 'operacao' || $tabela == 'turma') {
 
@@ -159,7 +163,7 @@ if (array_key_exists($pagina, $consultas)) {
 
       echo '</a>';
       echo '</div>';
-      echo '</div>';
+   
 
     }
     include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
@@ -177,6 +181,7 @@ if (array_key_exists($pagina, $consultas)) {
 
 
 
+echo '</div>';
 echo '</div>';
 
 
@@ -250,32 +255,51 @@ foreach ($arrResultados as $k => $v) {
   echo '<div class="d-grid gap-1 mt-3">';
   if ($_SESSION['userCargo'] == 'admin' || $_SESSION['userCargo'] == 'supra_admin') {
     echo '<div class="btn-group">';
-    echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary" title="Editar"><i class="bx bx-pencil"></i></a>';
-    if ($tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
+
+
+
+
+    if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative') {
+      echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary" title="Editar"><i class="bx bx-pencil"></i></a>';
+    } else {
+
+    }
+    if (strpos($pagina, 'removed') !== false|| $tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
+
     } else {
       echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . '" title="Remover"><i class="bx bx-trash"></i></button>';
     }
+    if (strpos($pagina, 'removed') !== false){
+      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopNullRemove' . $v['id_' . $tabela] . '"><i class="bx bx-x-circle"></i> Desfazer remoção</button>';
+    }
 
-    if ($display == 'Alunos Inativos') {
+    if ($pagina == 'alunoinative') {
       echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive' . $v['id_' . $tabela] . '" title="Ativar"><i class="bx bx-block"></i></button>';
-    } else {
+    } elseif ($pagina == 'aluno') {
+      
       echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopDesative' . $v['id_' . $tabela] . '" title="Desativar"><i class="bx bx-block"></i></button>';
+      if ($pagina == 'operacao' || $tabela == 'turma') {
 
-      if ($pagina != 'operacao' && $tabela != 'turma') {
+      } else {
         echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF" title="Adicionar Serviço"><i class="bx bx-file-blank"></i></button>';
       }
-
       if ($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'encarregadoeducacao' || $tabela == 'escola') {
         echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn" style="color: #ffff; background-color: #3D8F42; border-color: #3D8F42;" title="Enviar E-mail"><i class="bx bx-envelope"></i></a>';
       }
     }
+
+
+
+
     echo '</div>';
+    include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
+    include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
   }
 
   echo '</td>
   </tr>';
-  include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
-  include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
+ 
+
 }
 
 

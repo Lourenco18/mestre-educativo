@@ -24,7 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         
         $nome_arquivo = uniqid();
-        $pasta =$arrConfig['dir_fotos_upload'].'/'.$tabela.'/';
+        if($tabela == 'operacao'){
+           
+            $pasta = $arrConfig['dir_icons_ipload'].'/';
+        }else{
+            $pasta =$arrConfig['dir_fotos_upload'].'/'.$tabela.'/';
+        };
+       
     
         
             move_uploaded_file($image['tmp_name'], $pasta.$nome_arquivo.'.'.$extensao);
@@ -66,13 +72,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($columns as $column) {
         $columnName = str_replace('id_', '', $column);
         if (isset($_POST[$columnName])) {
-            if($image['name'] != ''){
-             
-                if(strpos($columnName , 'foto') !== false) {
+            if(isset($_FILES['image'])){
+               
+                if($image['name'] != ''){
+                   
+                    if(strpos($columnName , 'foto') !== false) {
 
-                    $dados[$column] =  $nome_arquivo.'.'.$extensao; 
+                        $dados[$column] =  $nome_arquivo.'.'.$extensao; 
 
-                }else{
+                    }else{
+                        $dados[$column] = $_POST[$columnName];
+                    }
+                }else {
                     $dados[$column] = $_POST[$columnName];
                 }
             }else{
@@ -166,7 +177,15 @@ if ($acao == 'adicionar') {
     }
 
 } elseif ($acao == 'editar') {
-    if ($tabela !== "avaliacao") {
+    if($tabela == 'colaborador' || $tabela == 'operacao'){
+        $sql_form = "UPDATE $tabela SET ";
+    foreach ($dados as $coluna => $valor) {
+        $sql_form .= "$coluna = '$valor', ";
+    }
+    $sql_form = rtrim($sql_form, ", ") . " WHERE id_$tabela = $id";
+ 
+    }
+    if ($tabela !== "avaliacao" && $tabela !== "colaborador" && $tabela !== "operacao"  ) {
         $tabela = rtrim($tabela, "s");
         $sql_form = "INSERT INTO $tabela ($campos) VALUES (" . implode(", ", array_map(function ($value) {
             return "'$value'";
@@ -192,7 +211,7 @@ if ($acao == 'adicionar') {
             foreach ($disciplinas as $disciplina => $periodos) {
                 
                 foreach ($periodos as $periodo => $selectValue) {
-                    echo "UPDATE $tabela set avaliacao =  $selectValue where id_disciplina = $disciplina AND id_aluno = $id_aluno and periodo =  $periodo". '<br>';
+                   
                    
                     my_query("UPDATE $tabela set avaliacao =  $selectValue where id_disciplina = $disciplina AND id_aluno = $id_aluno and periodo =  $periodo");
                    
@@ -207,7 +226,12 @@ if ($acao == 'adicionar') {
 
 } elseif ($acao == 'apagar') {
     $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE unico = $id";
-
+    $id_removed = my_query('SELECT unico, MAX(id_'.$tabela.') as id from '.$tabela.' where unico = '.$id.'');
+    $id_removed = $id_removed[0]['id'];
+  
+    $sql_remove ="DELETE FROM $tabela WHERE unico = $id and id_$tabela <> $id_removed ";
+    my_query($sql_remove);
+  
 } elseif ($acao == 'desativar') {
 
     $sql_form = "UPDATE $tabela SET ativo = 0 WHERE unico = $id";
@@ -222,7 +246,7 @@ if ($acao == 'adicionar') {
 }
 
 ;
-//echo $sql_form; 
+//echo $sql_form;
 //die();
 if(isset($sql_form)){
  my_query($sql_form);
