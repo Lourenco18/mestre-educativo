@@ -1551,20 +1551,7 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
     
-    array(
-        'label' => '',
-        'id' => 'servico',
-        'name' => 'unico',
-        'type' => 'hidden',
-        'size' => 'mb-3 col-md-3',
-        'divisao' => '',
-        'object' => 'servico',
-        'min' => '',
-        'maxlength' => '',
-        'max' => '',
-        'config' => ' value = "'.$id_unico.'"',
-        'placeholder'=>"",
-    ),
+  
     
    
     
@@ -1788,5 +1775,89 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
  
+
+
+
+    //servicos
+
+    array(
+        'label' => 'Nome do serviço',
+        'id' => 'servico',
+        'name' => 'servico',
+        'type' => 'text',
+        'size' =>'mb-3 col-md-4',
+        'object'=> 'servico',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Nome do serviço",
+    ),
+    array(
+        'label' => 'Data de início',
+        'id' => 'servico',
+        'name' => 'data',
+        'type' => 'date',
+        'size' =>'mb-3 col-md-4',
+        'object'=> 'servico',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Data do serviço",
+    ),
+    array(
+        'label' => 'Data final do pagamento',
+        'id' => 'servico',
+        'name' => 'data_fim',
+        'type' => 'date',
+        'size' =>'mb-3 col-md-4',
+        'object'=> 'servico',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Data final do pagamento do serviço",
+    ),
+    array(
+        'label' => 'Valor em euros',
+        'id' => 'servico',
+        'name' => 'valor',
+        'type' => 'number',
+        'size' =>'mb-3 col-md-4',
+        'object'=> 'servico',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Valor do serviço",
+    ),
+    array(
+        'label' => 'Tipo de serviço',
+        'id' => 'tipo',
+        'name' => 'tipo',
+        'type' => 'text',
+        'size' =>'mb-3 col-md-4',
+        'object'=> 'servico',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"'atividade' ou 'mensalidade'",
+    ),
+    array(
+        'label' => '',
+        'id' => 'servico',
+        'name' => 'unico',
+        'type' => 'hidden',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => '',
+        'object' => 'servico',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => ' value = "'.$id_unico.'"',
+        'placeholder'=>"",
+    ),
     
 );

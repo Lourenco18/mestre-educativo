@@ -145,7 +145,7 @@ if (array_key_exists($pagina, $consultas)) {
           if ($pagina == 'operacao' || $tabela == 'turma') {
 
           } else {
-            echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF"><i class="bx bx-file-blank"></i> Adicionar Serviço</button>';
+            echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF"; data-bs-toggle="modal" data-bs-target="#modalTopADDservice' . $v['id_' . $tabela] . '"><i class="bx bx-file-blank"></i> Adicionar Serviço</button>';
           }
           if ($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'encarregadoeducacao' || $tabela == 'escola') {
             echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn " style="color: #ffff;background-color: #3D8F42; border-color: #3D8F42;">  <i class="bx bx-envelope"></i> Envair E-mail</a>';
@@ -168,6 +168,7 @@ if (array_key_exists($pagina, $consultas)) {
     }
     include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
     include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
+    include $arrConfig['dir_admin'] . '/modal/modal-service.php';
 
   }
 

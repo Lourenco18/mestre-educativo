@@ -195,20 +195,21 @@
 
 
             if ($type == "combobox") {
+           
               $table = ucfirst($id_campo); // nome da tabela das combobox
               if (isset($id_received)) {
                 $sql_combobox = "SELECT * FROM $table WHERE ativo = 1 ";
               } else {
-                $sql_combobox = "WITH RecentRecords AS (
-    SELECT 
-        *,
-        ROW_NUMBER() OVER (PARTITION BY unico ORDER BY data DESC) as rn
-    FROM $table
-    WHERE ativo = 1
-)
-SELECT * 
-FROM RecentRecords
-WHERE rn = 1;";
+                                $sql_combobox = "WITH RecentRecords AS (
+                    SELECT 
+                        *,
+                        ROW_NUMBER() OVER (PARTITION BY unico ORDER BY data DESC) as rn
+                    FROM $table
+                    WHERE ativo = 1
+                )
+                SELECT * 
+                FROM RecentRecords
+                WHERE rn = 1;";
               }
 
               $arrtable = my_query($sql_combobox);
@@ -276,17 +277,19 @@ WHERE rn = 1;";
               ;
               echo '/>';
             }
+           
             echo '</div>';
           }
+         
           ;
         }
-
-
+    
 
         ?>
       </div>
       <?php
      
+   
       if ($especificacao == 'editar') {
         echo '<button type="submit" class="btn btn-primary me-2">Guardar Alterações</button></form>
          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopremove' . $id . '"><i class="bx bx-trash"></i> Remover</button>';

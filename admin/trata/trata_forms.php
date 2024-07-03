@@ -177,7 +177,7 @@ if ($acao == 'adicionar') {
     }
 
 } elseif ($acao == 'editar') {
-    if($tabela == 'colaborador' || $tabela == 'operacao'){
+    if($tabela == 'colaborador' || $tabela == 'operacao' || $tabela == 'servico' || $tabela == 'disciplina'){
         $sql_form = "UPDATE $tabela SET ";
     foreach ($dados as $coluna => $valor) {
         $sql_form .= "$coluna = '$valor', ";
@@ -185,7 +185,7 @@ if ($acao == 'adicionar') {
     $sql_form = rtrim($sql_form, ", ") . " WHERE id_$tabela = $id";
  
     }
-    if ($tabela !== "avaliacao" && $tabela !== "colaborador" && $tabela !== "operacao"  ) {
+    if ($tabela !== "avaliacao" && $tabela !== "colaborador" && $tabela !== "operacao"  && $tabela !== 'servico' && $tabela !=='disciplina' ) {
         $tabela = rtrim($tabela, "s");
         $sql_form = "INSERT INTO $tabela ($campos) VALUES (" . implode(", ", array_map(function ($value) {
             return "'$value'";

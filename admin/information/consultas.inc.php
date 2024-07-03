@@ -602,6 +602,7 @@ WHERE
             FROM pessoa p2
             WHERE p2.unico = pessoa.unico
         )',
+        'servico' =>'SELECT * from servico where ativo = 1 order by data DESC',
   ];
 
 
@@ -611,6 +612,7 @@ WHERE
 
     
 $consultasForms = [
+    'servico' =>'SELECT * from servico where id_servico = '.$id.' order by data DESC',
     'aluno' => 'SELECT * 
     FROM aluno 
     INNER JOIN colaborador ON aluno.id_orientador = colaborador.unico
