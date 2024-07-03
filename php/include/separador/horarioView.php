@@ -24,7 +24,7 @@ if (isset($horario)) {
 } else {
     $buttonMsg = 'Adicionar horário';
 }
-
+ 
 ?>
 <style>
     #picture__input {

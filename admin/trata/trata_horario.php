@@ -4,9 +4,7 @@ include $arrConfig['dir_include'].'/auth.inc.php';
 $id_turma =isset($_POST['id_turma']) ? $_POST['id_turma'] : '';
 
 
-$pagename = isset($_POST['pagename']) ? $_POST['pagename'] : '';
 
-$url = $arrConfig['url_site'] .'/'. $pagename;
 
 
 

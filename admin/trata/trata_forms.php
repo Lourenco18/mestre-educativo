@@ -6,12 +6,18 @@ foreach ($campos as $campo) {
     $id_campo = $campo['id'];
 }
 
-$pagename = $_GET['pagename'] ?? '';
+
 $id = $_GET['id'] ?? '';
 $tabela = $_GET['tabela'] ?? '';
 $acao = $_GET['acao'] ?? '';
 $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
 $id_unico = $id_unico[0]['MAX(unico)'] + 1;
+$pagename = isset($_GET['pagename']) ? $_GET['pagename'] : '';
+
+$pagename = preg_replace("'----'","&", $pagename);
+
+
+$url = $arrConfig['url_site'] .'/'. $pagename;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_FILES['image'])){
@@ -37,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     }
 }else{
-    if($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'escola'){
+    if($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'escola' || $tabela == 'operacao'){
         $nome_arquivo = my_query("SELECT foto_$tabela FROM $tabela WHERE id_$tabela = $id");
     }
    
@@ -177,7 +183,7 @@ if ($acao == 'adicionar') {
     }
 
 } elseif ($acao == 'editar') {
-    if($tabela == 'colaborador' || $tabela == 'operacao' || $tabela == 'servico' || $tabela == 'disciplina'){
+    if($tabela !== 'aluno' ){
         $sql_form = "UPDATE $tabela SET ";
     foreach ($dados as $coluna => $valor) {
         $sql_form .= "$coluna = '$valor', ";
@@ -185,7 +191,7 @@ if ($acao == 'adicionar') {
     $sql_form = rtrim($sql_form, ", ") . " WHERE id_$tabela = $id";
  
     }
-    if ($tabela !== "avaliacao" && $tabela !== "colaborador" && $tabela !== "operacao"  && $tabela !== 'servico' && $tabela !=='disciplina' ) {
+    if ($tabela =="aluno") {
         $tabela = rtrim($tabela, "s");
         $sql_form = "INSERT INTO $tabela ($campos) VALUES (" . implode(", ", array_map(function ($value) {
             return "'$value'";
@@ -225,12 +231,19 @@ if ($acao == 'adicionar') {
 
 
 } elseif ($acao == 'apagar') {
-    $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE unico = $id";
-    $id_removed = my_query('SELECT unico, MAX(id_'.$tabela.') as id from '.$tabela.' where unico = '.$id.'');
-    $id_removed = $id_removed[0]['id'];
-  
-    $sql_remove ="DELETE FROM $tabela WHERE unico = $id and id_$tabela <> $id_removed ";
-    my_query($sql_remove);
+    if($tabela == "aluno"){
+        $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE unico = $id";
+        $id_removed = my_query('SELECT unico, MAX(id_'.$tabela.') as id from '.$tabela.' where unico = '.$id.'');
+        $id_removed = $id_removed[0]['id'];
+      
+        $sql_remove ="DELETE FROM $tabela WHERE unico = $id and id_$tabela <> $id_removed ";
+        my_query($sql_remove);
+    }else{
+        $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE id_$tabela = $id";
+    }
+    
+ 
+   
   
 } elseif ($acao == 'desativar') {
 
@@ -246,13 +259,12 @@ if ($acao == 'adicionar') {
 }
 
 ;
-//echo $sql_form;
-//die();
+
 if(isset($sql_form)){
  my_query($sql_form);
 }
 
-header("Location: ../../index.php");
+header("Location: $url");
 
 
 

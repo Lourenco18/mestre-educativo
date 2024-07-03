@@ -24,13 +24,13 @@ if ($tabela == 'encarregadoeducacao' || $tabela == 'turma' || $tabela == 'escola
      
     } else {
         // Adicionando corretamente o botão com a função autoClick()
-        echo '<a id="autoclickButton" type="button" style="color: white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id=' . $id . '&tabela=' . $tabela . '&acao=' . $acao . '&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()"></a>';
+        echo '<a id="autoclickButton" type="button" style="color: white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id=' . $id . '&tabela=' . $tabela . '&acao=' . $acao . '&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()"></a>';
     }
     // A saída do PHP está completa, então não é necessário mais código PHP depois disso
 
 } else {
     // Adicionando corretamente o botão com a função autoClick()
-    echo '<a id="autoclickButton" type="button" style="color: white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id=' . $id . '&tabela=' . $tabela . '&acao=' . $acao . '&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()"></a>';
+    echo '<a id="autoclickButton" type="button" style="color: white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id=' . $id . '&tabela=' . $tabela . '&acao=' . $acao . '&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()"></a>';
 }
 ?>
 <script>

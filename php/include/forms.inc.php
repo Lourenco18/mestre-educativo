@@ -2,7 +2,8 @@
 
 <div class="container-xxl ">
   <?php
-  $pagename = $_SERVER['PHP_SELF'];
+  $pagename = basename($current_page);
+
   unicooperacao( 'nacionalidade');
   $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : '';
   $especificacao = isset($_GET['especificacao']) ? $_GET['especificacao'] : '';
@@ -76,16 +77,17 @@
            <a class="nav-link" href="#galeriaView"
              ><i class="bx bx-photo-album"></i> Galeria</a
            >
-         </li>';
-        
-        }
-       
-        echo'
+         </li>
           <li class="nav-item">
           <a class="nav-link" href="#historyView"
             ><i class="bx bx-history"></i> Histórico</a
           >
-        </li>
+        </li>';
+        
+        }
+       
+        echo'
+         
         </ul>
         
           ';
@@ -344,7 +346,7 @@
          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
            Cancelar
          </button>
-         <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id . '&tabela=' . $tabela . '&acao=desativar&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()">Sim, quero desativar</a>
+         <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id . '&tabela=' . $tabela . '&acao=desativar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero desativar</a>
         
          </div>
          </form>
@@ -371,7 +373,7 @@
     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
       Cancelar
     </button>
-    <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=apagar&pagename=' . $_SERVER['PHP_SELF'] . '" onclick="SwalSuccess()">Sim, quero remover</a>
+    <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero remover</a>
   
     </div>
     </form>
@@ -402,6 +404,9 @@ if($tabela == 'aluno'){
 if($tabela == 'turma' || $tabela == 'aluno'){
 
   include 'separador/horarioView.php';
+}
+if($tabela == 'servico'){
+  include 'separador/servico-aluno.php';
 }
 
 
@@ -688,30 +693,33 @@ if ( ultimoDigito != comparador ){ temErro=1;}
   });
 
   document.addEventListener('DOMContentLoaded', function(e) {
-            console.log('DOM fully loaded and parsed');
-            const deactivateAcc = document.querySelector('#formAccountDeactivation');
-            let accountUserImage = document.getElementById('uploadedAvatar');
-            const fileInput = document.querySelector('.account-file-input');
-            const resetFileInput = document.querySelector('.account-image-reset');
+    console.log('DOM fully loaded and parsed');
+    
+    const deactivateAcc = document.querySelector('#formAccountDeactivation');
+    let accountUserImage = document.getElementById('uploadedAvatar');
+    const fileInput = document.querySelector('.account-file-input');
+    const resetFileInput = document.querySelector('.account-image-reset');
 
-            if (accountUserImage) {
-                console.log('accountUserImage found');
-                const resetImage = accountUserImage.src;
-                fileInput.onchange = () => {
-                    if (fileInput.files[0]) {
-                        console.log('File selected');
-                        accountUserImage.src = window.URL.createObjectURL(fileInput.files[0]);
-                    }
-                };
-                resetFileInput.onclick = () => {
-                    console.log('Reset clicked');
-                    fileInput.value = '';
-                    accountUserImage.src = resetImage;
-                };
-            } else {
-                console.log('accountUserImage not found');
+    if (accountUserImage) {
+        console.log('accountUserImage found');
+        const resetImage = accountUserImage.src;
+        
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files && fileInput.files[0]) {
+                console.log('File selected');
+                accountUserImage.src = window.URL.createObjectURL(fileInput.files[0]);
             }
         });
+
+        resetFileInput.addEventListener('click', function() {
+            console.log('Reset clicked');
+            fileInput.value = '';
+            accountUserImage.src = resetImage;
+        });
+    } else {
+        console.log('accountUserImage not found');
+    }
+});
 
 
 </script>

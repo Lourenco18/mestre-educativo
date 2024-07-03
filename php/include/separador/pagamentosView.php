@@ -6,7 +6,7 @@
         <div class="row row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 g-4 mb-2 ps-lg-4 pe-lg-3"
             style="padding: 20px;">
             <?php
-            $servico_information = my_query('SELECT * from servicoaluno inner join servico on servico.id_servico = servicoaluno.id_servico where servicoaluno.id_aluno = ' . $id_unico_aluno . '');
+            $servico_information = my_query('SELECT * from servicoaluno inner join servico on servico.id_servico = servicoaluno.id_servico where servicoaluno.id_aluno = ' . $id_unico_aluno . ' AND servicoaluno.ativo = 1');
             $soma_valor_pago = 0;
             $soma_valor = 0;
             $soma_valor_a_pagar = 0;
@@ -15,8 +15,8 @@
                                 <thead>
                                 <tr>
                                     <th>Serviço</th>
-                                    <th>Dta</th>
-                                    <th>Dta fim do pagamento</th>
+                                    <th>Data</th>
+                                    <th>Data fim do pagamento</th>
                                     <th>Valor total</th>
                                     <th>Valor pago</th>
                                     <th>Valor a pagar</th>
@@ -42,7 +42,7 @@
                                     <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Total</strong></td>
                                     <td>-----</td>
                                     <td>-----</td>
-                                    <td>' . $soma_valor_pago . ' €</td> 
+                                    <td>' . $soma_valor . ' €</td> 
                                     <td style= "color: green">' . $soma_valor_pago . ' €</td>
                                     <td style= "color: red">' . $soma_valor_a_pagar . ' €</td>';
 

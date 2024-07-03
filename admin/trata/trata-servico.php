@@ -79,18 +79,12 @@ if ($acao == "adicionar") {
             $tipo = $servico_dados[0]['tipo'];
             date_default_timezone_set('Europe/Lisbon');
             $data = date('d-m-Y H:i ');
-         
-           
-            
-       
-            
-            
-      if($valor_pago != $valor_pago_anterior){
-        sendmailpago($username, $email, $tipo, $nome_servico, $data, $data_fim, $valor_a_pagar, $valor_pago, $valor_total, $metodo_pagamento);
-         my_query('UPDATE servicoaluno set valor_pago = ' . $valor_pago . ', valor_a_pagar = ' . $valor_a_pagar . ' where id_servico = ' . $id_servico . ' and id_aluno = ' . $id_unico_aluno . '');
-         my_query ('INSERT INTO pagamento (id_servicoaluno, metodo, data, valor) VALUES ('.$id_servico_aluno.', "'.$metodo_pagamento.'", "'.$data.'", '.$valor_pago.' ) ');
-        
-      }
+            if($valor_pago != $valor_pago_anterior){
+                sendmailpago($username, $email, $tipo, $nome_servico, $data, $data_fim, $valor_a_pagar, $valor_pago, $valor_total, $metodo_pagamento);
+                my_query('UPDATE servicoaluno set valor_pago = ' . $valor_pago . ', valor_a_pagar = ' . $valor_a_pagar . ' where id_servico = ' . $id_servico . ' and id_aluno = ' . $id_unico_aluno . '');
+                my_query ('INSERT INTO pagamento (id_servicoaluno, metodo, data, valor) VALUES ('.$id_servico_aluno.', "'.$metodo_pagamento.'", "'.$data.'", '.$valor_pago.' ) ');
+                
+            }
        
             
     

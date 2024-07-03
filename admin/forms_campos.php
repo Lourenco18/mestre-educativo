@@ -665,7 +665,7 @@ $GLOBALS['campos'] = array(
    
 
     array(
-        'label' => 'Nome do Encarregado de Educação',
+        'label' => 'Encarregado de Educação',
         'id' => 'encarregadoeducacao',
         'name' => 'encarregadoeducacao',
         'type' => 'combobox',

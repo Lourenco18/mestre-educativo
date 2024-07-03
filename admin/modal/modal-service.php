@@ -3,7 +3,7 @@
 echo '
  <div class="modal modal-mid fade" id="modalTopADDservice' . $v['id_' . $tabela] . '" tabindex="-1">
  <div class="modal-dialog">
-   <form class="modal-content" action="' . $arrConfig['url_trata'] . '/trata-servico.php?id= ' . $id_unico . '&tabela=servico&acao=adicionar&pagename=' . $_SERVER['PHP_SELF'] . '" method="POST" enctype="multipart/form-data">
+   <form class="modal-content" action="' . $arrConfig['url_trata'] . '/trata-servico.php?id= ' . $id_unico . '&tabela=servico&acao=adicionar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" method="POST" enctype="multipart/form-data">
      <div class="modal-header">
  <h5 class="modal-title" id="modalTopTitle">Adicionar serviço</h5>
  <div class="modal-body" style="max-height: 800px; overflow-y: auto;">';
