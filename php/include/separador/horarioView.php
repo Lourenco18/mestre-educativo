@@ -1,23 +1,29 @@
 <?php
 // Recolher os horários
 include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
-if ($tabela == "aluno") {
-    $id_turma = my_query('SELECT MAX(turma.id_turma) as idturma, turma.turma as turma, aluno.id_turma, aluno.id_escola, escola.escola as escola from aluno inner join turma on turma.unico = aluno.id_turma  inner join escola on escola.unico = aluno.id_escola where id_aluno = ' . $id . '');
-    $turma = $id_turma[0]['turma'];
-    $escola = $id_turma[0]['escola'];
-    $id_turma = $id_turma[0]['idturma'];
-   
-} else {
-  $id_turma = $id;
-    $arrResultados = my_query('SELECT MAX(escola.id_escola) as id_escola, turma.turma, turma.id_turma  from turma inner join escola on escola.unico = turma.id_escola where id_turma = '.$id_turma.'');
-    $id_escola = $arrResultados[0]['id_escola'];
-    $arrescola = my_query('SELECT escola, id_escola from escola where escola.id_escola = '.$id_escola.'');
-    $escola = $arrescola[0]['escola']; 
-    $turma = $arrResultados[0]['turma'];
+if($especificacao== 'editar'){
+    if ($tabela == "aluno") {
+        $id_turma = my_query('SELECT MAX(turma.id_turma) as idturma, turma.turma as turma, aluno.id_turma, aluno.id_escola, escola.escola as escola from aluno inner join turma on turma.unico = aluno.id_turma  inner join escola on escola.unico = aluno.id_escola where id_aluno = ' . $id . '');
+        $turma = $id_turma[0]['turma'];
+        $escola = $id_turma[0]['escola'];
+        $id_turma = $id_turma[0]['idturma'];
+    
+    } else {
+        $id_turma = $id;
+        $arrResultados = my_query('SELECT escola.id_escola as id_escola, turma.turma, turma.id_turma  from turma inner join escola on escola.id_escola = turma.id_escola where id_turma = '.$id_turma.'');
+        $id_escola = $arrResultados[0]['id_escola'];
+        $arrescola = my_query('SELECT escola, id_escola from escola where escola.id_escola = '.$id_escola.'');
+        $escola = $arrescola[0]['escola']; 
+        $turma = $arrResultados[0]['turma'];
+    }
+    $horario = my_query('SELECT horario from turma where id_turma = ' . $id_turma . ' ');
+    $horario = $horario[0]['horario'];
+    $src = $arrConfig['url_fotos_upload'] . '/horario/' . $horario . '';
+}else{
+    $id_turma = my_query('SELECT MAX(id_turma) from turma');
+    $id_turma = $id_turma[0]['MAX(id_turma)'];
 }
-$horario = my_query('SELECT horario from turma where id_turma = ' . $id_turma . ' ');
-$horario = $horario[0]['horario'];
-$src = $arrConfig['url_fotos_upload'] . '/horario/' . $horario . '';
+   
 
 if (isset($horario)) {
     $buttonMsg = 'Alterar horário';

@@ -78,5 +78,24 @@ function check_for_foto($table_name) {
 
    
 }
+// Função para listar todas as tabelas
+function list_tables() {
+    global $arrConfig;
+    $sql = "SHOW TABLES";
+    $tables = my_query($sql);
+    $table_names = array();
+
+    foreach ($tables as $table) {
+        $table_names[] = $table[array_keys($table)[0]];
+    }
+
+    return $table_names;
+}
+
+// Obtém a lista de todas as tabelas
+$all_tables = list_tables();
+
+// Armazena a lista de tabelas em uma array global
+$GLOBALS['all_tables'] = $all_tables;
 
 

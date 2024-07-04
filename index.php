@@ -4,6 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php'
 include $arrConfig['dir_include'].'/auth.inc.php';
   
 include $arrConfig['dir_admin'].'/head.inc.php';
+
 ?>
 
   <body>

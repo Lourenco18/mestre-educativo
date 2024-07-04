@@ -151,7 +151,7 @@
               <div class="card mb-3 px-md-4 ps-0" style="background-color: white">
               <div id="personView" style="display: block;">';
 
-   if($tabela == 'aluno' || $tabela == 'escola' || $tabela == 'colaborador' || $tabela == 'operacao') { gerar_upload($src, $buttonMsg, 'image');}
+   if($tabela == 'aluno' || $tabela == 'escola' || $tabela == 'colaborador' || $tabela == 'operacao' ) { gerar_upload($src, $buttonMsg, 'image');}
 
 
 
@@ -241,7 +241,7 @@
                 if ($id_Selected == $v['unico']) {
                   $selected = 'selected="selected" ';
                 }
-                echo '<option ' . $selected . ' value="' . $v['unico'] . '">' . $v[$id_campo] . ' '.$id_Selected.'</option>';
+                echo '<option ' . $selected . ' value="' . $v['unico'] . '">' . $v[$id_campo] . ' </option>';
               }
               echo '</select>';
 
@@ -401,7 +401,7 @@ if($tabela == 'aluno'){
   include 'separador/historyView.php';
 }
 
-if($tabela == 'turma' || $tabela == 'aluno'){
+if($tabela == 'turma' && $especificacao == 'editar' || $tabela == 'aluno'){
 
   include 'separador/horarioView.php';
 }
