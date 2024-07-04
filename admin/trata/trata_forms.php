@@ -182,7 +182,25 @@ if ($acao == 'adicionar') {
         }
 
     }
-
+    if($tabela == "disciplina") {
+        //receber o ciclo da disciplina
+        $id_ciclo = $_POST['ciclo'];
+       //receber todos os alunos que estão nesse ciclo
+       $arralunos = my_query('SELECT unico, id_anoletivo from aluno where id_ciclo = '.$id_ciclo.'');
+       $id_disciplina = my_query("SELECT MAX(unico) as unico from $tabela");
+        $id_ano_letivo= $arralunos[0]['id_anoletivo'];
+       $id_disciplina = 1 + $id_disciplina[0]["unico"];
+       $arrPeriodos = array(1, 2, 3);
+       $avaliacaoUnico = my_query("SELECT MAX(unico) FROM avaliacao");
+       $avaliacaoUnico = $avaliacaoUnico[0]['MAX(unico)'] + 1;
+        foreach ($arralunos as $k => $v) { 
+            for ($i = 0; $i < count($arrPeriodos); $i++) {
+            $idalunoavaliacao = $v['unico'];
+            my_query("INSERT INTO avaliacao (id_aluno, id_disciplina, avaliacao, periodo, id_anoletivo, ativo, removed, unico) VALUES ($idalunoavaliacao, $id_disciplina, 0, {$arrPeriodos[$i]}, $id_ano_letivo,1,0, $avaliacaoUnico )");}
+            }
+     
+       
+    }
 } elseif ($acao == 'editar') {
     if($tabela !== 'aluno' && $tabela != 'avaliacao') {
         $sql_form = "UPDATE $tabela SET ";
@@ -256,6 +274,8 @@ if ($acao == 'adicionar') {
         //caso seja uma disciplina é necessário desativar as avaliações
         if($tabela == "disciplina"){
             my_query("UPDATE avaliacao SET removed = 1, ativo = 0 WHERE id_$tabela = $id");
+            $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE unico = $id";
+            
         }
 
     }

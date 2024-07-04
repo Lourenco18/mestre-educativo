@@ -581,6 +581,8 @@ WHERE
     'servico' =>'SELECT * from servico where ativo = 1 order by data DESC',
     'servicoaluno' =>'SELECT * from servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno inner join servico on servico.id_servico = servicoaluno.id_servico  where servicoaluno.ativo = 1 order by servicoaluno.data DESC',
     'pagamento'=> 'SELECT * from pagamento inner join servicoaluno on servicoaluno.id_servicoaluno = pagamento.id_servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno where aluno.ativo = 1',
+    'localidade'=>'SELECT * from localidade where ativo = 1 ',
+    'distrito'=>'SELECT * from distrito where ativo = 1 ',
 ];
 if (isset($id_unico_aluno)) {
     $consultas['pessoa'] = 'SELECT 
@@ -634,7 +636,9 @@ $consultasForms = [
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = '.$id.' ',
     'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.id_cargo = '.$id.' ',
     'pessoa'=> 'SELECT * FROM pessoa  WHERE id_pessoa = '.$id_modal.' ',  
-    'disciplina' => 'SELECT * from disciplina inner join ciclo on ciclo.id_ciclo = disciplina.id_ciclo where disciplina.id_disciplina = '.$id.' '
+    'disciplina' => 'SELECT * from disciplina inner join ciclo on ciclo.id_ciclo = disciplina.id_ciclo where disciplina.id_disciplina = '.$id.' ',
+    'localidade' => 'SELECT * from localidade where id_localidade = '.$id.'',
+    'Distrito' => 'SELECT * from distrito where id_distrito = '.$id.'',
   ];
   if(isset($id_unico)){
     $consultasHistorico = [

@@ -1169,6 +1169,67 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
 
+//localidade
+
+array(
+    'label' => 'Localidade',
+    'id' => 'localidade',
+    'name' => 'localidade',
+    'type' => 'text',
+    'size' =>'mb-3 col-md-5',
+    'divisao' => 'Localidade',
+    'object'=> 'localidade',
+    'min'=> '',
+    'maxlength'=>'',
+    'max'=> '',
+    'config' => '',
+    'placeholder'=>"Localidade",
+),
+array(
+    'label' => '',
+    'id' => 'localidade',
+    'name' => 'unico',
+    'type' => 'hidden',
+    'size' => 'mb-3 col-md-3',
+    'divisao' => '',
+    'object' => 'localidade',
+    'min' => '',
+    'maxlength' => '',
+    'max' => '',
+    'config' => ' value = "'.$id_unico.'"',
+    'placeholder'=>"",
+),
+
+//Distrito
+
+array(
+    'label' => 'Distrito',
+    'id' => 'distrito',
+    'name' => 'distrito',
+    'type' => 'text',
+    'size' =>'mb-3 col-md-5',
+    'divisao' => 'Distrito',
+    'object'=> 'distrito',
+    'min'=> '',
+    'maxlength'=>'',
+    'max'=> '',
+    'config' => '',
+    'placeholder'=>"Distrito",
+),
+array(
+    'label' => '',
+    'id' => 'distrito',
+    'name' => 'unico',
+    'type' => 'hidden',
+    'size' => 'mb-3 col-md-3',
+    'divisao' => '',
+    'object' => 'distrito',
+    'min' => '',
+    'maxlength' => '',
+    'max' => '',
+    'config' => ' value = "'.$id_unico.'"',
+    'placeholder'=>"",
+),
 
     //permissao
     array(
@@ -1890,7 +1951,7 @@ $GLOBALS['campos'] = array(
     array(
         'label' => 'Ciclo',
         'id' => 'ciclo',
-        'name' => ' ciclo',
+        'name' => 'ciclo',
         'type' => 'combobox',
         'size' =>'mb-3 col-md-3',
         'divisao' => '',
