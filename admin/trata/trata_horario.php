@@ -6,8 +6,8 @@ $id_turma =isset($_POST['id_turma']) ? $_POST['id_turma'] : '';
 
 
 
-
-
+$pagename = $_POST['pagename'];
+$url = $arrConfig['url_site'] .'/'. $pagename;
 if (isset($_FILES['imageUpload'])) {
     $image = $_FILES['imageUpload'] ?? '';
     if ($image['name'] != '') {

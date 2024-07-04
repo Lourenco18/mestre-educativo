@@ -10,8 +10,15 @@ foreach ($campos as $campo) {
 $id = $_GET['id'] ?? '';
 $tabela = $_GET['tabela'] ?? '';
 $acao = $_GET['acao'] ?? '';
-$id_unico = my_query("SELECT MAX(unico) FROM $tabela");
-$id_unico = $id_unico[0]['MAX(unico)'] + 1;
+if($tabela !=='foto'){
+    $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
+}
+
+if(isset($id_unico)) {
+    $id_unico = $id_unico[0]['MAX(unico)'] + 1;
+}
+
+
 $pagename = isset($_GET['pagename']) ? $_GET['pagename'] : '';
 
 
@@ -280,8 +287,7 @@ if ($acao == 'adicionar') {
 
     }
     
- 
-   
+
   
 } elseif ($acao == 'desativar') {
 

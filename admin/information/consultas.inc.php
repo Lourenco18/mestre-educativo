@@ -583,6 +583,7 @@ WHERE
     'pagamento'=> 'SELECT * from pagamento inner join servicoaluno on servicoaluno.id_servicoaluno = pagamento.id_servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno where aluno.ativo = 1',
     'localidade'=>'SELECT * from localidade where ativo = 1 ',
     'distrito'=>'SELECT * from distrito where ativo = 1 ',
+    'especialidade'=>'SELECT * from especialidade where ativo = 1 ',
 ];
 if (isset($id_unico_aluno)) {
     $consultas['pessoa'] = 'SELECT 
@@ -638,7 +639,8 @@ $consultasForms = [
     'pessoa'=> 'SELECT * FROM pessoa  WHERE id_pessoa = '.$id_modal.' ',  
     'disciplina' => 'SELECT * from disciplina inner join ciclo on ciclo.id_ciclo = disciplina.id_ciclo where disciplina.id_disciplina = '.$id.' ',
     'localidade' => 'SELECT * from localidade where id_localidade = '.$id.'',
-    'Distrito' => 'SELECT * from distrito where id_distrito = '.$id.'',
+    'distrito' => 'SELECT * from distrito where id_distrito = '.$id.'',
+    'especialidade' => 'SELECT * from especialidade where id_especialidade = '.$id.'',
   ];
   if(isset($id_unico)){
     $consultasHistorico = [

@@ -1493,21 +1493,7 @@ array(
         'placeholder'=>"",
     ),
     
-    array(
-        'label' => '',
-        'id' => 'especialidade',
-        'name' => 'unico',
-        'type' => 'hidden',
-        'size' => 'mb-3 col-md-3',
-        'divisao' => '',
-        'object' => 'especialidade',
-        'min' => '',
-        'maxlength' => '',
-        'max' => '',
-        'config' => ' value = "'.$id_unico.'"',
-        'placeholder'=>"",
-    ),
-    
+ 
     array(
         'label' => '',
         'id' => 'evento',
@@ -1991,5 +1977,38 @@ array(
         'config' => ' value = "'.$id_unico.'"',
         'placeholder'=>"",
     ),
-    
+
+
+
+
+    //especialidade
+
+    array(
+        'label' => 'Especialidade',
+        'id' => 'especialidade',
+        'name' => 'especialidade',
+        'type' => 'text',
+        'size' =>'mb-3 col-md-4',
+        'object'=> 'especialidade',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Especialidade",
+    ),
+
+    array(
+        'label' => '',
+        'id' => 'especialidade',
+        'name' => 'unico',
+        'type' => 'hidden',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => '',
+        'object' => 'especialidade',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => ' value = "'.$id_unico.'"',
+        'placeholder'=>"",
+    ),
 );
