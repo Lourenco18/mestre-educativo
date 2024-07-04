@@ -210,7 +210,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
 <!-- Modal para Editar Avaliações -->
 <div class="modal fade" id="modalavaliacao" tabindex="-1" aria-labelledby="modalTopTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <form class="modal-content" action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id_unico_aluno; ?>&tabela=avaliacao&acao=editar" method="POST" enctype="multipart/form-data">
+        <form class="modal-content" action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo preg_replace("'&'","----", $pagename);; ?>&id=<?php echo $id_unico_aluno; ?>&tabela=avaliacao&acao=editar" method="POST" enctype="multipart/form-data">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTopTitle">Editar Avaliações</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

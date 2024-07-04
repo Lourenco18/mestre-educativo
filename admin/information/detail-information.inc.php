@@ -75,8 +75,14 @@ $information = array(
 
   ),
   "servico" => array(
+    
+    "Data" => "data",
+    "Valor" => "valor",
+   
 
-    "Serviço" => "servico",
+  ),
+  "pagamentos" => array(
+    
     "Data" => "data",
     "Valor" => "valor",
    

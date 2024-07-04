@@ -8,6 +8,7 @@ if(isset($especificacao) && $especificacao == 'adicionar'  ){
 
 }
 
+
 if(isset($id_aluno)){
 
 }else{
@@ -754,6 +755,21 @@ $GLOBALS['campos'] = array(
         'config' => '',
         'placeholder'=>"",
     ),
+    array(
+        'label' => '',
+        'id' => 'recente',
+        'name' => 'recente',
+        'type' => 'hidden',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => 'Informações Escolares',
+        'object'=> 'aluno',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => 'value="1"',
+        'placeholder'=>"",
+    ),
+    
     
 
 
@@ -1121,7 +1137,7 @@ $GLOBALS['campos'] = array(
         'label' => '',
         'id' => 'nota',
         'name' => 'unico',
-        'type' => 'text',
+        'type' => 'hidden',
         'size' => 'mb-3 col-md-3',
         'divisao' => '',
         'object' => 'nota',
@@ -1260,6 +1276,25 @@ $GLOBALS['campos'] = array(
         'defenido'=>1,
         'placeholder'=>"",
     ),
+  
+    array(
+        'label' => '',
+        'id' => 'aluno',
+        'name' => 'aluno',
+        'type' => 'hidden',
+        'size' =>'',
+        'divisao' => '',
+        'object'=> 'pessoa',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+       
+        'config' => ' value = "'.$id_unico_aluno.'"',
+
+        'defenido'=>1,
+        'placeholder'=>"",
+    ),
+
     
     array(
         'label' => '',

@@ -59,12 +59,12 @@ $page_name = basename($current_page);
 </div>
 
 <?php
-$arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = nota.id_status INNER JOIN colaborador ON colaborador.unico = nota.id_colaborador INNER JOIN cargo ON cargo.unico = colaborador.id_cargo WHERE nota.ativo = 1 AND nota.id_destinatario >= '. $_SESSION['userCargoID'].' ORDER BY nota.id_status DESC'); 
+$arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = nota.id_status INNER JOIN colaborador ON colaborador.id_colaborador = nota.id_colaborador INNER JOIN cargo ON cargo.id_cargo = colaborador.id_cargo WHERE nota.ativo = 1 AND (nota.id_colaborador = '.$_SESSION['userID'].' OR nota.id_destinatario >= '. $_SESSION['userCargoID'].')  ORDER BY nota.id_status DESC'); 
 ?>
 
 <div class="modal modal-mid fade" id="modalnotes" tabindex="-1">
   <div class="modal-dialog">
-    <form class="modal-content" action="<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id_unico; ?>&tabela=nota&acao=adicionar" method="POST" enctype="multipart/form-data">
+    <form class="modal-content" action="<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?pagename=<?php echo  preg_replace("'&'","----", basename($current_page)); ?>&id=<?php echo $id_unico; ?>&tabela=nota&acao=adicionar" method="POST" enctype="multipart/form-data">
       <div class="modal-header">
         <h5 class="modal-title" id="modalTopTitle">Notas</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -76,7 +76,7 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
           <?php else: ?>
             <?php foreach ($arrNotas as $v): $id= $v['id_nota'];$id_unico = my_query("SELECT id_nota, unico from nota where id_nota = $id"); $id_unico = $id_unico[0]['unico']; $id_unico_nota = $id_unico
             ?>
-
+ 
               <div class="card">
                 <div class="card-body">
                   <div class="card-bar" style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background-color: <?php echo $v['cor_statu']; ?>"></div>
@@ -86,14 +86,14 @@ $arrNotas = my_query('SELECT * FROM nota INNER JOIN statu ON statu.id_statu = no
                   <h7 class="card-text">Data da nota: <?php echo $v['data']; ?></h7>
                   <div class="card-buttons" style="margin-top: 4px;">
                     <?php if ($v['id_statu'] == 2): ?>
-                      <button class="btn btn-primary" type="button" style="background-color: green; border-color: green;" title="Visto" onclick="window.location.href = '<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?acao=ativar&tabela=nota&id=<?php echo $id_unico; ?>';">
+                      <button class="btn btn-primary" type="button" style="background-color: green; border-color: green;" title="Visto" onclick="window.location.href = '<?php echo $arrConfig['url_trata']; ?>/trata_forms.php?acao=ativar&tabela=nota&id=<?php echo $id; ?>';">
                         <i class="bx bx-check"></i>
                       </button>
                     <?php endif; 
-                    if($_SESSION['userCargoID'] == 4 || $_SESSION['userCargoID']== 3 || $_SESSION['userCargoID'] == $v['id_cargo']){
+                    if($_SESSION['userCargoID'] == 1 || $_SESSION['userCargoID']== 1 || $_SESSION['userCargoID'] == $v['id_cargo']){
                       
                       ?>
-                      <button class="btn btn-primary" type="button" style="background-color: orange; border-color: orange;" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoveNota<?php echo $id_unico_nota;?>">
+                      <button class="btn btn-primary" type="button" style="background-color: orange; border-color: orange;" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoveNota<?php echo $id;?>">
                         <i class="bx bx-trash"></i>
                       </button>
                     <?php
@@ -188,7 +188,7 @@ document.getElementById("active-listView").addEventListener("click", function ()
 foreach($arrNotas as $k => $v) {
   $id= $v['id_nota'];$id_unico = my_query("SELECT id_nota, unico from nota where id_nota = $id"); $id_unico = $id_unico[0]['unico']; $id_unico_nota = $id_unico;
   echo '
-  <div class="modal modal-mid fade" id="modalRemoveNota'.$id_unico_nota.'" tabindex="-1">
+  <div class="modal modal-mid fade" id="modalRemoveNota'.$id.'" tabindex="-1">
   <div class="modal-dialog">
     <form class="modal-content">
       <div class="modal-header">
@@ -207,7 +207,7 @@ foreach($arrNotas as $k => $v) {
   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
     Cancelar
   </button>
-  <a type="button" style = "color = white;" class="btn btn-danger" href=" '.$arrConfig['url_trata'].'/trata_forms.php?acao=apagar&tabela=nota&id='.$id_unico_nota.'" onclick="SwalSuccess()">Sim, quero remover</a>
+  <a type="button" style = "color = white;" class="btn btn-danger" href=" '.$arrConfig['url_trata'].'/trata_forms.php?acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)). '&tabela=nota&id='.$id.'" onclick="SwalSuccess()">Sim, quero remover</a>
 
   </div>
   </form>

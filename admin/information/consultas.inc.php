@@ -262,7 +262,7 @@ WHERE
     FROM 
         aluno
     WHERE
-        aluno.ativo = 0 and aluno.removed = 0
+        aluno.ativo = 0 and aluno.removed = 0 and recente = 1
 ),
 TurmaRecente AS (
     SELECT 
@@ -400,7 +400,7 @@ WHERE
     FROM 
         aluno
     WHERE
-        aluno.removed = 1 and ativo = 0
+        aluno.removed = 1 and ativo = 0 and recente = 1
 ),
 TurmaRecente AS (
     SELECT 
@@ -579,6 +579,8 @@ WHERE
     'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo',
     'disciplina'=> 'SELECT * FROM disciplina inner join ciclo on disciplina.id_ciclo = ciclo.unico WHERE disciplina.ativo = 1',
     'servico' =>'SELECT * from servico where ativo = 1 order by data DESC',
+    'servicoaluno' =>'SELECT * from servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno inner join servico on servico.id_servico = servicoaluno.id_servico  where servicoaluno.ativo = 1 order by servicoaluno.data DESC',
+    'pagamento'=> 'SELECT * from pagamento inner join servicoaluno on servicoaluno.id_servicoaluno = pagamento.id_servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno where aluno.ativo = 1',
 ];
 if (isset($id_unico_aluno)) {
     $consultas['pessoa'] = 'SELECT 

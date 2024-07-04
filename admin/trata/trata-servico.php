@@ -42,7 +42,7 @@ if ($acao == "adicionar") {
                 $tipo = $result[0]['tipo'];
              
                 //inserir na base de dados servico-aluno
-                my_query('INSERT INTO servicoaluno (id_aluno, id_servico, pagamento, valor_pago, valor_a_pagar, data, data_fim) Values (' . $id_unico_aluno . ',' . $id_servico . ', 0, 0, ' . $valor_a_pagar . ', "' . $data . '", "' . $data_fim . '")');
+                my_query('INSERT INTO servicoaluno (servicoaluno, id_aluno, id_servico, pagamento, valor_pago, valor_a_pagar, data, data_fim) Values ("Pagamento - '.$nome_servico.'",' . $id_unico_aluno . ',' . $id_servico . ', 0, 0, ' . $valor_a_pagar . ', "' . $data . '", "' . $data_fim . '")');
                 //enviar email 
                 sendmailMensalidade($username, $email, $tipo, $nome_servico, $data_fim, $data, $valor_a_pagar);
             }
@@ -63,7 +63,8 @@ if ($acao == "adicionar") {
        
         $valores_pagamentos = $_POST['valor_pago'];
     
-        
+        $pagename = isset($_POST['pagename']) ? $_POST['pagename'] : '';
+        $url = $arrConfig['url_site'] . '/' . $pagename;
         foreach ($metodos_pagamento as $id_servico => $metodo_pagamento) {
             
             $valor_pago = $valores_pagamentos[$id_servico];
@@ -86,6 +87,11 @@ if ($acao == "adicionar") {
                 my_query ('INSERT INTO pagamento (id_servicoaluno, metodo, data, valor) VALUES ('.$id_servico_aluno.', "'.$metodo_pagamento.'", "'.$data.'", '.$valor_pago.' ) ');
                 
             }
+            if($valor_pago == $valor_total){
+                my_query('UPDATE servicoaluno set pagamento = 1, valor_pago = ' . $valor_pago . ', valor_a_pagar = ' . $valor_a_pagar . ' where id_servico = ' . $id_servico . ' and id_aluno = ' . $id_unico_aluno . '');
+
+            }
+          
        
             
     

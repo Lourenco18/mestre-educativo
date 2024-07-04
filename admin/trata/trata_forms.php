@@ -14,10 +14,11 @@ $id_unico = my_query("SELECT MAX(unico) FROM $tabela");
 $id_unico = $id_unico[0]['MAX(unico)'] + 1;
 $pagename = isset($_GET['pagename']) ? $_GET['pagename'] : '';
 
+
+
 $pagename = preg_replace("'----'","&", $pagename);
-
-
 $url = $arrConfig['url_site'] .'/'. $pagename;
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_FILES['image'])){
@@ -183,7 +184,7 @@ if ($acao == 'adicionar') {
     }
 
 } elseif ($acao == 'editar') {
-    if($tabela !== 'aluno' ){
+    if($tabela !== 'aluno' && $tabela != 'avaliacao') {
         $sql_form = "UPDATE $tabela SET ";
     foreach ($dados as $coluna => $valor) {
         $sql_form .= "$coluna = '$valor', ";
@@ -191,12 +192,18 @@ if ($acao == 'adicionar') {
     $sql_form = rtrim($sql_form, ", ") . " WHERE id_$tabela = $id";
  
     }
+    
     if ($tabela =="aluno") {
         $tabela = rtrim($tabela, "s");
+        $id_unico_aluno15 = my_query('SELECT unico from aluno where id_aluno = '.$id.'');
+        $id_unico_aluno15 = $id_unico_aluno15[0]['unico'];
+       
+        my_query('UPDATE aluno set ativo = 0, recente = 0 where unico = '.$id_unico_aluno15.'');
+       
         $sql_form = "INSERT INTO $tabela ($campos) VALUES (" . implode(", ", array_map(function ($value) {
             return "'$value'";
         }, $dados)) . ")";
-    } else {
+    } elseif($tabela == 'avaliacao') {
         $arrayAvaliacao = array(); //array onde vão ser armazenadas as avaliações com as suas respetivas definições
     
         foreach ($_POST as $key => $value) { // ler os dados do formulário enviado com todas as avaliações
@@ -228,7 +235,13 @@ if ($acao == 'adicionar') {
       
     }
 
-
+    if($tabela == "aluno"){
+        $id_mais_recente =my_query("SELECT MAX(id_aluno) as id_aluno from aluno where unico = $id_unico_aluno15");
+        $id_mais_recente= $id_mais_recente[0]['id_aluno'];
+        $pagename = preg_replace('/' . preg_quote($id, '/') . '/', $id_mais_recente, $pagename);
+        $url = $arrConfig['url_site'] .'/'. $pagename;
+    
+    }
 
 } elseif ($acao == 'apagar') {
     if($tabela == "aluno"){
@@ -266,6 +279,8 @@ if ($acao == 'adicionar') {
 }
 
 ;
+
+
 
 if(isset($sql_form)){
  my_query($sql_form);
