@@ -114,7 +114,7 @@ if (array_key_exists($pagina, $consultas)) {
       } else {
         $foto = '';
       }
-      echo $v['id_'. $tabela];
+      
 
 
 
@@ -212,6 +212,7 @@ echo '<th>Ações</th>
 
 foreach ($arrResultados as $k => $v) {
   $id = $v['id_' . $tabela];
+  $id_unico = $v['unico'];
   echo ' <tr>
    ';
   // Exibir a foto, se existir
@@ -259,7 +260,8 @@ foreach ($arrResultados as $k => $v) {
 
 
 
-
+    $id = $v['id_'.$tabela].'a';
+   
     if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative') {
       echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary" title="Editar"><i class="bx bx-pencil"></i></a>';
     } else {
@@ -268,21 +270,22 @@ foreach ($arrResultados as $k => $v) {
     if (strpos($pagina, 'removed') !== false|| $tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
 
     } else {
-      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . '" title="Remover"><i class="bx bx-trash"></i></button>';
+      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove'.$id.'" title="Remover"><i class="bx bx-trash"></i></button>';
+
     }
     if (strpos($pagina, 'removed') !== false){
-      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopNullRemove' . $v['id_' . $tabela] . '"><i class="bx bx-x-circle"></i> Desfazer remoção</button>';
+      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopNullRemove' . $v['id_' . $tabela] . 'a"><i class="bx bx-x-circle"></i> Desfazer remoção</button>';
     }
 
     if ($pagina == 'alunoinative') {
-      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive' . $v['id_' . $tabela] . '" title="Ativar"><i class="bx bx-block"></i></button>';
+      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive' . $v['id_' . $tabela] . 'a" title="Ativar"><i class="bx bx-block"></i></button>';
     } elseif ($pagina == 'aluno') {
       
-      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopDesative' . $v['id_' . $tabela] . '" title="Desativar"><i class="bx bx-block"></i></button>';
+      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopDesative' . $v['id_' . $tabela] . 'a" title="Desativar"><i class="bx bx-block"></i></button>';
       if ($pagina == 'operacao' || $tabela == 'turma') {
 
       } else {
-        echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF" title="Adicionar Serviço"><i class="bx bx-file-blank"></i></button>';
+        echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF" data-bs-toggle="modal" data-bs-target="#modalTopADDservice' . $v['id_'.$tabela] . 'a" title="Adicionar Serviço"><i class="bx bx-file-blank"></i></button>';
       }
       if ($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'encarregadoeducacao' || $tabela == 'escola') {
         echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn" style="color: #ffff; background-color: #3D8F42; border-color: #3D8F42;" title="Enviar E-mail"><i class="bx bx-envelope"></i></a>';
@@ -293,9 +296,9 @@ foreach ($arrResultados as $k => $v) {
 
 
     echo '</div>';
-    include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
-    include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
+  
   }
+
 
   echo '</td>
   </tr>';
@@ -303,14 +306,207 @@ foreach ($arrResultados as $k => $v) {
 
 }
 
-
 echo '</tbody>
 </table>
 </div>';
 
 
+foreach ($arrResultados as $k => $v) {
+  
+echo '
+<div class="modal modal-mid fade" id="modalTopRemove'.$v['id_' .$tabela].'a" tabindex="-1">
+<div class="modal-dialog">
+  <form class="modal-content">
+    <div class="modal-header">
+<h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer remover este ';
+echo $tabela ;
+
+echo '?</h5>
+<button
+  type="button"
+  class="btn-close"
+  data-bs-dismiss="modal"
+  aria-label="Close"
+></button>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+  Cancelar
+</button>
+<a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero remover</a>
+
+</div>
+</form>
+</div>
+</div>
+';
+echo '
+<div class="modal modal-mid fade" id="modalTopNullRemove'.$v['id_' .$tabela].'a" tabindex="-1">
+<div class="modal-dialog">
+  <form class="modal-content">
+    <div class="modal-header">
+<h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer remover este ';
+echo $tabela;
+
+echo '?</h5>
+<button
+  type="button"
+  class="btn-close"
+  data-bs-dismiss="modal"
+  aria-label="Close"
+></button>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+  Cancelar
+</button>
+<a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero remover</a>
+
+</div>
+</form>
+</div>
+</div>
+';
+
+
+if(isset($v['id_servicoaluno'])){
+echo '
+<div class="modal modal-mid fade" id="modalTopRemove'.$v['id_servicoaluno'].'a" tabindex="-1">
+<div class="modal-dialog">
+<form class="modal-content">
+  <div class="modal-header">
+<h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer remover este serviço ao aluno';
+
+
+echo '?</h5>
+<button
+type="button"
+class="btn-close"
+data-bs-dismiss="modal"
+aria-label="Close"
+></button>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+Cancelar
+</button>
+<a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $v['id_servicoaluno'] . '&tabela=servicoaluno&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero remover</a>
+
+</div>
+</form>
+</div>
+</div>
+';
+}
+
+ echo '
+ <div class="modal modal-mid fade" id="modalTopDesative' . $v['id_' . $tabela] . 'a" tabindex="-1">
+ <div class="modal-dialog">
+   <form class="modal-content">
+     <div class="modal-header">
+ <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer desativar este ';
+ echo $tabela;
+ echo '?</h5>
+ <button
+   type="button"
+   class="btn-close"
+   data-bs-dismiss="modal"
+   aria-label="Close"
+ ></button>
+ </div>
+ <div class="modal-footer">
+ <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+   Cancelar
+ </button>
+ <a type="button" style = "color = white;  background-color: orange;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=desativar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero desativar</a>
+
+ </div>
+ </form>
+ </div>
+ </div>
+ ';
+ echo '
+ <div class="modal modal-mid fade" id="modalTopAtive' . $v['id_' . $tabela] . 'a" tabindex="-1">
+ <div class="modal-dialog">
+   <form class="modal-content">
+     <div class="modal-header">
+ <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer desativar este ';
+ echo $tabela;
+ echo '?</h5>
+ <button
+   type="button"
+   class="btn-close"
+   data-bs-dismiss="modal"
+   aria-label="Close"
+ ></button>
+ </div>
+ <div class="modal-footer">
+ <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+   Cancelar
+ </button>
+ <a type="button" style = "color = white;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=ativar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero desativar</a>
+ </div>
+ </form>
+ </div>
+ </div>
+ ';
+}
+
+echo '
+ <div class="modal modal-mid fade" id="modalTopADDservice' . $v['id_'.$tabela] . 'a" tabindex="-1">
+ <div class="modal-dialog">'; $id_unicoa= $id_unico -1; echo'
+   <form class="modal-content" action="' . $arrConfig['url_trata'] . '/trata-servico.php?id= ' . $id_unicoa . '&tabela=servico&acao=adicionar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" method="POST" enctype="multipart/form-data">
+     <div class="modal-header">
+ <h5 class="modal-title" id="modalTopTitle">Adicionar serviço</h5>
+ <div class="modal-body" style="max-height: 800px; overflow-y: auto;">';
+
+
+
+$servicos = my_query($consultas['servico']);
+
+// Fetch services already assigned to the student
+$arrServicos = my_query("SELECT id_servico FROM servicoaluno WHERE id_aluno = $id_unicoa AND removed = 0");
+
+// Extract ids of assigned services
+$assignedServiceIds = array_map(function($servico) {
+    return $servico['id_servico'];
+}, $arrServicos);
+
+// Iterate over all services and display only those not assigned to the student
+foreach ($servicos as $servico):
+    if (!in_array($servico['id_servico'], $assignedServiceIds)): ?>
+        <input type="checkbox" id="servico_<?php echo $servico['id_servico']; ?>" name="servico_ids[]" value="<?php echo $servico['id_servico']; ?>">
+        <label for="servico_<?php echo $servico['id_servico']; ?>">
+            <?php echo $servico['servico']; ?> - <?php echo $servico['valor']; ?>
+        </label><br>
+    <?php endif;
+endforeach;
+
+
+
+echo '</div>
+ <button
+   type="button"
+   class="btn-close"
+   data-bs-dismiss="modal"
+   aria-label="Close"
+ ></button>
+ </div>
+
+ <div class="modal-footer">
+ <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+   Cancelar
+ </button>
+ <button type="submit" class="btn btn-primary me-2">Adicionar</button>
+
+ </div>
+ </form>
+ </div>
+ </div>
+ ';
 
 ?>
+
 
 <!-- Incluir CSS e JavaScript necessários para a tabela -->
 

@@ -3,7 +3,7 @@
 <div class="container-xxl ">
   <?php
   $pagename = basename($current_page);
-
+  $pagename = preg_replace("'&'","----", $pagename);
   unicooperacao( 'nacionalidade');
   $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : '';
   $especificacao = isset($_GET['especificacao']) ? $_GET['especificacao'] : '';
@@ -373,7 +373,7 @@
     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
       Cancelar
     </button>
-    <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero remover</a>
+    <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero remover</a>
   
     </div>
     </form>

@@ -156,7 +156,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                             ROW_NUMBER() OVER (PARTITION BY disciplina.unico ORDER BY disciplina.data DESC) AS row_num
                         FROM disciplina
                         INNER JOIN ciclo ON ciclo.id_ciclo = disciplina.id_ciclo
-                        WHERE disciplina.id_ciclo = $cicloDoAnoLetivo
+                        WHERE disciplina.id_ciclo = $cicloDoAnoLetivo AND disciplina.removed = 0
                     ) AS d
                     WHERE d.row_num = 1
                 ");
@@ -182,7 +182,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                     echo '<tr>';
                     echo '<td>' . $periodo . 'º</td>';
                     foreach ($arrDisciplinas as $disciplina) {
-                        $avaliacao = my_query("SELECT * FROM avaliacao WHERE id_disciplina = {$disciplina['unico']} AND id_aluno = $id_unico_aluno AND periodo = $periodo");
+                        $avaliacao = my_query("SELECT * FROM avaliacao WHERE id_disciplina = {$disciplina['unico']} AND id_aluno = $id_unico_aluno AND periodo = $periodo AND removed = 0");
                         $nota = $avaliacao[0]['avaliacao'];
                         // Verificar ciclo atual para determinar a legenda
                         if (isset($legendasPorCiclo[$cicloDoAnoLetivo][$nota])) {
@@ -237,7 +237,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                                     ROW_NUMBER() OVER (PARTITION BY disciplina.unico ORDER BY disciplina.data DESC) AS row_num
                                 FROM disciplina
                                 INNER JOIN ciclo ON ciclo.id_ciclo = disciplina.id_ciclo
-                                WHERE disciplina.id_ciclo = $cicloDoAnoLetivo
+                                WHERE disciplina.id_ciclo = $cicloDoAnoLetivo and disciplina.removed = 0
                             ) AS d
                             WHERE d.row_num = 1
                         ");
@@ -251,7 +251,7 @@ $arravaliacao = my_query("SELECT * FROM avaliacao WHERE id_aluno = $id_unico_alu
                             <div id="disciplina-<?php echo $disciplina['unico']; ?>" class="periodos-container" style="display: none;">
                                 <?php 
                                 for ($periodo = 1; $periodo <= 3; $periodo++) {
-                                    $avaliacao = my_query("SELECT * FROM avaliacao WHERE id_disciplina = {$disciplina['unico']} AND id_aluno = $id_unico_aluno AND periodo = $periodo");
+                                    $avaliacao = my_query("SELECT * FROM avaliacao WHERE id_disciplina = {$disciplina['unico']} AND id_aluno = $id_unico_aluno AND periodo = $periodo and removed =0");
                                     $nota_atual = isset($avaliacao[0]['avaliacao']) ? $avaliacao[0]['avaliacao'] : '';
                                 ?>
                                 <div class="periodo-item">

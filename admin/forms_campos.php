@@ -1379,21 +1379,7 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
     
-    array(
-        'label' => '',
-        'id' => 'disciplina',
-        'name' => 'unico',
-        'type' => 'hidden',
-        'size' => 'mb-3 col-md-3',
-        'divisao' => '',
-        'object' => 'disciplina',
-        'min' => '',
-        'maxlength' => '',
-        'max' => '',
-        'config' => ' value = "'.$id_unico.'"',
-        'placeholder'=>"",
-    ),
-    
+ 
    
     
     array(
@@ -1585,22 +1571,7 @@ $GLOBALS['campos'] = array(
         'placeholder'=>"",
     ),
     
-    array(
-        'label' => '',
-        'id' => 'turma',
-        'name' => 'unico',
-        'type' => 'hidden',
-        'size' => 'mb-3 col-md-3',
-        'divisao' => '',
-        'object' => 'turma',
-        'min' => '',
-        'maxlength' => '',
-        'max' => '',
-        'config' => ' value = "'.$id_unico.'"',
-        'placeholder'=>"",
-    ),
-
-
+   
 
 
     //operações
@@ -1853,6 +1824,71 @@ $GLOBALS['campos'] = array(
         'size' => 'mb-3 col-md-3',
         'divisao' => '',
         'object' => 'servico',
+        'min' => '',
+        'maxlength' => '',
+        'max' => '',
+        'config' => ' value = "'.$id_unico.'"',
+        'placeholder'=>"",
+    ),
+    
+
+
+
+
+
+    //disciplina
+   
+    array(
+        'label' => 'Disciplina',
+        'id' => 'disciplina',
+        'name' => 'disciplina',
+        'type' => 'text',
+        'divisao' => '',
+        'size' =>'mb-3 col-md-3',
+        'object'=> 'disciplina',
+        'min'=> '',
+        'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"Nome da disciplina",
+    ),
+    array(
+        'label' => 'Ciclo',
+        'id' => 'ciclo',
+        'name' => ' ciclo',
+        'type' => 'combobox',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => '',
+        'object'=> 'disciplina',
+        'min'=> '',
+    'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+    array(
+        'label' => 'Cor',
+        'id' => 'cor',
+        'name' => 'cor',
+        'type' => 'color',
+        'size' =>'mb-3 col-md-3',
+        'divisao' => '',
+        'object'=> 'disciplina',
+        'min'=> '',
+    'maxlength'=>'',
+        'max'=> '',
+        'config' => '',
+        'placeholder'=>"",
+    ),
+
+    array(
+        'label' => '',
+        'id' => 'disciplina',
+        'name' => 'unico',
+        'type' => 'hidden',
+        'size' => 'mb-3 col-md-3',
+        'divisao' => '',
+        'object' => 'disciplina',
         'min' => '',
         'maxlength' => '',
         'max' => '',

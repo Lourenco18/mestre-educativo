@@ -240,6 +240,11 @@ if ($acao == 'adicionar') {
         my_query($sql_remove);
     }else{
         $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE id_$tabela = $id";
+        //caso seja uma disciplina é necessário desativar as avaliações
+        if($tabela == "disciplina"){
+            my_query("UPDATE avaliacao SET removed = 1, ativo = 0 WHERE id_$tabela = $id");
+        }
+
     }
     
  
@@ -248,7 +253,9 @@ if ($acao == 'adicionar') {
 } elseif ($acao == 'desativar') {
 
     $sql_form = "UPDATE $tabela SET ativo = 0 WHERE unico = $id";
-
+    if($tabela == "disciplina"){
+        $sql_form =("UPDATE avaliacao SET removed = 0, ativo = 0 WHERE id_$tabela = $id");
+    }
 
 } elseif ($acao == 'ativar') {
     if ($tabela == 'nota') {

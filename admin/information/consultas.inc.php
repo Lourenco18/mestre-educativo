@@ -2,7 +2,7 @@
  $id = isset($_GET['id']) ? $_GET['id'] : '';
  
  $id_modal = isset($_GET['id_modal']) ? $_GET['id_modal'] : '';
-
+ 
 
 //  consultas SQL para cada categoria
 global $consultas;
@@ -574,13 +574,15 @@ WHERE
     'admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 2',
     'supra_admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 1',
     'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.ativo = 1',
-    'operacao'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 1 Order by ordem ASC',
+    'operacao'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 1 and removed = 0 Order by ordem ASC',
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 1 ',
     'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo',
     'disciplina'=> 'SELECT * FROM disciplina inner join ciclo on disciplina.id_ciclo = ciclo.unico WHERE disciplina.ativo = 1',
-    
-'pessoa'=> 'SELECT 
-    pessoa.id_pessoa,
+    'servico' =>'SELECT * from servico where ativo = 1 order by data DESC',
+];
+if (isset($id_unico_aluno)) {
+    $consultas['pessoa'] = 'SELECT 
+        pessoa.id_pessoa,
         pessoa.id_aluno, 
         pessoa.data,
         pessoa.pessoa, 
@@ -601,10 +603,8 @@ WHERE
             SELECT MAX(p2.data)
             FROM pessoa p2
             WHERE p2.unico = pessoa.unico
-        )',
-        'servico' =>'SELECT * from servico where ativo = 1 order by data DESC',
-  ];
-
+        )';
+}
 
   
 
@@ -632,103 +632,100 @@ $consultasForms = [
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = '.$id.' ',
     'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.id_cargo = '.$id.' ',
     'pessoa'=> 'SELECT * FROM pessoa  WHERE id_pessoa = '.$id_modal.' ',  
+    'disciplina' => 'SELECT * from disciplina inner join ciclo on ciclo.id_ciclo = disciplina.id_ciclo where disciplina.id_disciplina = '.$id.' '
   ];
-
-  $consultasHistorico = [
-    'aluno' => 'SELECT 
-aluno.*, 
-aluno.data AS data_aluno,
-colaborador.colaborador AS nome_orientador_anterior,
-encarregadoeducacao.encarregadoeducacao AS nome_encarregado_anterior,
-relacao.relacao AS nome_relacao_anterior,
-genero.genero AS nome_genero_anterior,
-localidade.localidade AS nome_localidade_anterior,
-escola.escola AS nome_escola_anterior,
-nacionalidade.nacionalidade AS nome_nacionalidade_anterior,
-turma.turma AS nome_turma_anterior,
-distrito.distrito AS nome_distrito_anterior,
-
-ciclo.ciclo AS nome_ciclo_anterior,
-anoletivo.anoletivo AS nome_anoletivo_anterior
-FROM aluno 
-INNER JOIN colaborador ON aluno.id_orientador = colaborador.unico
-INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.unico
-INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.unico
-INNER JOIN genero ON genero.unico = aluno.id_genero
-INNER JOIN localidade ON localidade.unico = aluno.id_localidade
-INNER JOIN escola ON escola.unico = aluno.id_escola
-INNER JOIN nacionalidade ON nacionalidade.unico = aluno.id_nacionalidade
-INNER JOIN turma ON turma.unico = aluno.id_turma
-INNER JOIN distrito ON distrito.unico = aluno.id_distrito
-
-INNER JOIN ciclo ON ciclo.unico = aluno.id_ciclo
-INNER JOIN anoletivo ON anoletivo.unico = aluno.id_anoletivo
-WHERE aluno.unico = '.$id_unico.'
-AND colaborador.data = (
-SELECT MAX(data) 
-FROM colaborador 
-WHERE colaborador.unico = aluno.id_orientador
-)
-AND encarregadoeducacao.data = (
-SELECT MAX(data) 
-FROM encarregadoeducacao 
-WHERE encarregadoeducacao.unico = aluno.id_encarregadoeducacao
-)
-AND relacao.data = (
-SELECT MAX(data) 
-FROM relacao 
-WHERE relacao.unico = encarregadoeducacao.id_relacao
-)
-AND genero.data = (
-SELECT MAX(data) 
-FROM genero 
-WHERE genero.unico = aluno.id_genero
-)
-AND localidade.data = (
-SELECT MAX(data) 
-FROM localidade 
-WHERE localidade.unico = aluno.id_localidade
-)
-AND escola.data = (
-SELECT MAX(data) 
-FROM escola 
-WHERE escola.unico = aluno.id_escola
-)
-AND nacionalidade.data = (
-SELECT MAX(data) 
-FROM nacionalidade 
-WHERE nacionalidade.unico = aluno.id_nacionalidade
-)
-AND turma.data = (
-SELECT MAX(data) 
-FROM turma 
-WHERE turma.unico = aluno.id_turma
-)
-AND distrito.data = (
-SELECT MAX(data) 
-FROM distrito 
-WHERE distrito.unico = aluno.id_distrito
-)
-
-AND ciclo.data = (
-SELECT MAX(data) 
-FROM ciclo 
-WHERE ciclo.unico = aluno.id_ciclo
-)
-AND anoletivo.data = (
-SELECT MAX(data) 
-FROM anoletivo 
-WHERE anoletivo.unico = aluno.id_anoletivo
-)
-
-ORDER BY aluno.data DESC',
-    'encarregadoeducacao' => 'SELECT * FROM encarregadoeducacao INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.id_relacao  WHERE encarregadoeducacao.ativo = 1',
-    'colaborador' => 'SELECT * FROM colaborador  INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE cargo.ativo = 1 and colaborador.id_colaborador = ' . $id . '',
-    'escola' => 'SELECT * FROM escola WHERE id_escola = ' . $id . ' ',
-    'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.id_turma = ' . $id . '',
-    'operacao' => 'SELECT * FROM operacao  WHERE operacao.id_operacao = ' . $id . ' ',
-    'transporte' => 'SELECT * FROM transporte  WHERE transporte.ativo = ' . $id . ' ',
-    'permissao' => 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.id_cargo = ' . $id . ' ',
-    'pessoa' => 'SELECT * FROM pessoa  WHERE id_pessoa = ' . $id_modal . ' ',
-]
-;
+  if(isset($id_unico)){
+    $consultasHistorico = [
+        'aluno' => 'SELECT 
+    aluno.*, 
+    aluno.data AS data_aluno,
+    colaborador.colaborador AS nome_orientador_anterior,
+    encarregadoeducacao.encarregadoeducacao AS nome_encarregado_anterior,
+    relacao.relacao AS nome_relacao_anterior,
+    genero.genero AS nome_genero_anterior,
+    localidade.localidade AS nome_localidade_anterior,
+    escola.escola AS nome_escola_anterior,
+    nacionalidade.nacionalidade AS nome_nacionalidade_anterior,
+    turma.turma AS nome_turma_anterior,
+    distrito.distrito AS nome_distrito_anterior,
+    
+    ciclo.ciclo AS nome_ciclo_anterior,
+    anoletivo.anoletivo AS nome_anoletivo_anterior
+    FROM aluno 
+    INNER JOIN colaborador ON aluno.id_orientador = colaborador.unico
+    INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.unico
+    INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.unico
+    INNER JOIN genero ON genero.unico = aluno.id_genero
+    INNER JOIN localidade ON localidade.unico = aluno.id_localidade
+    INNER JOIN escola ON escola.unico = aluno.id_escola
+    INNER JOIN nacionalidade ON nacionalidade.unico = aluno.id_nacionalidade
+    INNER JOIN turma ON turma.unico = aluno.id_turma
+    INNER JOIN distrito ON distrito.unico = aluno.id_distrito
+    
+    INNER JOIN ciclo ON ciclo.unico = aluno.id_ciclo
+    INNER JOIN anoletivo ON anoletivo.unico = aluno.id_anoletivo
+    WHERE aluno.unico = '.$id_unico.'
+    AND colaborador.data = (
+    SELECT MAX(data) 
+    FROM colaborador 
+    WHERE colaborador.unico = aluno.id_orientador
+    )
+    AND encarregadoeducacao.data = (
+    SELECT MAX(data) 
+    FROM encarregadoeducacao 
+    WHERE encarregadoeducacao.unico = aluno.id_encarregadoeducacao
+    )
+    AND relacao.data = (
+    SELECT MAX(data) 
+    FROM relacao 
+    WHERE relacao.unico = encarregadoeducacao.id_relacao
+    )
+    AND genero.data = (
+    SELECT MAX(data) 
+    FROM genero 
+    WHERE genero.unico = aluno.id_genero
+    )
+    AND localidade.data = (
+    SELECT MAX(data) 
+    FROM localidade 
+    WHERE localidade.unico = aluno.id_localidade
+    )
+    AND escola.data = (
+    SELECT MAX(data) 
+    FROM escola 
+    WHERE escola.unico = aluno.id_escola
+    )
+    AND nacionalidade.data = (
+    SELECT MAX(data) 
+    FROM nacionalidade 
+    WHERE nacionalidade.unico = aluno.id_nacionalidade
+    )
+    AND turma.data = (
+    SELECT MAX(data) 
+    FROM turma 
+    WHERE turma.unico = aluno.id_turma
+    )
+    AND distrito.data = (
+    SELECT MAX(data) 
+    FROM distrito 
+    WHERE distrito.unico = aluno.id_distrito
+    )
+    
+    AND ciclo.data = (
+    SELECT MAX(data) 
+    FROM ciclo 
+    WHERE ciclo.unico = aluno.id_ciclo
+    )
+    AND anoletivo.data = (
+    SELECT MAX(data) 
+    FROM anoletivo 
+    WHERE anoletivo.unico = aluno.id_anoletivo
+    )
+    
+    ORDER BY aluno.data DESC',
+    
+    ]
+    ;
+    
+  }
+  

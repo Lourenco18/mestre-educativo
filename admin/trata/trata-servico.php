@@ -6,12 +6,18 @@ include '../mail.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/mestre-educativo/php/include/config.inc.php';
 $acao = $_GET['acao'] ?? '';
 $id_unico_aluno = $_GET['id'] ?? '';
+
     //dados do encarregado de educação
 $arrencarregado = my_query("SELECT id_encarregadoeducacao from aluno where unico = $id_unico_aluno ");
 $id_encarregado = $arrencarregado[0]["id_encarregadoeducacao"];
 $informationEE = my_query("SELECT encarregadoeducacao as nome_ee, email_encarregadoeducacao as email from encarregadoeducacao where unico = $id_encarregado");
 $email = $informationEE[0]["email"];
 $username = $informationEE[0]["nome_ee"];
+
+$pagename = isset($_GET['pagename']) ? $_GET['pagename'] : '';
+$pagename = preg_replace("'----'","&", $pagename);
+$url = $arrConfig['url_site'] . '/' . $pagename;
+
 
 if ($acao == "adicionar") {
 
@@ -20,9 +26,7 @@ if ($acao == "adicionar") {
 
     $tabela = $_GET['tabela'] ?? '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $pagename = isset($_POST['pagename']) ? $_POST['pagename'] : '';
-
-        $url = $arrConfig['url_site'] . '/' . $pagename;
+      
         if (isset($_POST['servico_ids']) && is_array($_POST['servico_ids'])) {
             $servico_ids = $_POST['servico_ids'];
             for ($i = 0; $i < count($servico_ids); $i++) {
@@ -54,9 +58,6 @@ if ($acao == "adicionar") {
     // Verifica se a solicitação foi feita via POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        
-        $pagename = isset($_POST['pagename']) ? $_POST['pagename'] : '';
-
-        $url = $arrConfig['url_site'] . '/' . $pagename;
         $metodos_pagamento = isset($_POST['metodo_pagamento']) ? $_POST['metodo_pagamento'] : [];
     
        
@@ -98,7 +99,7 @@ if ($acao == "adicionar") {
     header('Location: ' . $url . '');
 }
    
-  
+header('Location: ' . $url . ''); 
 
 
 

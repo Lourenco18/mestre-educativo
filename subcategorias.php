@@ -97,7 +97,7 @@ if (isset($_GET['display'])) {
         <script>document.getElementById('toggleViewBtn').addEventListener('click', function () {
             var cardView = document.getElementById('cardView');
             var tableView = document.getElementById('tableView');
-
+            console.log('aaaa');
             if (cardView.style.display === 'none') {
               cardView.style.display = 'block';
               tableView.style.display = 'none';

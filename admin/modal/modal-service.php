@@ -8,14 +8,26 @@ echo '
  <h5 class="modal-title" id="modalTopTitle">Adicionar serviço</h5>
  <div class="modal-body" style="max-height: 800px; overflow-y: auto;">';
 
-$servicos = my_query($consultas['servico']);''?>
+$servicos = my_query($consultas['servico']);
 
-<?php foreach ($servicos as $servico): ?>
-    <input type="checkbox" id="servico_<?php echo $servico['id_servico']; ?>" name="servico_ids[]" value="<?php echo $servico['id_servico']; ?>">
-    <label for="servico_<?php echo $servico['id_servico']; ?>">
-        <?php echo $servico['servico']; ?> - <?php echo $servico['valor']; ?>
-    </label><br>
-<?php endforeach; 
+// Fetch services already assigned to the student
+$arrServicos = my_query("SELECT id_servico FROM servicoaluno WHERE id_aluno = $id_unico AND removed = 0");
+
+// Extract ids of assigned services
+$assignedServiceIds = array_map(function($servico) {
+    return $servico['id_servico'];
+}, $arrServicos);
+
+// Iterate over all services and display only those not assigned to the student
+foreach ($servicos as $servico):
+    if (!in_array($servico['id_servico'], $assignedServiceIds)): ?>
+        <input type="checkbox" id="servico_<?php echo $servico['id_servico']; ?>" name="servico_ids[]" value="<?php echo $servico['id_servico']; ?>">
+        <label for="servico_<?php echo $servico['id_servico']; ?>">
+            <?php echo $servico['servico']; ?> - <?php echo $servico['valor']; ?>
+        </label><br>
+    <?php endif;
+endforeach;
+
 
 echo '</div>
  <button
