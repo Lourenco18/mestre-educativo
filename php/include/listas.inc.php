@@ -31,13 +31,21 @@ if (array_key_exists($pagina, $consultas)) {
   } elseif ($tabela == 'professor' || $tabela == 'admin' || $tabela == 'supra_admin') {
     $tabela = 'colaborador';
   }
+  if (strpos($tabela, "removed") !== false) {
+    $tabela = preg_replace("'removed'", "", $tabela);
+} else {
+    
+}
   // Mostrar os resultados
  
   foreach ($arrResultados as $k => $v) {
    
     $id = $v['id_' . $tabela];
     $id_unico = my_query('SELECT unico, id_' . $tabela . ' FROM ' . $tabela . ' WHERE id_' . $tabela . ' = ' . $id . '');
-    $id_unico = $id_unico[0]['unico'];
+    if(isset($id_unico)) {
+      $id_unico = $id_unico[0]['unico'];
+    }
+    
     if (count($arrResultados) == 0) {
       echo 'Não existem registos';
 
@@ -123,8 +131,9 @@ if (array_key_exists($pagina, $consultas)) {
       // Botões de ação
       echo '<div class="d-grid gap-1 mt-3">';
       if ($_SESSION['userCargo'] == 'admin' || $_SESSION['userCargo'] == 'supra_admin') {
-
-        if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative') {
+    
+      
+        if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative' && strpos($pagina, "removed") == false) {
           echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary"><i class="bx bx-pencil"></i> Editar</a>';
         } else {
 
@@ -266,7 +275,7 @@ foreach ($arrResultados as $k => $v) {
 
     $id = $v['id_'.$tabela].'a';
    
-    if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative') {
+    if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative' && strpos($pagina, "removed") == false) {
       echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary" title="Editar"><i class="bx bx-pencil"></i></a>';
     } else {
 
@@ -455,14 +464,14 @@ Cancelar
  </div>
  ';
 }
+if($tabela == 'aluno'){echo '
+  <div class="modal modal-mid fade" id="modalTopADDservice' . $v['id_'.$tabela] . 'a" tabindex="-1">
+  <div class="modal-dialog">'; $id_unicoa= $id_unico -1; echo'
+    <form class="modal-content" action="' . $arrConfig['url_trata'] . '/trata-servico.php?id= ' . $id_unicoa . '&tabela=servico&acao=adicionar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" method="POST" enctype="multipart/form-data">
+      <div class="modal-header">
+  <h5 class="modal-title" id="modalTopTitle">Adicionar serviço</h5>
+  <div class="modal-body" style="max-height: 800px; overflow-y: auto;">';
 
-echo '
- <div class="modal modal-mid fade" id="modalTopADDservice' . $v['id_'.$tabela] . 'a" tabindex="-1">
- <div class="modal-dialog">'; $id_unicoa= $id_unico -1; echo'
-   <form class="modal-content" action="' . $arrConfig['url_trata'] . '/trata-servico.php?id= ' . $id_unicoa . '&tabela=servico&acao=adicionar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" method="POST" enctype="multipart/form-data">
-     <div class="modal-header">
- <h5 class="modal-title" id="modalTopTitle">Adicionar serviço</h5>
- <div class="modal-body" style="max-height: 800px; overflow-y: auto;">';
 
 
 
@@ -508,7 +517,7 @@ echo '</div>
  </div>
  </div>
  ';
-
+}
 ?>
 
 

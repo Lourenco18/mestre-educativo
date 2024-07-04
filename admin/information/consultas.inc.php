@@ -513,6 +513,22 @@ INNER JOIN
 WHERE 
     ar.rn = 1;
 ',
+
+
+
+
+
+//FIM DOS ALUNOS
+
+
+//FIMM DOS ALUNOS
+
+
+
+
+
+
+
     'encarregadoeducacao' => 'WITH EncarregadoEducacaoRecente AS (
         SELECT 
             encarregadoeducacao.*, 
@@ -530,60 +546,59 @@ WHERE
     INNER JOIN 
         relacao ON eer.id_relacao = relacao.unico
     WHERE 
-        eer.rn = 1;',
-    'colaborador' => 'SELECT * FROM colaborador  INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE cargo.ativo = 1',
-    'escola' => 'SELECT * FROM (
-    SELECT 
-        escola.*, 
-        ROW_NUMBER() OVER (PARTITION BY escola.unico ORDER BY escola.data DESC) as rn
-    FROM escola
-    WHERE ativo = 1
-) sub
-WHERE rn = 1;',
-    'professor' => 'WITH RecentEspecialidade AS (
-    SELECT 
-        *,
-        ROW_NUMBER() OVER (PARTITION BY id_especialidade ORDER BY data DESC) as rn
-    FROM especialidade
-),
-RecentCargo AS (
-    SELECT 
-        *,
-        ROW_NUMBER() OVER (PARTITION BY id_cargo ORDER BY data DESC) as rn
-    FROM cargo
-),
-RecentColaborador AS (
-    SELECT 
-        *,
-        ROW_NUMBER() OVER (PARTITION BY id_colaborador ORDER BY data DESC) as rn
-    FROM colaborador
-    WHERE ativo = 1 AND id_cargo = 3
-)
-SELECT 
-    RecentColaborador.*, 
-    RecentEspecialidade.*, 
-    RecentCargo.*
-FROM 
-    RecentColaborador
-INNER JOIN 
-    RecentEspecialidade ON RecentColaborador.id_especialidade = RecentEspecialidade.id_especialidade AND RecentEspecialidade.rn = 1
-INNER JOIN 
-    RecentCargo ON RecentColaborador.id_cargo = RecentCargo.id_cargo AND RecentCargo.rn = 1
-WHERE 
-    RecentColaborador.rn = 1;',
+        eer.rn = 1',
+    
     'admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 2',
     'supra_admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 1',
-    'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.ativo = 1',
-    'operacao'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 1 and removed = 0 Order by ordem ASC',
-    'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 1 ',
-    'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo',
-    'disciplina'=> 'SELECT * FROM disciplina inner join ciclo on disciplina.id_ciclo = ciclo.unico WHERE disciplina.ativo = 1',
     'servico' =>'SELECT * from servico where ativo = 1 order by data DESC',
     'servicoaluno' =>'SELECT * from servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno inner join servico on servico.id_servico = servicoaluno.id_servico  where servicoaluno.ativo = 1 order by servicoaluno.data DESC',
     'pagamento'=> 'SELECT * from pagamento inner join servicoaluno on servicoaluno.id_servicoaluno = pagamento.id_servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno where aluno.ativo = 1',
     'localidade'=>'SELECT * from localidade where ativo = 1 ',
     'distrito'=>'SELECT * from distrito where ativo = 1 ',
     'especialidade'=>'SELECT * from especialidade where ativo = 1 ',
+    'nacionalidade'=>'SELECT * from nacionalidade where ativo = 1 ',
+    'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.ativo = 1',
+    'operacao'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 1 and removed = 0 Order by ordem ASC',
+    'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo',
+    'disciplina'=> 'SELECT * FROM disciplina inner join ciclo on disciplina.id_ciclo = ciclo.unico WHERE disciplina.ativo = 1',
+    'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 1 ',
+    'cargo'=> 'SELECT * FROM cargo  WHERE ativo = 1 ',
+
+    'encarregadoeducacaoremoved' => 'WITH EncarregadoEducacaoRecente AS (
+        SELECT 
+            encarregadoeducacao.*, 
+            ROW_NUMBER() OVER (PARTITION BY encarregadoeducacao.unico ORDER BY encarregadoeducacao.data DESC) AS rn
+        FROM 
+            encarregadoeducacao
+        WHERE  encarregadoeducacao.removed = 1 AND
+            encarregadoeducacao.ativo = 0
+    )
+    SELECT 
+        eer.*, 
+        relacao.*
+    FROM 
+        EncarregadoEducacaoRecente eer
+    INNER JOIN 
+        relacao ON eer.id_relacao = relacao.unico
+    WHERE 
+        eer.rn = 1',
+    
+    
+    'servicoremoved' =>'SELECT * from servico where ativo = 0 AND removed = 1 order by data DESC',
+    'servicoalunoremoved' =>'SELECT * from servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno inner join servico on servico.id_servico = servicoaluno.id_servico  where servicoaluno.ativo = 0 AND servicoaluno.removed = 1 order by servicoaluno.data DESC',
+    'pagamentoremoved'=> 'SELECT * from pagamento inner join servicoaluno on servicoaluno.id_servicoaluno = pagamento.id_servicoaluno inner join aluno on aluno.unico = servicoaluno.id_aluno where aluno.ativo = 0 AND aluno.removed = 1',
+    'localidaderemoved'=>'SELECT * from localidade where ativo = 0 AND removed = 1 ',
+    'distritoremoved'=>'SELECT * from distrito where ativo = 0 AND removed = 1 ',
+    'especialidaderemoved'=>'SELECT * from especialidade where ativo = 0 AND removed = 1 ',
+    'nacionalidaderemoved'=>'SELECT * from nacionalidade where ativo = 0 AND removed = 1 ',
+    'turmaremoved' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.ativo = 0 AND turma.removed = 1',
+    'operacaoremoved'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 0 AND removed = 1 and removed = 0 Order by ordem ASC',
+    'permissaoremoved'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.removed =1 AND permissao.ativo = 0',
+    'disciplinaremoved'=> 'SELECT * FROM disciplina inner join ciclo on disciplina.id_ciclo = ciclo.unico WHERE disciplina.ativo = 0 AND disciplina.removed = 1',
+    'transporteremoved'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 0 AND removed = 1 ',
+    'cargoremoved'=> 'SELECT * FROM cargo  WHERE ativo = 0 AND removed = 1 ',
+    'escola' => 'SELECT * FROM escola WHERE ativo = 1 ',
+    'removed' => 'SELECT * FROM escola WHERE ativo = 0 AND removed = 1 ',
 ];
 if (isset($id_unico_aluno)) {
     $consultas['pessoa'] = 'SELECT 
@@ -641,6 +656,7 @@ $consultasForms = [
     'localidade' => 'SELECT * from localidade where id_localidade = '.$id.'',
     'distrito' => 'SELECT * from distrito where id_distrito = '.$id.'',
     'especialidade' => 'SELECT * from especialidade where id_especialidade = '.$id.'',
+    'nacionalidade' => 'SELECT * from nacionalidade where id_nacionalidade = '.$id.'',
   ];
   if(isset($id_unico)){
     $consultasHistorico = [

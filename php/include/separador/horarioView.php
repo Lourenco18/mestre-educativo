@@ -1,18 +1,18 @@
 <?php
 // Recolher os horários
-include $_SERVER['DOCUMENT_ROOT'] . '/mestre-educativo/php/include/config.inc.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 if ($tabela == "aluno") {
     $id_turma = my_query('SELECT MAX(turma.id_turma) as idturma, turma.turma as turma, aluno.id_turma, aluno.id_escola, escola.escola as escola from aluno inner join turma on turma.unico = aluno.id_turma  inner join escola on escola.unico = aluno.id_escola where id_aluno = ' . $id . '');
     $turma = $id_turma[0]['turma'];
     $escola = $id_turma[0]['escola'];
     $id_turma = $id_turma[0]['idturma'];
-
+   
 } else {
-    $id_turma = $id;
-    $arrResultados = my_query('SELECT MAX(escola.id_escola) as id_escola, turma.turma, turma.id_turma  from turma inner join escola on escola.unico = turma.id_escola where id_turma = ' . $id_turma . '');
+  $id_turma = $id;
+    $arrResultados = my_query('SELECT MAX(escola.id_escola) as id_escola, turma.turma, turma.id_turma  from turma inner join escola on escola.unico = turma.id_escola where id_turma = '.$id_turma.'');
     $id_escola = $arrResultados[0]['id_escola'];
-    $arrescola = my_query('SELECT escola, id_escola from escola where escola.id_escola = ' . $id_escola . '');
-    $escola = $arrescola[0]['escola'];
+    $arrescola = my_query('SELECT escola, id_escola from escola where escola.id_escola = '.$id_escola.'');
+    $escola = $arrescola[0]['escola']; 
     $turma = $arrResultados[0]['turma'];
 }
 $horario = my_query('SELECT horario from turma where id_turma = ' . $id_turma . ' ');
@@ -24,7 +24,7 @@ if (isset($horario)) {
 } else {
     $buttonMsg = 'Adicionar horário';
 }
-
+ 
 ?>
 <style>
     #picture__input {
@@ -33,8 +33,7 @@ if (isset($horario)) {
 
     .picture {
         width: 800px;
-        height: 450px;
-        /* Maintain 16:9 aspect ratio */
+        height: 450px; /* Maintain 16:9 aspect ratio */
         background: #ddd;
         display: flex;
         align-items: center;
@@ -72,19 +71,14 @@ if (isset($horario)) {
     }
 </style>
 <div class="card mb-3 px-md-4 ps-0" style="background-color: white">
-    <div id="horarioView" class="divisao"
-        style="display: <?php if ($tabela == 'turma') {
-            echo 'block';
-        } else {
-            echo 'none';
-        } ?>;">
+    <div id="horarioView" class="divisao" style="display: <?php if($tabela == 'turma'){echo 'block';}else{ echo 'none';} ?>;">
         <div class="row row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 g-4 mb-2 ps-lg-4 pe-lg-3"
-            style="padding: 20px;">
+             style="padding: 20px;">
             <?php
-
+            
             $accept = 'image/png, image/jpeg, image/*';
             $permitido = 'JPG e PNG';
-
+         
 
             if ($turma == '0') {
                 echo '<h5>O aluno não têm nenhuma turma associada, para inserirar/ver o horário, associe uma tuma ao aluno</h5>';
@@ -95,8 +89,8 @@ if (isset($horario)) {
     <div class="d-flex flex-column align-items-center gap-4">
         <form id="imageForm" action="' . $arrConfig['url_trata'] . '/trata_horario.php" method="post" enctype="multipart/form-data">
         <h3>Horário </h3>
-         <h6>Escola: ' . $escola . ' </h6>
-        <h6>Turma: ' . $turma . ' </h6>
+         <h6>Escola: '.$escola.' </h6>
+        <h6>Turma: '.$turma.' </h6>
             <div class="mb-3">
                 <label for="imageUpload" class="form-label">Clique abaixo para escolher uma imagem:</label>
                 <input type="file" id="imageUpload" hidden name="imageUpload" accept="' . $accept . '">
@@ -104,16 +98,16 @@ if (isset($horario)) {
             
             <div id="imagePreview" class="mt-4">
                 <div class="picture" onclick="document.getElementById(\'imageUpload\').click();">';
-                if (isset($horario) && !empty($horario)): ?>
-                    <img src="<?php echo $src; ?>" alt="Horário" class="picture__img">
-                <?php else: ?>
-                    <span>Adicionar imagem</span>
-                <?php endif; ?>
+                     if (isset($horario) && !empty($horario)): ?>
+                        <img src="<?php echo $src; ?>" alt="Horário" class="picture__img">
+                    <?php else: ?>
+                        <span>Adicionar imagem</span>
+                    <?php endif; ?>
+                </div>
             </div>
-        </div>
 
-        <?php
-        echo '<input type="hidden" id="imageBase64" name="imageBase64">
+            <?php
+            echo'<input type="hidden" id="imageBase64" name="imageBase64">
             <p class="text-muted mb-0">Permitido ' . $permitido . '.</p>
             <input
                 type="hidden"
@@ -143,16 +137,16 @@ if (isset($horario)) {
             }
 
             ?>
-</div>
-</div>
+        </div>
+    </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var imageUpload = document.getElementById('imageUpload');
         var imagePreview = document.getElementById('imagePreview');
 
-        imageUpload.addEventListener('change', function () {
+        imageUpload.addEventListener('change', function() {
             while (imagePreview.firstChild) {
                 imagePreview.removeChild(imagePreview.firstChild);
             }
@@ -161,7 +155,7 @@ if (isset($horario)) {
             if (file) {
                 var reader = new FileReader();
 
-                reader.onload = function (e) {
+                reader.onload = function(e) {
                     var img = document.createElement('img');
                     img.classList.add('picture__img');
                     img.src = e.target.result;
