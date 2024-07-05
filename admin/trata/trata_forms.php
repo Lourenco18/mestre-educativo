@@ -271,11 +271,7 @@ if ($acao == 'adicionar') {
 } elseif ($acao == 'apagar') {
     if($tabela == "aluno"){
         $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE unico = $id";
-        $id_removed = my_query('SELECT unico, MAX(id_'.$tabela.') as id from '.$tabela.' where unico = '.$id.'');
-        $id_removed = $id_removed[0]['id'];
       
-        $sql_remove ="DELETE FROM $tabela WHERE unico = $id and id_$tabela <> $id_removed ";
-        my_query($sql_remove);
     }else{
         $sql_form = "UPDATE $tabela SET removed = 1, ativo = 0 WHERE id_$tabela = $id";
         //caso seja uma disciplina é necessário desativar as avaliações
@@ -300,13 +296,11 @@ if ($acao == 'adicionar') {
     if ($tabela == 'nota') {
         $sql_form = "UPDATE $tabela SET id_status = 1 WHERE unico = $id";
     } else {
-        $sql_form = "UPDATE $tabela SET ativo = 1 WHERE unico = $id";
+        $sql_form = "UPDATE $tabela SET ativo = 1, removed = 0 WHERE id_$tabela = $id";
     }
 }
 
 ;
-
-
 
 if(isset($sql_form)){
  my_query($sql_form);

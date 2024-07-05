@@ -19,7 +19,7 @@
  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
    Cancelar
  </button>
- <a type="button" style = "color = white;  background-color: orange;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=desativar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero desativar</a>
+ <a type="button" style = "color = white;  background-color: orange;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=desativar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero desativar</a>
 
  </div>
  </form>
@@ -45,7 +45,7 @@
  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
    Cancelar
  </button>
- <a type="button" style = "color = white;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=ativar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero desativar</a>
+ <a type="button" style = "color = white;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $id_unico . '&tabela=' . $tabela . '&acao=ativar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero desativar</a>
  </div>
  </form>
  </div>

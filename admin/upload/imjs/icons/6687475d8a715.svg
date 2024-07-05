@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs/>
+  <g id="SVGRepo_bgCarrier" stroke-width="0" transform="matrix(15.305578, 0, 0, 15.305578, 62.242424, 133.67659)" style=""/>
+  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" transform="matrix(15.305578, 0, 0, 15.305578, 62.242424, 133.67659)" style=""/>
+  <g id="SVGRepo_iconCarrier" transform="matrix(15.305578, 0, 0, 15.305578, 62.242424, 133.67659)" style="">
+    <path d="M17.8284 6.82843C18.4065 7.40649 18.6955 7.69552 18.8478 8.06306C19 8.4306 19 8.83935 19 9.65685L19 17C19 18.8856 19 19.8284 18.4142 20.4142C17.8284 21 16.8856 21 15 21H9C7.11438 21 6.17157 21 5.58579 20.4142C5 19.8284 5 18.8856 5 17L5 7C5 5.11438 5 4.17157 5.58579 3.58579C6.17157 3 7.11438 3 9 3H12.3431C13.1606 3 13.5694 3 13.9369 3.15224C14.3045 3.30448 14.5935 3.59351 15.1716 4.17157L17.8284 6.82843Z" stroke="#566a7f" stroke-width="1.344" stroke-linejoin="round" style="fill: rgb(255, 255, 255);"/>
+    <path d="M9 14L10.5772 15.5772V15.5772C10.8107 15.8107 11.1893 15.8107 11.4228 15.5772V15.5772L15 12" stroke="#566a7f" stroke-width="1.344" stroke-linecap="round" stroke-linejoin="round" style="fill: rgb(255, 255, 255);"/>
+  </g>
+  <g id="g-1" transform="matrix(1, 0, 0, 1, -262.584259, -38.715431)"/>
+  <g id="g-2" transform="matrix(1, 0, 0, 1, -262.584259, -38.715431)"/>
+  <g id="SVGRepo_bgCarrier_00000041275377184260257720000003440362174240932501_" transform="matrix(1, 0, 0, 1, -262.584259, -38.715431)"/>
+  <g id="SVGRepo_tracerCarrier_00000111189071256508163870000010709788238872484777_" transform="matrix(1, 0, 0, 1, -262.584259, -38.715431)"/>
+  <g id="SVGRepo_bgCarrier_00000114767185521792217960000011092113019168932769_" transform="matrix(1, 0, 0, 1, -262.584259, -38.715431)"/>
+  <g id="SVGRepo_tracerCarrier_00000094590214493859357310000016012373950150154645_" transform="matrix(1, 0, 0, 1, -262.584259, -38.715431)"/>
+  <path class="st0" d="M 473.115 97.285 L 406.415 97.285 M 406.415 97.285 L 339.715 97.285 M 406.415 97.285 L 406.415 30.585 M 406.415 97.285 L 406.415 163.985" style="fill: none; stroke: rgb(86, 106, 127); stroke-linecap: round; stroke-miterlimit: 133.333; stroke-width: 29px;"/>
+</svg>

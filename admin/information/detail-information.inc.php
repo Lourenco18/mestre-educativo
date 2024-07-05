@@ -81,7 +81,7 @@ $information = array(
    
 
   ),
-  "pagamentos" => array(
+  "pagamento" => array(
     
     "Data" => "data",
     "Valor" => "valor",

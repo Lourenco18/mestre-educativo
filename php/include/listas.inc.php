@@ -1,5 +1,7 @@
 <?php
 
+if(isset($_GET['tipo'])){
+  $backoffice = $_GET['tipo'];  }
 // Convertendo o nome da página para minúsculas
 $pagina = strtolower($pagina);
 
@@ -7,7 +9,6 @@ $tipo = $pagina;
 
 // Definir a categoria removendo o último "s" da palavra
 $tabela = rtrim($pagina, "s");
-
 
 include $arrConfig['dir_admin'] . '/information/consultas.inc.php';
 include $arrConfig['dir_admin'] . '/information/detail-information.inc.php';
@@ -80,7 +81,13 @@ if (array_key_exists($pagina, $consultas)) {
       echo '<a href="" class="card-link">';
       echo '<div class="card h-70 ps-0 py-xl-3" style=" background-color: white; transition: all 0.3s ease;" onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #696cff, 0 6px 20px 0 #696cff\'; this.style.zIndex=\'1\';" onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">';
       echo '<div class="card-body" style="text-align: center; margin-left: 0px">';
-      echo '<h5 class="card-title">' . $v[$tabela] . '</h5><br>';
+      if($tabela == 'pagamento'){
+        echo '<h5 class="card-title">' . $v['servicoaluno'] . '</h5><br>';
+      }else{
+        echo '<h5 class="card-title">' . $v[$tabela] . '</h5><br>';
+
+      }
+      
      
 
       // Verificações específicas para cada categoria
@@ -133,7 +140,7 @@ if (array_key_exists($pagina, $consultas)) {
       if ($_SESSION['userCargo'] == 'admin' || $_SESSION['userCargo'] == 'supra_admin') {
     
       
-        if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative' && strpos($pagina, "removed") == false) {
+        if ($tabela !== 'pagamento' && $pagina !== 'alunoremoved' && $pagina !== 'alunoinative' && strpos($pagina, "removed") == false) {
           echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary"><i class="bx bx-pencil"></i> Editar</a>';
         } else {
 
@@ -141,7 +148,12 @@ if (array_key_exists($pagina, $consultas)) {
         if (strpos($pagina, 'removed') !== false|| $tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
 
         } else {
-          echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . '"><i class="bx bx-trash"></i> Remover</button>';
+          if($tabela == 'pagamento'){
+
+          }else{
+            echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . '"><i class="bx bx-trash"></i> Remover</button>';
+          }
+          
         }
         if (strpos($pagina, 'removed') !== false){
           echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopNullRemove3"><i class="bx bx-x-circle"></i> Desfazer remoção</button>';
@@ -197,8 +209,13 @@ echo '</div>';
 
 
 // Tabela alternativa
-echo '
-    <div id="tableView" style="display: none; ">
+if(strpos($pagina, "removed") == false && $backoffice !== 'backoffice' && strpos($pagina, "inative") == false){
+  echo '
+    <div id="tableView" style="display: none; ">';
+}
+
+
+    echo'
 <table id="table"  class="table table-striped " style=" padding:24px; width:100%">
 <thead>
   <tr>';
@@ -275,7 +292,7 @@ foreach ($arrResultados as $k => $v) {
 
     $id = $v['id_'.$tabela].'a';
    
-    if ($pagina !== 'alunoremoved' && $pagina !== 'alunoinative' && strpos($pagina, "removed") == false) {
+    if ($tabela !== 'pagamento' && $pagina !== 'alunoremoved' && $pagina !== 'alunoinative' && strpos($pagina, "removed") == false) {
       echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=' . $tipo . '&especificacao=editar" class="btn btn-primary" title="Editar"><i class="bx bx-pencil"></i></a>';
     } else {
 
@@ -283,15 +300,16 @@ foreach ($arrResultados as $k => $v) {
     if (strpos($pagina, 'removed') !== false|| $tabela == 'colaborador' && $v['cargo'] == 'supra_admin') {
 
     } else {
-      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove'.$id.'" title="Remover"><i class="bx bx-trash"></i></button>';
-
+      if($tabela == 'pagamento'){} else {
+      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . 'a" title="Remover"><i class="bx bx-trash"></i> Remover</button>';
+      }
     }
     if (strpos($pagina, 'removed') !== false){
       echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopNullRemove' . $v['id_' . $tabela] . 'a"><i class="bx bx-x-circle"></i> Desfazer remoção</button>';
     }
 
     if ($pagina == 'alunoinative') {
-      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive' . $v['id_' . $tabela] . 'a" title="Ativar"><i class="bx bx-block"></i></button>';
+      echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopAtive' . $v['id_' . $tabela] . 'a" title="Ativar"><i class="bx bx-check"></i> Ativar</button>';
     } elseif ($pagina == 'aluno') {
       
       echo '<button class="btn btn-danger" type="button" style="background-color: orange; border-color: orange;" data-bs-toggle="modal" data-bs-target="#modalTopDesative' . $v['id_' . $tabela] . 'a" title="Desativar"><i class="bx bx-block"></i></button>';
@@ -346,7 +364,7 @@ echo '?</h5>
 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
   Cancelar
 </button>
-<a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero remover</a>
+<a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $v['unico']+1 . '&tabela=' . $tabela . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero remover</a>
 
 </div>
 </form>
@@ -358,7 +376,7 @@ echo '
 <div class="modal-dialog">
   <form class="modal-content">
     <div class="modal-header">
-<h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer remover este ';
+<h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer desfazer a remoção este ';
 echo $tabela;
 
 echo '?</h5>
@@ -373,7 +391,7 @@ echo '?</h5>
 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
   Cancelar
 </button>
-<a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero remover</a>
+<a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=ativar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero desfazer a remoção</a>
 
 </div>
 </form>
@@ -431,7 +449,7 @@ Cancelar
  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
    Cancelar
  </button>
- <a type="button" style = "color = white;  background-color: orange;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=desativar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero desativar</a>
+ <a type="button" style = "color = white;  background-color: orange;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=desativar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" onclick="SwalSuccess()">Sim, quero desativar</a>
 
  </div>
  </form>
@@ -443,8 +461,9 @@ Cancelar
  <div class="modal-dialog">
    <form class="modal-content">
      <div class="modal-header">
- <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer desativar este ';
- echo $tabela;
+ <h5 class="modal-title" id="modalTopTitle">Tem a certeza que quer Ativar este ';
+ echo $tabela  ;
+
  echo '?</h5>
  <button
    type="button"
@@ -457,7 +476,7 @@ Cancelar
  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
    Cancelar
  </button>
- <a type="button" style = "color = white;" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&acao=ativar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero desativar</a>
+ <a type="button" style = "color = white; background-color: orange" class="btn btn-primary" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $v['id_' .$tabela] . '&tabela=' . $tabela . '&pagename=' . preg_replace("'&'","----", basename($current_page)) . '&acao=ativar" onclick="SwalSuccess()">Sim, quero Ativar</a>
  </div>
  </form>
  </div>

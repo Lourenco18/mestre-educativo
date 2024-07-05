@@ -2,7 +2,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
 include $arrConfig['dir_include'] . '/auth.inc.php';
-
+$backoffice = $_GET['tipo'];
 include $arrConfig['dir_admin'] . '/head.inc.php';
 if (isset($_GET['display'])) {
   $display = $_GET['display'];
@@ -66,9 +66,16 @@ if (isset($_GET['display'])) {
         <div class="content-wrapper">
           <?php
           include 'php/include/titulo_listas.inc.php';
+         
+          if(strpos($pagina, "removed") == false && $backoffice !== 'backoffice' && strpos($pagina, "inative") == false){
+            echo '<button id="toggleViewBtn"><i class="bx bx-menu"></i></button>';
+            echo'<div id="cardView" style="display: block;">';
+          }else{
+echo '<div id="cardView" style="display: none; ">';
+          }
           ?>
-          <button id="toggleViewBtn"><i class='bx bx-menu'></i></button>
-          <div id="cardView">
+          
+          
           <div class="row row-cols-sm-2 row-cols-2 row-cols-xl-6 row-cols-lg-5 row-cols-md-4 g-4 mb-2 ps-lg-4 pe-lg-3 ">
 
               <?php
@@ -82,13 +89,18 @@ if (isset($_GET['display'])) {
 
 
           <div class="layout-overlay layout-menu-toggle"></div>
-          <button
-            style="position: fixed; left: 94%; bottom: 10%; font-size: 32px; padding: 10px 20px; z-index: 9999; border-radius: 5px;"
-            class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalnotes">
-            <i class="bx bx-clipboard"></i>
-          </button>
+          
+         
+         <button
+                    style="position: fixed; left: 94%; bottom: 10%; font-size: 32px; padding: 10px 20px; z-index: 9999; border-radius: 5px;"
+                    class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalnotes">
+                    <i class="bx bx-clipboard"></i>
+                  </button>
+                  
+          
+         
         </div>
-
+        
 
         <?php
         include $arrConfig['dir_admin'] . '/end.inc.php';

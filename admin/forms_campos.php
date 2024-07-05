@@ -848,7 +848,7 @@ $GLOBALS['campos'] = array(
         'min'=> '',
         'maxlength'=>'',
         'max'=> '',
-        'config' => '',
+        'config' => 'value = 0',
         'placeholder'=>"",
     ),
 

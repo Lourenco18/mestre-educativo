@@ -584,7 +584,8 @@ WHERE
         relacao ON eer.id_relacao = relacao.unico
     WHERE 
         eer.rn = 1',
-    
+         'professor' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 3',
+    'motorista' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 4',
     'admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 2',
     'supra_admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 1',
     'servico' =>'SELECT * from servico where ativo = 1 order by data DESC',
@@ -594,9 +595,9 @@ WHERE
     'distrito'=>'SELECT * from distrito where ativo = 1 ',
     'especialidade'=>'SELECT * from especialidade where ativo = 1 ',
     'nacionalidade'=>'SELECT * from nacionalidade where ativo = 1 ',
-    'turma' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola INNER JOIN ano on ano.id_ano = turma.id_ano  WHERE turma.ativo = 1',
-    'operacao'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 1 and removed = 0 Order by ordem ASC',
-    'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo',
+    'turma' => 'SELECT * FROM turma  inner join escola on escola.unico = turma.id_escola WHERE turma.ativo = 1',
+    'operacao'=> 'SELECT * FROM operacao   WHERE operacao.ativo = 1 and operacao.removed = 0 Order by ordem ASC',
+    'permissao'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.removed =0 AND permissao.ativo = 1',
     'disciplina'=> 'SELECT * FROM disciplina inner join ciclo on disciplina.id_ciclo = ciclo.unico WHERE disciplina.ativo = 1',
     'transporte'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 1 ',
     'cargo'=> 'SELECT * FROM cargo  WHERE ativo = 1 ',
@@ -629,7 +630,7 @@ WHERE
     'especialidaderemoved'=>'SELECT * from especialidade where ativo = 0 AND removed = 1 ',
     'nacionalidaderemoved'=>'SELECT * from nacionalidade where ativo = 0 AND removed = 1 ',
     'turmaremoved' => 'SELECT * FROM turma  INNER JOIN escola on turma.id_escola = escola.id_escola WHERE turma.ativo = 0 AND turma.removed = 1',
-    'operacaoremoved'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 0 AND removed = 1 and removed = 0 Order by ordem ASC',
+    'operacaoremoved'=> 'SELECT * FROM operacao  WHERE operacao.ativo = 0 AND removed = 1 Order by ordem ASC',
     'permissaoremoved'=> 'SELECT * FROM permissao inner join operacao on permissao.id_operacao = operacao.id_operacao inner join cargo on permissao.id_cargo = cargo.id_cargo where permissao.removed =1 AND permissao.ativo = 0',
     'disciplinaremoved'=> 'SELECT * FROM disciplina inner join ciclo on disciplina.id_ciclo = ciclo.unico WHERE disciplina.ativo = 0 AND disciplina.removed = 1',
     'transporteremoved'=> 'SELECT * FROM transporte  WHERE transporte.ativo = 0 AND removed = 1 ',
