@@ -29,7 +29,7 @@ if (array_key_exists($pagina, $consultas)) {
   if ($tabela == 'alunoinative' || $tabela == 'myaluno' || $tabela == 'alunoremoved') {
     $tabela = 'aluno';
 
-  } elseif ($tabela == 'professor' || $tabela == 'admin' || $tabela == 'supra_admin') {
+  } elseif ($tabela == 'professor' || $tabela == 'admin' || $tabela == 'supra_admin' || $tabela == 'motorista') {
     $tabela = 'colaborador';
   }
   if (strpos($tabela, "removed") !== false) {
@@ -40,7 +40,7 @@ if (array_key_exists($pagina, $consultas)) {
   // Mostrar os resultados
  
   foreach ($arrResultados as $k => $v) {
-   
+ 
     $id = $v['id_' . $tabela];
     $id_unico = my_query('SELECT unico, id_' . $tabela . ' FROM ' . $tabela . ' WHERE id_' . $tabela . ' = ' . $id . '');
     if(isset($id_unico)) {
@@ -83,6 +83,23 @@ if (array_key_exists($pagina, $consultas)) {
       echo '<div class="card-body" style="text-align: center; margin-left: 0px">';
       if($tabela == 'pagamento'){
         echo '<h5 class="card-title">' . $v['servicoaluno'] . '</h5><br>';
+        
+      }elseif($tabela == 'presenca'){
+        $aluno000 = my_query('WITH AlunoRecente AS (
+    SELECT 
+        
+        aluno.aluno,
+        aluno.unico,
+        
+        ROW_NUMBER() OVER (PARTITION BY aluno.unico ORDER BY aluno.data DESC) AS rn
+    FROM 
+        aluno
+    WHERE
+        aluno.ativo = 1 
+)    SELECT AlunoRecente.aluno as nome , AlunoRecente.unico FROM AlunoRecente WHERE AlunoRecente.unico = '.$v['id_aluno']);
+        $aluno = $aluno000[0]['nome'];
+        echo '<h5 class="card-title">' . $aluno . '</h5><br>';
+
       }else{
         echo '<h5 class="card-title">' . $v[$tabela] . '</h5><br>';
 
@@ -170,10 +187,23 @@ if (array_key_exists($pagina, $consultas)) {
             echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF"; data-bs-toggle="modal" data-bs-target="#modalTopADDservice' . $v['id_' . $tabela] . '"><i class="bx bx-file-blank"></i> Adicionar Serviço</button>';
           }
           if ($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'encarregadoeducacao' || $tabela == 'escola') {
-            echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn " style="color: #ffff;background-color: #3D8F42; border-color: #3D8F42;">  <i class="bx bx-envelope"></i> Envair E-mail</a>';
+            
           }
         }
 
+      }elseif($pagina == "myaluno"){
+        date_default_timezone_set('Europe/Lisbon');
+        $hj = new DateTime();
+        $hoje = $hj->format('Y-m-d');
+        $arrpresenca = my_query('SELECT * FROM presenca WHERE id_aluno = '.$v['unico'].' AND data = "'.$hoje.'"');  
+     
+        if(!empty($arrpresenca) ){
+
+        }else{
+          echo '<a href="'.$arrConfig['url_trata'].'/trata-presenca.php?id=' . $v['unico_aluno'] . '&data='.$hoje.'&tabela=presenca&acao=marcar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" class="btn " style="color: #ffff;background-color: #3D8F42; border-color: #3D8F42;">  <i class="bx bx-check"></i>Marcar presença dia<br> '.$hoje.'</a>';
+        }
+          
+        
       }
       echo '</div>';
 
@@ -191,6 +221,9 @@ if (array_key_exists($pagina, $consultas)) {
     include $arrConfig['dir_admin'] . '/modal/modal-remove-remake.php';
     include $arrConfig['dir_admin'] . '/modal/modal-desative-ative.php';
     include $arrConfig['dir_admin'] . '/modal/modal-service.php';
+   
+
+
 
   }
 
@@ -301,7 +334,7 @@ foreach ($arrResultados as $k => $v) {
 
     } else {
       if($tabela == 'pagamento'){} else {
-      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . 'a" title="Remover"><i class="bx bx-trash"></i> Remover</button>';
+      echo '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTopRemove' . $v['id_' . $tabela] . 'a" title="Remover"><i class="bx bx-trash"></i></button>';
       }
     }
     if (strpos($pagina, 'removed') !== false){
@@ -319,7 +352,7 @@ foreach ($arrResultados as $k => $v) {
         echo '<button class="btn btn-primary" type="button" style="background-color: #0083FF; border-color: #0083FF" data-bs-toggle="modal" data-bs-target="#modalTopADDservice' . $v['id_'.$tabela] . 'a" title="Adicionar Serviço"><i class="bx bx-file-blank"></i></button>';
       }
       if ($tabela == 'aluno' || $tabela == 'colaborador' || $tabela == 'encarregadoeducacao' || $tabela == 'escola') {
-        echo '<a href="pagina-formulario.php?id=' . $v['id_' . $tabela] . '&tipo=email&especificacao=sendemail" class="btn" style="color: #ffff; background-color: #3D8F42; border-color: #3D8F42;" title="Enviar E-mail"><i class="bx bx-envelope"></i></a>';
+       
       }
     }
 
@@ -328,6 +361,19 @@ foreach ($arrResultados as $k => $v) {
 
     echo '</div>';
   
+  }elseif($pagina == "myaluno"){
+    date_default_timezone_set('Europe/Lisbon');
+    $hj = new DateTime();
+    $hoje = $hj->format('Y-m-d');
+    $arrpresenca = my_query('SELECT * FROM presenca WHERE id_aluno = '.$v['unico'].' AND data = "'.$hoje.'"');  
+  
+    if(!empty($arrpresenca) ){
+
+    }else{
+      echo '<a href="'.$arrConfig['url_trata'].'/trata-presenca.php?id=' . $v['unico'] . '&data='.$hoje.'&tabela=presenca&acao=marcar&pagename=' . preg_replace("'&'","----", basename($current_page)) . '" class="btn " style="color: #ffff;background-color: #3D8F42; border-color: #3D8F42;">  <i class="bx bx-check"></i>Marcar presença dia<br> '.$hoje.'</a>';
+    }
+      
+    
   }
 
 

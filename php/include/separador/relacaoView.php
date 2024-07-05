@@ -24,7 +24,7 @@
     <div class="modal modal-mid fade" id="modalFormADD" tabindex="-1">
       <div class="modal-dialog">
         <form class="modal-content"
-          action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo $page_name; ?>&id=<?php echo $id_modal; ?>&tabela=<?php echo $tabela_modal; ?>&acao=adicionar"
+          action="<?php echo $arrConfig['url_trata'] ?>/trata_forms.php?pagename=<?php echo preg_replace("'&'","----", basename($current_page)); ?>&id=<?php echo $id_modal; ?>&tabela=<?php echo $tabela_modal; ?>&acao=adicionar"
           method="POST" enctype="multipart/form-data">
           <div class="modal-header">
             <h5 class="modal-title" id="modalTopTitle">Adicionar <?php echo $tipo; ?></h5>
@@ -83,7 +83,9 @@
                 echo '</div>';
               }
             }
+            
             ?>
+            
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -130,11 +132,11 @@
               data-bs-target="#modalForm<?php echo $id_modal; ?>"><i class="bx bx-pencil"></i> Editar</button>
             <?php if ($tabela != 'colaborador' || $v['cargo'] != 'supra_admin') { ?>
               <button style="margin: 3px;" type="button" class="btn btn-danger" data-bs-toggle="modal"
-                data-bs-target="#modalTopRemove<?php echo $id_unico_pessoa; ?>"><i class="bx bx-trash"></i> Remover</button>
+                data-bs-target="#modalTopRemove<?php echo $v['id_pessoa']; ?>"><i class="bx bx-trash"></i> Remover</button>
             <?php } ?>
           <?php } ?>
         </div>
-        </div>
+    
         
         
         
@@ -142,7 +144,7 @@
         <!-- Modal for removal -->
         <?php
         echo '
-         <div class="modal modal-mid fade" id="modalTopRemove' . $id_unico_pessoa . '" tabindex="-1">
+         <div class="modal modal-mid fade" id="modalTopRemove' . $v['id_pessoa'] . '" tabindex="-1">
          <div class="modal-dialog">
            <form class="modal-content">
              <div class="modal-header">
@@ -160,7 +162,7 @@ echo $tabela_modal;
          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
            Cancelar
          </button>
-         <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/verf-exist.php?id= ' . $id_unico_pessoa . '&tabela=' . $tabela_modal . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero remover</a>
+         <a type="button" style = "color = white;" class="btn btn-danger" href="' . $arrConfig['url_trata'] . '/trata_forms.php?id= ' . $v['id_pessoa']. '&tabela=' . $tabela_modal . '&acao=apagar&pagename=' . preg_replace("'&'","----", basename($current_page)). '" onclick="SwalSuccess()">Sim, quero remover</a>
        
          </div>
          </form>

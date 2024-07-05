@@ -132,6 +132,43 @@ function sendmailpago($username, $email, $tipo, $servico, $data, $data_fim, $val
 
 };
 
+function sendMail1($username, $email, $titulo, $corpo){
+    include $_SERVER['DOCUMENT_ROOT'].'/mestre-educativo/php/include/config.inc.php';
+    
+        $mail = new PHPMailer(true);
+        
+        $mail->SMTPDebug = 0;                                       
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';                    
+        $mail->SMTPAuth   = true;                             
+        $mail->Username   = 'mestreeducative@gmail.com';                 
+        $mail->Password   = 'dxbg dtfk vdma fndl';                        
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port = 465;
+     
+        $mail->setFrom('mestreeducative@gmail.com', 'Mestre Educative');           
+        $mail->addAddress($email, $username);
+          
+        $mail->CharSet =  'UTF-8';
+        $mail->AddEmbeddedImage(''.$arrConfig['dir_imjs_upload'].'/logos/logo.png', 'logo');
+    
+        $mail->isHTML(true);                                  
+        $mail->Subject = ''.$titulo.'';
+        $mail->Body    = '
+        <div>
+            <img src="cid:logo" alt="Logo" width="57" height="57" ><br>
+            Olá <b>'.$username.',</b><br><br>
+              '.$corpo.'<br><br><br>Obrigado,<br>Mestre Educative.
+            
+            <style>
+        </div>
+        ';
+        $mail->AltBody = '';
+        $mail->send();
+        $msg = 'Email enviado com sucesso';
+       
+} ;
+
 
 
 

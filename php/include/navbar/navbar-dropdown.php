@@ -29,7 +29,7 @@ echo '<ul class="dropdown-menu dropdown-menu-end">';
 
 
 echo '<li>
-        <a class="dropdown-item" href="minha_conta.php">
+        <a class="dropdown-item" href="http://localhost/mestre-educativo/pagina-formulario.php?id='.$_SESSION['userID'].'&tipo=colaborador&especificacao=editar">
             <i class="bx bx-user me-2"></i>
             <span class="align-middle">O meu Perfil</span>
         </a>

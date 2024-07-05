@@ -3,7 +3,7 @@ $information = array(
   "aluno" => array(
     "Encarregado de Educação" => "encarregadoeducacao",
     "Contacto EE" => "telefone_encarregadoeducacao",
-    "Orientador(a)" => "colaborador",
+  
     "Escola" => "escola",
     "Ano de escolaridade"=> "ano",
 
@@ -85,6 +85,13 @@ $information = array(
     
     "Data" => "data",
     "Valor" => "valor",
+   
+
+  ),
+  "presenca" => array(
+    
+
+    "Data" => "data",
    
 
   ),

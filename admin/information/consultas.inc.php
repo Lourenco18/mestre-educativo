@@ -16,7 +16,7 @@ $consultas = [
         aluno.unico,
         aluno.id_turma,
         aluno.id_escola,
-        aluno.id_orientador,
+        aluno.id_turmainterna,
         aluno.id_encarregadoeducacao,
         aluno.id_ciclo,
         aluno.data_nascimento_aluno,
@@ -26,79 +26,9 @@ $consultas = [
     FROM 
         aluno
     WHERE
-        aluno.ativo = 1
-),
-TurmaRecente AS (
-    SELECT 
-        turma.*,
-        ROW_NUMBER() OVER (PARTITION BY turma.unico ORDER BY turma.data DESC) AS rn
-    FROM 
-        turma
-),
-AnoRecente AS (
-    SELECT 
-        ano.*,
-        ROW_NUMBER() OVER (PARTITION BY ano.unico ORDER BY ano.data DESC) AS rn
-    FROM 
-        ano
-),
-LocalidadeRecente AS (
-    SELECT 
-        localidade.*,
-        ROW_NUMBER() OVER (PARTITION BY localidade.unico ORDER BY localidade.data DESC) AS rn
-    FROM 
-        localidade
-),
-NacionalidadeRecente AS (
-    SELECT 
-        nacionalidade.*,
-        ROW_NUMBER() OVER (PARTITION BY nacionalidade.unico ORDER BY nacionalidade.data DESC) AS rn
-    FROM 
-        nacionalidade
-),
-
-GeneroRecente AS (
-    SELECT 
-        genero.*,
-        ROW_NUMBER() OVER (PARTITION BY genero.unico ORDER BY genero.data DESC) AS rn
-    FROM 
-        genero
-),
-EscolaRecente AS (
-    SELECT 
-        escola.*,
-        ROW_NUMBER() OVER (PARTITION BY escola.unico ORDER BY escola.data DESC) AS rn
-    FROM 
-        escola
-),
-ColaboradorRecente AS (
-    SELECT 
-        colaborador.*,
-        ROW_NUMBER() OVER (PARTITION BY colaborador.unico ORDER BY colaborador.data DESC) AS rn
-    FROM 
-        colaborador
-),
-EncarregadoEducacaoRecente AS (
-    SELECT 
-        encarregadoeducacao.*,
-        ROW_NUMBER() OVER (PARTITION BY encarregadoeducacao.unico ORDER BY encarregadoeducacao.data DESC) AS rn
-    FROM 
-        encarregadoeducacao
-),
-RelacaoRecente AS (
-    SELECT 
-        relacao.*,
-        ROW_NUMBER() OVER (PARTITION BY relacao.unico ORDER BY relacao.data DESC) AS rn
-    FROM 
-        relacao
-),
-CicloRecente AS (
-    SELECT 
-        ciclo.*,
-        ROW_NUMBER() OVER (PARTITION BY ciclo.unico ORDER BY ciclo.data DESC) AS rn
-    FROM 
-        ciclo
+        aluno.ativo = 1 
 )
+
 SELECT 
     ar.foto_aluno,
     ar.id_aluno,
@@ -108,36 +38,50 @@ SELECT
     ar.unico,
     ar.id_turma,
     ar.id_escola,
-    ar.id_orientador,
+    ar.id_turmainterna,
     ar.id_encarregadoeducacao,
     ar.id_ciclo,
     ar.data,
     ar.ativo,
-    tr.*,
-    er.*,
-    cr.*,
-    eer.*,
-    rr.*,
-    anr.*,
-    cir.*
+    tr.*, 
+    er.*, 
+    cr.*, 
+    cl.*, 
+    eer.*, 
+    rr.*, 
+    anr.*, 
+    cir.* 
 FROM 
     AlunoRecente ar
 INNER JOIN 
-    TurmaRecente tr ON ar.id_turma = tr.id_turma AND tr.rn = 1
+    turma tr ON ar.id_turma = tr.id_turma
+           AND tr.id_turma = (SELECT id_turma FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 INNER JOIN 
-    EscolaRecente er ON ar.id_escola = er.id_escola AND er.rn = 1
+    escola er ON ar.id_escola = er.id_escola
+           AND er.id_escola = (SELECT id_escola FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 INNER JOIN 
-    ColaboradorRecente cr ON ar.id_orientador = cr.id_colaborador AND cr.rn = 1
+    turmainterna cr ON ar.id_turmainterna = cr.id_turmainterna
+           AND cr.id_turmainterna = (SELECT id_turmainterna FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 INNER JOIN 
-    EncarregadoEducacaoRecente eer ON ar.id_encarregadoeducacao = eer.id_encarregadoeducacao AND eer.rn = 1
+    colaborador cl ON cr.id_colaborador = cl.id_colaborador
+           AND cl.id_colaborador = (SELECT id_colaborador FROM turmainterna WHERE id_turmainterna = cr.id_turmainterna AND rn = 1)
 INNER JOIN 
-    RelacaoRecente rr ON eer.id_relacao = rr.id_relacao AND rr.rn = 1
+    encarregadoeducacao eer ON ar.id_encarregadoeducacao = eer.id_encarregadoeducacao
+           AND eer.id_encarregadoeducacao = (SELECT id_encarregadoeducacao FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 INNER JOIN 
-    CicloRecente cir ON ar.id_ciclo = cir.id_ciclo AND cir.rn = 1
-    INNER JOIN 
-    AnoRecente anr ON ar.id_ano = anr.unico AND anr.rn = 1
+    relacao rr ON eer.id_relacao = rr.id_relacao
+           AND rr.id_relacao = (SELECT id_relacao FROM encarregadoeducacao WHERE id_encarregadoeducacao = eer.id_encarregadoeducacao AND rn = 1)
+INNER JOIN 
+    ciclo cir ON ar.id_ciclo = cir.id_ciclo
+           AND cir.id_ciclo = (SELECT id_ciclo FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
+INNER JOIN 
+    ano anr ON ar.id_ano = anr.unico
+           AND anr.unico = (SELECT id_ano FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 WHERE 
-    ar.rn = 1;
+    ar.rn = 1 
+ORDER BY 
+    ar.aluno ASC;
+
 
 ',
     'myaluno' => 'WITH AlunoRecente AS (
@@ -149,7 +93,7 @@ WHERE
         aluno.unico,
         aluno.id_turma,
         aluno.id_escola,
-        aluno.id_orientador,
+        aluno.id_turmainterna,
         aluno.id_encarregadoeducacao,
         aluno.id_ciclo,
         aluno.data_nascimento_aluno,
@@ -159,118 +103,10 @@ WHERE
     FROM 
         aluno
     WHERE
-        aluno.ativo = 1
-),
-TurmaRecente AS (
-    SELECT 
-        turma.*,
-        ROW_NUMBER() OVER (PARTITION BY turma.unico ORDER BY turma.data DESC) AS rn
-    FROM 
-        turma
-),
-AnoRecente AS (
-    SELECT 
-        ano.*,
-        ROW_NUMBER() OVER (PARTITION BY ano.unico ORDER BY ano.data DESC) AS rn
-    FROM 
-        ano
-),
-LocalidadeRecente AS (
-    SELECT 
-        localidade.*,
-        ROW_NUMBER() OVER (PARTITION BY localidade.unico ORDER BY localidade.data DESC) AS rn
-    FROM 
-        localidade
-),
-NacionalidadeRecente AS (
-    SELECT 
-        nacionalidade.*,
-        ROW_NUMBER() OVER (PARTITION BY nacionalidade.unico ORDER BY nacionalidade.data DESC) AS rn
-    FROM 
-        nacionalidade
-),
+        aluno.ativo = 1 
+)   SELECT * from AlunoRecente inner join turmainterna on turmainterna.id_turmainterna = AlunoRecente.id_turmainterna inner join colaborador on colaborador.id_colaborador = turmainterna.id_colaborador inner join encarregadoeducacao on encarregadoeducacao.id_encarregadoeducacao = AlunoRecente.id_encarregadoeducacao inner join escola on escola.id_escola = AlunoRecente.id_escola inner join ano on ano.id_ano = AlunoRecente.id_ano ORDER BY AlunoRecente.aluno ASC;
 
-GeneroRecente AS (
-    SELECT 
-        genero.*,
-        ROW_NUMBER() OVER (PARTITION BY genero.unico ORDER BY genero.data DESC) AS rn
-    FROM 
-        genero
-),
-EscolaRecente AS (
-    SELECT 
-        escola.*,
-        ROW_NUMBER() OVER (PARTITION BY escola.unico ORDER BY escola.data DESC) AS rn
-    FROM 
-        escola
-),
-ColaboradorRecente AS (
-    SELECT 
-        colaborador.*,
-        ROW_NUMBER() OVER (PARTITION BY colaborador.unico ORDER BY colaborador.data DESC) AS rn
-    FROM 
-        colaborador
-),
-EncarregadoEducacaoRecente AS (
-    SELECT 
-        encarregadoeducacao.*,
-        ROW_NUMBER() OVER (PARTITION BY encarregadoeducacao.unico ORDER BY encarregadoeducacao.data DESC) AS rn
-    FROM 
-        encarregadoeducacao
-),
-RelacaoRecente AS (
-    SELECT 
-        relacao.*,
-        ROW_NUMBER() OVER (PARTITION BY relacao.unico ORDER BY relacao.data DESC) AS rn
-    FROM 
-        relacao
-),
-CicloRecente AS (
-    SELECT 
-        ciclo.*,
-        ROW_NUMBER() OVER (PARTITION BY ciclo.unico ORDER BY ciclo.data DESC) AS rn
-    FROM 
-        ciclo
-)
-SELECT 
-    ar.foto_aluno,
-    ar.id_aluno,
-    ar.aluno,
-    ar.id_ano,
-    ar.data_nascimento_aluno,
-    ar.unico,
-    ar.id_turma,
-    ar.id_escola,
-    ar.id_orientador,
-    ar.id_encarregadoeducacao,
-    ar.id_ciclo,
-    ar.data,
-    ar.ativo,
-    tr.*,
-    er.*,
-    cr.*,
-    eer.*,
-    rr.*,
-    anr.*,
-    cir.*
-FROM 
-    AlunoRecente ar
-INNER JOIN 
-    TurmaRecente tr ON ar.id_turma = tr.id_turma AND tr.rn = 1
-INNER JOIN 
-    EscolaRecente er ON ar.id_escola = er.id_escola AND er.rn = 1
-INNER JOIN 
-    ColaboradorRecente cr ON ar.id_orientador = cr.id_colaborador AND cr.rn = 1
-INNER JOIN 
-    EncarregadoEducacaoRecente eer ON ar.id_encarregadoeducacao = eer.id_encarregadoeducacao AND eer.rn = 1
-INNER JOIN 
-    RelacaoRecente rr ON eer.id_relacao = rr.id_relacao AND rr.rn = 1
-INNER JOIN 
-    CicloRecente cir ON ar.id_ciclo = cir.id_ciclo AND cir.rn = 1
-    INNER JOIN 
-    AnoRecente anr ON ar.id_ano = anr.unico AND anr.rn = 1
-WHERE 
-    ar.rn = 1 and aluno.id_orientador = ' . $_SESSION['userID'] . '',
+',
  
 
 
@@ -289,7 +125,7 @@ WHERE
         aluno.unico,
         aluno.id_turma,
         aluno.id_escola,
-        aluno.id_orientador,
+        aluno.id_turmainterna,
         aluno.id_encarregadoeducacao,
         aluno.id_ciclo,
         aluno.data_nascimento_aluno,
@@ -299,79 +135,9 @@ WHERE
     FROM 
         aluno
     WHERE
-        aluno.ativo = 0  and removed = 0
-),
-TurmaRecente AS (
-    SELECT 
-        turma.*,
-        ROW_NUMBER() OVER (PARTITION BY turma.unico ORDER BY turma.data DESC) AS rn
-    FROM 
-        turma
-),
-AnoRecente AS (
-    SELECT 
-        ano.*,
-        ROW_NUMBER() OVER (PARTITION BY ano.unico ORDER BY ano.data DESC) AS rn
-    FROM 
-        ano
-),
-LocalidadeRecente AS (
-    SELECT 
-        localidade.*,
-        ROW_NUMBER() OVER (PARTITION BY localidade.unico ORDER BY localidade.data DESC) AS rn
-    FROM 
-        localidade
-),
-NacionalidadeRecente AS (
-    SELECT 
-        nacionalidade.*,
-        ROW_NUMBER() OVER (PARTITION BY nacionalidade.unico ORDER BY nacionalidade.data DESC) AS rn
-    FROM 
-        nacionalidade
-),
-
-GeneroRecente AS (
-    SELECT 
-        genero.*,
-        ROW_NUMBER() OVER (PARTITION BY genero.unico ORDER BY genero.data DESC) AS rn
-    FROM 
-        genero
-),
-EscolaRecente AS (
-    SELECT 
-        escola.*,
-        ROW_NUMBER() OVER (PARTITION BY escola.unico ORDER BY escola.data DESC) AS rn
-    FROM 
-        escola
-),
-ColaboradorRecente AS (
-    SELECT 
-        colaborador.*,
-        ROW_NUMBER() OVER (PARTITION BY colaborador.unico ORDER BY colaborador.data DESC) AS rn
-    FROM 
-        colaborador
-),
-EncarregadoEducacaoRecente AS (
-    SELECT 
-        encarregadoeducacao.*,
-        ROW_NUMBER() OVER (PARTITION BY encarregadoeducacao.unico ORDER BY encarregadoeducacao.data DESC) AS rn
-    FROM 
-        encarregadoeducacao
-),
-RelacaoRecente AS (
-    SELECT 
-        relacao.*,
-        ROW_NUMBER() OVER (PARTITION BY relacao.unico ORDER BY relacao.data DESC) AS rn
-    FROM 
-        relacao
-),
-CicloRecente AS (
-    SELECT 
-        ciclo.*,
-        ROW_NUMBER() OVER (PARTITION BY ciclo.unico ORDER BY ciclo.data DESC) AS rn
-    FROM 
-        ciclo
+        aluno.ativo = 1 
 )
+
 SELECT 
     ar.foto_aluno,
     ar.id_aluno,
@@ -381,37 +147,49 @@ SELECT
     ar.unico,
     ar.id_turma,
     ar.id_escola,
-    ar.id_orientador,
+    ar.id_turmainterna,
     ar.id_encarregadoeducacao,
     ar.id_ciclo,
     ar.data,
     ar.ativo,
-    tr.*,
-    er.*,
-    cr.*,
-    eer.*,
-    rr.*,
-    anr.*,
-    cir.*
+    tr.*, 
+    er.*, 
+    cr.*, 
+    cl.*, 
+    eer.*, 
+    rr.*, 
+    anr.*, 
+    cir.* 
 FROM 
     AlunoRecente ar
 INNER JOIN 
-    TurmaRecente tr ON ar.id_turma = tr.id_turma AND tr.rn = 1
+    turma tr ON ar.id_turma = tr.id_turma
+           AND tr.id_turma = (SELECT id_turma FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 INNER JOIN 
-    EscolaRecente er ON ar.id_escola = er.id_escola AND er.rn = 1
+    escola er ON ar.id_escola = er.id_escola
+           AND er.id_escola = (SELECT id_escola FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 INNER JOIN 
-    ColaboradorRecente cr ON ar.id_orientador = cr.id_colaborador AND cr.rn = 1
+    turmainterna cr ON ar.id_turmainterna = cr.id_turmainterna
+           AND cr.id_turmainterna = (SELECT id_turmainterna FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 INNER JOIN 
-    EncarregadoEducacaoRecente eer ON ar.id_encarregadoeducacao = eer.id_encarregadoeducacao AND eer.rn = 1
+    colaborador cl ON cr.id_colaborador = cl.id_colaborador
+           AND cl.id_colaborador = (SELECT id_colaborador FROM turmainterna WHERE id_turmainterna = cr.id_turmainterna AND rn = 1)
 INNER JOIN 
-    RelacaoRecente rr ON eer.id_relacao = rr.id_relacao AND rr.rn = 1
+    encarregadoeducacao eer ON ar.id_encarregadoeducacao = eer.id_encarregadoeducacao
+           AND eer.id_encarregadoeducacao = (SELECT id_encarregadoeducacao FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 INNER JOIN 
-    CicloRecente cir ON ar.id_ciclo = cir.id_ciclo AND cir.rn = 1
-    INNER JOIN 
-    AnoRecente anr ON ar.id_ano = anr.unico AND anr.rn = 1
+    relacao rr ON eer.id_relacao = rr.id_relacao
+           AND rr.id_relacao = (SELECT id_relacao FROM encarregadoeducacao WHERE id_encarregadoeducacao = eer.id_encarregadoeducacao AND rn = 1)
+INNER JOIN 
+    ciclo cir ON ar.id_ciclo = cir.id_ciclo
+           AND cir.id_ciclo = (SELECT id_ciclo FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
+INNER JOIN 
+    ano anr ON ar.id_ano = anr.unico
+           AND anr.unico = (SELECT id_ano FROM AlunoRecente WHERE unico = ar.unico AND rn = 1)
 WHERE 
-    ar.rn = 1;
-
+    ar.rn = 1 
+ORDER BY 
+    ar.aluno ASC;
 ',
 
 
@@ -426,7 +204,7 @@ WHERE
         aluno.unico,
         aluno.id_turma,
         aluno.id_escola,
-        aluno.id_orientador,
+        aluno.id_turmainterna,
         aluno.id_encarregadoeducacao,
         aluno.id_ciclo,
         aluno.data_nascimento_aluno,
@@ -436,118 +214,9 @@ WHERE
     FROM 
         aluno
     WHERE
-        aluno.ativo = 0  and removed = 1
-),
-TurmaRecente AS (
-    SELECT 
-        turma.*,
-        ROW_NUMBER() OVER (PARTITION BY turma.unico ORDER BY turma.data DESC) AS rn
-    FROM 
-        turma
-),
-AnoRecente AS (
-    SELECT 
-        ano.*,
-        ROW_NUMBER() OVER (PARTITION BY ano.unico ORDER BY ano.data DESC) AS rn
-    FROM 
-        ano
-),
-LocalidadeRecente AS (
-    SELECT 
-        localidade.*,
-        ROW_NUMBER() OVER (PARTITION BY localidade.unico ORDER BY localidade.data DESC) AS rn
-    FROM 
-        localidade
-),
-NacionalidadeRecente AS (
-    SELECT 
-        nacionalidade.*,
-        ROW_NUMBER() OVER (PARTITION BY nacionalidade.unico ORDER BY nacionalidade.data DESC) AS rn
-    FROM 
-        nacionalidade
-),
+        aluno.ativo = 0 and removed = 1
+)   SELECT * from AlunoRecente inner join turmainterna on turmainterna.id_turmainterna = AlunoRecente.id_turmainterna inner join colaborador on colaborador.id_colaborador = turmainterna.id_colaborador inner join encarregadoeducacao on encarregadoeducacao.id_encarregadoeducacao = AlunoRecente.id_encarregadoeducacao inner join escola on escola.id_escola = AlunoRecente.id_escola inner join ano on ano.id_ano = AlunoRecente.id_ano ORDER BY AlunoRecente.aluno ASC;
 
-GeneroRecente AS (
-    SELECT 
-        genero.*,
-        ROW_NUMBER() OVER (PARTITION BY genero.unico ORDER BY genero.data DESC) AS rn
-    FROM 
-        genero
-),
-EscolaRecente AS (
-    SELECT 
-        escola.*,
-        ROW_NUMBER() OVER (PARTITION BY escola.unico ORDER BY escola.data DESC) AS rn
-    FROM 
-        escola
-),
-ColaboradorRecente AS (
-    SELECT 
-        colaborador.*,
-        ROW_NUMBER() OVER (PARTITION BY colaborador.unico ORDER BY colaborador.data DESC) AS rn
-    FROM 
-        colaborador
-),
-EncarregadoEducacaoRecente AS (
-    SELECT 
-        encarregadoeducacao.*,
-        ROW_NUMBER() OVER (PARTITION BY encarregadoeducacao.unico ORDER BY encarregadoeducacao.data DESC) AS rn
-    FROM 
-        encarregadoeducacao
-),
-RelacaoRecente AS (
-    SELECT 
-        relacao.*,
-        ROW_NUMBER() OVER (PARTITION BY relacao.unico ORDER BY relacao.data DESC) AS rn
-    FROM 
-        relacao
-),
-CicloRecente AS (
-    SELECT 
-        ciclo.*,
-        ROW_NUMBER() OVER (PARTITION BY ciclo.unico ORDER BY ciclo.data DESC) AS rn
-    FROM 
-        ciclo
-)
-SELECT 
-    ar.foto_aluno,
-    ar.id_aluno,
-    ar.aluno,
-    ar.id_ano,
-    ar.data_nascimento_aluno,
-    ar.unico,
-    ar.id_turma,
-    ar.id_escola,
-    ar.id_orientador,
-    ar.id_encarregadoeducacao,
-    ar.id_ciclo,
-    ar.data,
-    ar.ativo,
-    tr.*,
-    er.*,
-    cr.*,
-    eer.*,
-    rr.*,
-    anr.*,
-    cir.*
-FROM 
-    AlunoRecente ar
-INNER JOIN 
-    TurmaRecente tr ON ar.id_turma = tr.id_turma AND tr.rn = 1
-INNER JOIN 
-    EscolaRecente er ON ar.id_escola = er.id_escola AND er.rn = 1
-INNER JOIN 
-    ColaboradorRecente cr ON ar.id_orientador = cr.id_colaborador AND cr.rn = 1
-INNER JOIN 
-    EncarregadoEducacaoRecente eer ON ar.id_encarregadoeducacao = eer.id_encarregadoeducacao AND eer.rn = 1
-INNER JOIN 
-    RelacaoRecente rr ON eer.id_relacao = rr.id_relacao AND rr.rn = 1
-INNER JOIN 
-    CicloRecente cir ON ar.id_ciclo = cir.id_ciclo AND cir.rn = 1
-    INNER JOIN 
-    AnoRecente anr ON ar.id_ano = anr.unico AND anr.rn = 1
-WHERE 
-    ar.rn = 1;
 
 ',
 
@@ -584,6 +253,8 @@ WHERE
         relacao ON eer.id_relacao = relacao.unico
     WHERE 
         eer.rn = 1',
+        'turmainterna' => 'SELECT * FROM turmainterna INNER JOIN colaborador ON colaborador.id_colaborador = turmainterna.id_colaborador WHERE turmainterna.ativo = 1  ',
+         'colaborador' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1  Order by colaborador.colaborador ASC',
          'professor' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 3',
     'motorista' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 4',
     'admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.ativo = 1 AND colaborador.id_cargo = 2',
@@ -637,6 +308,7 @@ WHERE
     'cargoremoved'=> 'SELECT * FROM cargo  WHERE ativo = 0 AND removed = 1 ',
     'escola' => 'SELECT * FROM escola WHERE ativo = 1 ',
     'removed' => 'SELECT * FROM escola WHERE ativo = 0 AND removed = 1 ',
+    'turmainternaremoved' => 'SELECT * FROM turmainterna INNER JOIN colaborador ON colaborador.id_colaborador = turmainterna.id_colaborador WHERE turmainterna.ativo = 0 and turmainterna.removed = 1 ',
 ];
 if (isset($id_unico_aluno)) {
     $consultas['pessoa'] = 'SELECT 
@@ -673,7 +345,7 @@ $consultasForms = [
     'servico' =>'SELECT * from servico where id_servico = '.$id.' order by data DESC',
     'aluno' => 'SELECT * 
     FROM aluno 
-    INNER JOIN colaborador ON aluno.id_orientador = colaborador.unico
+   
     INNER JOIN encarregadoeducacao ON aluno.id_encarregadoeducacao = encarregadoeducacao.unico
     INNER JOIN relacao ON encarregadoeducacao.id_relacao = relacao.unico
     INNER JOIN genero ON Genero.unico = aluno.id_genero
@@ -695,6 +367,11 @@ $consultasForms = [
     'distrito' => 'SELECT * from distrito where id_distrito = '.$id.'',
     'especialidade' => 'SELECT * from especialidade where id_especialidade = '.$id.'',
     'nacionalidade' => 'SELECT * from nacionalidade where id_nacionalidade = '.$id.'',
+    'professor' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.id_colaborador = '.$id.'  ',
+    'motorista' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.id_colaborador = '.$id.'  ',
+    'admin' => 'SELECT * FROM colaborador INNER JOIN cargo ON colaborador.id_cargo = cargo.id_cargo WHERE colaborador.id_colaborador = '.$id.'  ',
+    'turmainterna' => 'SELECT * FROM turmainterna INNER JOIN colaborador ON colaborador.id_colaborador = turmainterna.id_colaborador WHERE turmainterna.id_turmainterna = '.$id.'  ',
+    
   ];
   if(isset($id_unico)){
     $consultasHistorico = [

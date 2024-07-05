@@ -199,19 +199,11 @@
             if ($type == "combobox") {
            
               $table = ucfirst($id_campo); // nome da tabela das combobox
+              $table = strtolower($table);
               if (isset($id_received)) {
                 $sql_combobox = "SELECT * FROM $table WHERE ativo = 1 ";
               } else {
-                                $sql_combobox = "WITH RecentRecords AS (
-                    SELECT 
-                        *,
-                        ROW_NUMBER() OVER (PARTITION BY unico ORDER BY data DESC) as rn
-                    FROM $table
-                    WHERE ativo = 1
-                )
-                SELECT * 
-                FROM RecentRecords
-                WHERE rn = 1;";
+                $sql_combobox = "SELECT * FROM $table WHERE ativo = 1 ";
               }
 
               $arrtable = my_query($sql_combobox);
@@ -237,11 +229,12 @@
               }
 
               foreach ($arrtable as $k => $v) {
+
                 $selected = "";
                 if ($id_Selected == $v['unico']) {
                   $selected = 'selected="selected" ';
                 }
-                echo '<option ' . $selected . ' value="' . $v['unico'] . '">' . $v[$id_campo] . ' </option>';
+                echo '<option ' . $selected . ' value="' . $v['id_'.$table] . '">' . $v[$id_campo] . ' </option>';
               }
               echo '</select>';
 
@@ -405,7 +398,7 @@ if($tabela == 'turma' && $especificacao == 'editar' || $tabela == 'aluno'){
 
   include 'separador/horarioView.php';
 }
-if($tabela == 'servico'){
+if($tabela == 'servico' && $especificacao == 'editar' ){
   include 'separador/servico-aluno.php';
 }
 
@@ -417,6 +410,36 @@ if($tabela == 'servico'){
 
 
 <script>
+  function validateForm(event) {
+  // Seleciona todos os inputs do formulário
+  const inputs = document.querySelectorAll('input');
+  let hasError = false;
+
+  // Percorre todos os inputs
+  inputs.forEach(input => {
+    // Verifica se o input tem borda vermelha
+    if (input.style.borderColor === 'red') {
+      hasError = true;
+      // Exibe mensagem de erro ao lado do input
+      const errorSpan = document.createElement('span');
+      errorSpan.style.color = 'red';
+      errorSpan.innerText = 'O valor deste campo não é válido.';
+      // Remove mensagem de erro antiga se houver
+      const oldError = input.parentNode.querySelector('span');
+      if (oldError) oldError.remove();
+      input.parentNode.appendChild(errorSpan);
+    }
+  });
+
+  // Se houver erro, previne o envio do formulário
+  if (hasError) {
+    event.preventDefault();
+   
+  }
+}
+
+// Adiciona a função de validação ao evento de envio do formulário
+document.querySelector('form').addEventListener('submit', validateForm);
     //tratar formulário
   //receber os dados do formulário
   function trata(element) {
@@ -630,7 +653,7 @@ if ( ultimoDigito != comparador ){ temErro=1;}
       pagamentosView.style.display = 'none';
       galeriaView.style.display = 'none';
       horarioView.style.display = 'block';
-      console.log('aaa');
+      
     }
    else if (nomeBotao === 'historyView') {
       personView.style.display = 'none';

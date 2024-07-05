@@ -125,72 +125,8 @@ if ($page_name == "index.php") {
       </div>';
     
      
-      echo '
-      <div class="col">
-          <div class="card h-70 ps-0 py-xl-3" style="border: 4px solid #000000; border-radius: 8px; background-color: white; transition: all 0.3s ease;" 
-              onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0 4px 8px 0 #000000, 0 6px 20px 0 #000000\'; this.style.zIndex=\'1\';" 
-              onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'none\';">
-              <div class="card-body" style="text-align: center; height: 231.599258px; margin-left: 0px;">
-                 
-                  <canvas id="faturacaoChart"></canvas>
-              </div>
-          </div>
-      </div>';
-      echo '
-        
-    <div class="col">
-        <div class="card h-70 ps-0 py-xl-3">
-            <div class="card-body">
-                <h5 class="card-title">Aniversários</h5>
-                <div class="scrollable">';
-                    
-                    // Dados de aniversários
-                    $birthdays = [
-                        ['date' => '2006-01-07', 'image' => 'data:image/png;base64,INSERT_BASE64_IMAGE_HERE_1', 'name' => 'Marta'],
-                        ['date' => '2006-10-11', 'image' => 'data:image/svg+xml;base64,INSERT_BASE64_IMAGE_HERE_2', 'name' => 'Leonor'],
-                        ['date' => '2006-07-12', 'image' => 'data:image/png;base64,INSERT_BASE64_IMAGE_HERE_3', 'name' => 'João Silva'],
-                        ['date' => '2006-09-23', 'image' => 'data:image/png;base64,INSERT_BASE64_IMAGE_HERE_4', 'name' => 'Maria Oliveira'],
-                        ['date' => '2006-10-07', 'image' => 'data:image/png;base64,INSERT_BASE64_IMAGE_HERE_5', 'name' => 'Carlos Souza']
-                    ];
-
-                    // Função para calcular os dias até o próximo aniversário
-                    function days_until_birthday($birthday) {
-                        $today = new DateTime();
-                        $currentYear = $today->format('Y');
-                        $nextBirthday = new DateTime($currentYear . '-' . date('m-d', strtotime($birthday)));
-                        
-                        if ($nextBirthday < $today) {
-                            $nextBirthday->modify('+1 year');
-                        }
-                        
-                        return $today->diff($nextBirthday)->days;
-                    }
-
-                    // Calcular dias até o próximo aniversário e ordenar
-                    foreach ($birthdays as &$person) {
-                        $person['days_until'] = days_until_birthday($person['date']);
-                    }
-
-                    usort($birthdays, function($a, $b) {
-                        return $a['days_until'] - $b['days_until'];
-                    });
-
-                    // Limitar a 4 aniversários mais próximos
-                    $birthdays = array_slice($birthdays, 0, 3);
-                    foreach ($birthdays as $person) {
-                        echo '<div class="item">';
-                        echo '<img src="' . $person['image'] . '" alt="Icone" class="icon">';
-                        echo '<div class="details">';
-                        echo '<div class="title">' . htmlspecialchars($person['name']) . '</div>';
-                        echo '<div class="date">' . date('d/m/Y', strtotime($person['date'])) . '</div>';
-                        echo '</div>';
-                        echo '</div>';
-                    }
-                    
-                echo'</div>
-            </div>
-        </div>
-    </div>';
+    
+     
 }
 
     $arrResultados = my_query('SELECT * FROM operacao WHERE ativo = 1 '. $cards.'  AND unico IN (' . $_SESSION['permissoes'] . ') ' );
