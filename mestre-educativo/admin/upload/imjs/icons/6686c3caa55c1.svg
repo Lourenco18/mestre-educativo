@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs/>
+  <g id="SVGRepo_iconCarrier" data-name="SVGRepo iconCarrier" transform="matrix(1, 0, 0, 1, -261.631348, -93.116425)">
+    <path class="cls-1" d="M610.8,138.7c4-11.3,14.8-19.4,27.5-19.4s23.5,8.1,27.5,19.4" style="fill: none; stroke: rgb(86, 106, 127); stroke-linecap: round; stroke-miterlimit: 133.3; stroke-width: 23px;"/>
+    <path class="cls-1" d="M720.7,158.1h-165" style="fill: none; stroke: rgb(86, 106, 127); stroke-linecap: round; stroke-miterlimit: 133.3; stroke-width: 23px;"/>
+    <path class="cls-1" d="M700.1,249.3c-1.7,25.8-2.6,38.7-11,46.5-8.4,7.9-21.3,7.9-47.1,7.9h-7.5c-25.8,0-38.7,0-47.1-7.9-8.4-7.9-9.3-20.7-11-46.5l-4.5-67M704.6,182.4l-1.9,29.1" style="fill: none; stroke: rgb(86, 106, 127); stroke-linecap: round; stroke-miterlimit: 133.3; stroke-width: 23px;"/>
+    <path class="cls-1" d="M614,206.6l4.9,48.5" style="fill: none; stroke: rgb(86, 106, 127); stroke-linecap: round; stroke-miterlimit: 133.3; stroke-width: 23px;"/>
+    <path class="cls-1" d="M662.5,206.6l-4.9,48.5" style="fill: none; stroke: rgb(86, 106, 127); stroke-linecap: round; stroke-miterlimit: 133.3; stroke-width: 23px;"/>
+  </g>
+  <g id="SVGRepo_bgCarrier" transform="matrix(1, 0, 0, 1, -544.467224, -171.499298)"/>
+  <g id="SVGRepo_tracerCarrier" transform="matrix(1, 0, 0, 1, -544.467224, -171.499298)"/>
+  <g id="g-1" transform="matrix(0.441924, 0, 0, 0.441924, 28.631393, 158.979752)" style="">
+    <path class="st0" d="M200,383.3h33.3 M200,516.7h33.3 M566.7,516.7H600 M566.7,383.3H600 M383.3,383.3h33.3 M333.3,700V566.7&#10;&#9;&#9;c0-36.8,29.8-66.7,66.7-66.7s66.7,29.8,66.7,66.7V700 M566.7,250l52.5,13.1c28.9,7.2,43.3,10.8,54.1,18.9&#10;&#9;&#9;c9.5,7.1,16.9,16.6,21.5,27.5c5.2,12.4,5.2,27.3,5.2,57.1v226.7c0,37.3,0,56-7.3,70.3c-6.4,12.5-16.6,22.7-29.1,29.1&#10;&#9;&#9;c-14.3,7.3-32.9,7.3-70.3,7.3H206.7c-37.3,0-56,0-70.3-7.3c-12.5-6.4-22.7-16.6-29.1-29.1c-7.3-14.3-7.3-32.9-7.3-70.3V366.6&#10;&#9;&#9;c0-29.8,0-44.7,5.2-57.1c4.6-10.9,12-20.4,21.5-27.5c10.8-8.1,25.2-11.7,54.1-18.9l52.5-13.1l95.3-85.8&#10;&#9;&#9;c25.2-22.7,37.8-34,52.1-38.4c12.6-3.8,26-3.8,38.5,0c14.3,4.3,26.9,15.7,52.1,38.4L566.7,250z" style="fill: none; stroke: rgb(86, 106, 127); stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 133.333; stroke-width: 30.4px;"/>
+  </g>
+</svg>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 800">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1, .cls-3 {
+        stroke: #697a8d;
+        stroke-miterlimit: 133.3;
+        stroke-width: 32px;
+      }
+
+      .cls-2 {
+        stroke: #566a7f;
+        stroke-miterlimit: 133.3;
+        stroke-width: 20px;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+  <g id="SVGRepo_iconCarrier" data-name="SVGRepo iconCarrier">
+    <circle class="cls-1" cx="400" cy="200" r="133.3"/>
+    <path class="cls-3" d="M666.6,600c0-5.5,0-11,0-16.7,0-82.8-119.4-150-266.7-150s-266.7,67.2-266.7,150,0,150,266.7,150,128-5.2,166.7-14.6"/>
+  </g>
+  <g id="SVGRepo_iconCarrier-2" data-name="SVGRepo iconCarrier">
+    <path class="cls-2" d="M615.4,239c4.1-11.7,15.3-20.1,28.4-20.1s24.3,8.4,28.4,20.1"/>
+    <path class="cls-2" d="M729.3,259.1h-170.9"/>
+    <path class="cls-2" d="M707.9,353.6c-1.8,26.7-2.7,40-11.4,48.2-8.7,8.1-22.1,8.1-48.8,8.1h-7.8c-26.8,0-40.1,0-48.8-8.1-8.7-8.1-9.6-21.5-11.4-48.2l-4.6-69.4M712.5,284.2l-2,30.2"/>
+    <path class="cls-2" d="M618.7,309.3l5,50.3"/>
+    <path class="cls-2" d="M669,309.3l-5,50.3"/>
+  </g>
+</svg>

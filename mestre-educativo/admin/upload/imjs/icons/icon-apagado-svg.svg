@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Camada_1" data-name="Camada 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 800">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #566a7f;
+        stroke-linecap: round;
+        stroke-miterlimit: 133.3;
+        stroke-width: 23px;
+      }
+    </style>
+  </defs>
+  <g id="SVGRepo_iconCarrier" data-name="SVGRepo iconCarrier">
+    <path class="cls-1" d="M610.8,138.7c4-11.3,14.8-19.4,27.5-19.4s23.5,8.1,27.5,19.4"/>
+    <path class="cls-1" d="M720.7,158.1h-165"/>
+    <path class="cls-1" d="M700.1,249.3c-1.7,25.8-2.6,38.7-11,46.5-8.4,7.9-21.3,7.9-47.1,7.9h-7.5c-25.8,0-38.7,0-47.1-7.9-8.4-7.9-9.3-20.7-11-46.5l-4.5-67M704.6,182.4l-1.9,29.1"/>
+    <path class="cls-1" d="M614,206.6l4.9,48.5"/>
+    <path class="cls-1" d="M662.5,206.6l-4.9,48.5"/>
+  </g>
+</svg>
